@@ -5106,8 +5106,10 @@ document.addEventListener('DOMContentLoaded', () => {
     cell.dataset.app = icon.id;
     const delBadge = document.createElement('div'); delBadge.className = 'delete-badge'; delBadge.textContent = '×'; cell.appendChild(delBadge);
     const wrap = document.createElement('div'); wrap.className = 'icon-wrap';
-    const canvas = document.createElement('canvas'); canvas.className = 'icon-canvas'; canvas.width = 54; canvas.height = 54;
-    drawIcon(canvas.getContext('2d'), 54, icon.id); wrap.appendChild(canvas); cell.appendChild(wrap);
+    const dpr = Math.max(2, Math.min(window.devicePixelRatio || 2, 3));
+    const S = Math.round(54 * dpr);
+    const canvas = document.createElement('canvas'); canvas.className = 'icon-canvas'; canvas.width = S; canvas.height = S;
+    drawIcon(canvas.getContext('2d'), S, icon.id); wrap.appendChild(canvas); cell.appendChild(wrap);
     if (icon.id === 'messages') { const badge = document.createElement('div'); badge.className = 'icon-badge'; badge.textContent = '3'; wrap.appendChild(badge); }
     const label = document.createElement('div'); label.className = 'icon-label'; label.textContent = icon.label; cell.appendChild(label);
     if (forDock) {
