@@ -7,6 +7,7 @@
     "dev": "http-server -p 8080 -o",
     "start": "http-server -p 8080",
     "build": "node build.js",
+    "deploy": "node build.js && npx wrangler deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
