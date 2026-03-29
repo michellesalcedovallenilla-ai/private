@@ -12036,7 +12036,7 @@ notes toward an avoidable disaster` }
   function onSwipeMove(e) {
     if (!swiping) return;
     const cx = e.touches ? e.touches[0].clientX : e.clientX; swipeOffset = cx - swipeStartX;
-    if (Math.abs(swipeOffset) > 10) swipeMoved = true;
+    if (Math.abs(swipeOffset) > 25) swipeMoved = true;
     const baseOffset = -currentPage * 50; const drag = (swipeOffset / pagesViewport.offsetWidth) * 50;
     let target = baseOffset + drag;
     if (target > 5) target = 5 + (target - 5) * 0.2;
@@ -12050,7 +12050,12 @@ notes toward an avoidable disaster` }
     if (swipeOffset < -40 && currentPage < totalPages - 1) currentPage++;
     else if (swipeOffset > 40 && currentPage > 0) currentPage--;
     pagesSlider.style.transform = `translateX(${-currentPage * 50}%)`; updatePageDots();
-    if (swipeMoved) setTimeout(() => { swipeMoved = false; }, 60);
+    // Reset swipeMoved: immediate for taps, delayed for actual swipes to prevent accidental app open
+    if (swipeMoved && Math.abs(swipeOffset) > 40) {
+      setTimeout(() => { swipeMoved = false; }, 300);
+    } else {
+      swipeMoved = false;
+    }
   }
   function updatePageDots() { pageDots.querySelectorAll('.page-dot[data-page]').forEach(d => { d.classList.toggle('active', parseInt(d.dataset.page) === currentPage); }); }
 
