@@ -29,6 +29,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow: hidden;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -2972,7 +2973,7 @@
   #cover-overlay {
     position: fixed;
     top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    width: 100vw; height: 100vh; height: 100dvh;
     z-index: 99999;
     background-color: #1a1510;
     background-image: url('real-exterior/exteriorrr.jpg');
@@ -3710,25 +3711,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== FLUID PHONE SCALING =====
   function updatePhoneScale() {
     const vw = window.innerWidth, vh = window.innerHeight;
-    const isMobile = vw <= 768;
+    const isMobile = vw <= 600;
+    const isTablet = vw > 600 && vw <= 1024;
     // On mobile: leave room at sides for back btn, and below for flip hint
-    const wFactor = isMobile ? 0.82 : 0.95;
-    const hFactor = isMobile ? 0.80 : 0.97;
-    const isSmallTablet = isMobile && vw > 500;
-    const maxScale = isSmallTablet ? 1.0 : (isMobile ? 1.10 : 1.55);
+    const wFactor = isMobile ? 0.85 : isTablet ? 0.88 : 0.95;
+    const hFactor = isMobile ? 0.82 : isTablet ? 0.85 : 0.97;
+    const maxScale = isMobile ? 1.10 : isTablet ? 1.30 : 1.55;
     const scaleW = (vw * wFactor) / 330;
     const scaleH = (vh * hFactor) / 650;
     // Ensure enough space below centered phone for flip hint + back button
-    const uiBelow = isMobile ? 80 : 25;
+    const uiBelow = isMobile ? 70 : isTablet ? 50 : 25;
     const scaleUI = (vh - 2 * uiBelow) / 620;
     const scale = Math.min(scaleW, scaleH, maxScale, scaleUI);
     document.documentElement.style.setProperty('--phone-scale', scale.toFixed(3));
 
     // Fix layout vs visual size mismatch: transform:scale doesn't change layout height.
     // When scale < 1, add negative margins so flex centering uses visual height.
-    // On mobile, shift phone further up to give more room for UI below.
     const phoneScene = document.querySelector('.phone-scene');
-    const mobileUp = isMobile ? 30 : 0;
+    const mobileUp = isMobile ? 20 : 0;
     if (phoneScene && scale < 1) {
       const compensation = 310 * (1 - scale);
       phoneScene.style.marginTop = -(compensation + mobileUp) + 'px';
@@ -12296,26 +12296,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneSlideTrack = document.getElementById('slideTrack');
     if (phoneSlideTrack) {
       const rect = phoneSlideTrack.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const downOffset = vw > 1024 ? -(rect.height * 0.2) : vw > 768 ? rect.height * 0.3 : (vw >= 765) ? rect.height * 3.0 : vw > 600 ? rect.height * 2.3 : rect.height * 1.8;
-      const scale = vw <= 600 ? 1.25 : vw <= 768 ? 1.25 : vw <= 1024 ? 0.9 : 1;
-      const scaledW = rect.width * scale;
-      const scaledH = rect.height * scale;
-      const leftAdj = rect.left - (scaledW - rect.width) / 2;
-      swipeZone.style.left = leftAdj + 'px';
-      swipeZone.style.top = (rect.top + downOffset) + 'px';
-      swipeZone.style.width = scaledW + 'px';
-      swipeZone.style.height = scaledH + 'px';
+      // Position cover slider exactly on top of the phone's slide track
+      // getBoundingClientRect() already accounts for transform:scale
+      swipeZone.style.left = rect.left + 'px';
+      swipeZone.style.top = rect.top + 'px';
+      swipeZone.style.width = rect.width + 'px';
+      swipeZone.style.height = rect.height + 'px';
       swipeZone.style.transform = 'none';
       return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
     }
-    // Fallback if phone element not found
+    // Fallback if phone element not found — center slider at bottom of viewport
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const sliderW = Math.min(153, vw * 0.32);
-    const sliderH = 22;
+    const sliderW = Math.min(200, vw * 0.45);
+    const sliderH = 28;
     swipeZone.style.left = ((vw - sliderW) / 2) + 'px';
-    swipeZone.style.top = (vh - sliderH - Math.max(80, vh * 0.16)) + 'px';
+    swipeZone.style.top = (vh - sliderH - Math.max(60, vh * 0.12)) + 'px';
     swipeZone.style.width = sliderW + 'px';
     swipeZone.style.height = sliderH + 'px';
     swipeZone.style.transform = 'none';
@@ -12650,16 +12646,11 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
 
     // Position using a rect (savedRect or live slideTrack)
     function positionFromRect(rect) {
-      const vw = window.innerWidth;
-      const downOffset = vw > 1024 ? -(rect.height * 0.2) : vw > 768 ? rect.height * 0.3 : (vw >= 765) ? rect.height * 3.0 : vw > 600 ? rect.height * 2.3 : rect.height * 1.8;
-      const scale = vw <= 600 ? 1.25 : vw <= 768 ? 1.25 : vw <= 1024 ? 0.9 : 1;
-      const scaledW = rect.width * scale;
-      const scaledH = rect.height * scale;
-      const leftAdj = rect.left - (scaledW - rect.width) / 2;
-      swipeZone.style.left = leftAdj + 'px';
-      swipeZone.style.top = (rect.top + downOffset) + 'px';
-      swipeZone.style.width = scaledW + 'px';
-      swipeZone.style.height = scaledH + 'px';
+      // Position cover slider exactly on top of phone's slide track
+      swipeZone.style.left = rect.left + 'px';
+      swipeZone.style.top = rect.top + 'px';
+      swipeZone.style.width = rect.width + 'px';
+      swipeZone.style.height = rect.height + 'px';
       swipeZone.style.transform = 'none';
       return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
     }
@@ -12668,9 +12659,9 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
       const phoneSlideTrack = document.getElementById('slideTrack');
       if (phoneSlideTrack) return positionFromRect(phoneSlideTrack.getBoundingClientRect());
       const vw = window.innerWidth, vh = window.innerHeight;
-      const sliderW = Math.min(153, vw * 0.32), sliderH = 22;
+      const sliderW = Math.min(200, vw * 0.45), sliderH = 28;
       swipeZone.style.left = ((vw - sliderW) / 2) + 'px';
-      swipeZone.style.top = (vh - sliderH - Math.max(80, vh * 0.16)) + 'px';
+      swipeZone.style.top = (vh - sliderH - Math.max(60, vh * 0.12)) + 'px';
       swipeZone.style.width = sliderW + 'px';
       swipeZone.style.height = sliderH + 'px';
       swipeZone.style.transform = 'none';
