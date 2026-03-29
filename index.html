@@ -1259,8 +1259,6 @@
     pointer-events: none;
     transform: scale(0.2);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    contain: layout style paint;
-    will-change: opacity, transform;
   }
 
   .app-screen.app-visible {
@@ -2965,7 +2963,7 @@
   }
 
   /* GPU hints for smooth compositing */
-  .phone-screen, .lock-screen, #homeScreen { contain: layout style paint; }
+  .phone-screen, .lock-screen, #homeScreen { will-change: auto; }
 </style>
 
 <!-- ========== COVER OVERLAY STYLES (independent) ========== -->
