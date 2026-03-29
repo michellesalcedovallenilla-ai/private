@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Static File Server",
+      "name": "iphone-mockup",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "."],
-      "port": 3000,
-      "autoPort": true
+      "runtimeArgs": ["http-server", "-p", "3000", "-c-1"],
+      "port": 3000
     }
   ]
 }

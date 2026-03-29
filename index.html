@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://img.youtube.com https://i.ytimg.com; media-src 'self' data: blob:; connect-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta http-equiv="Permissions-Policy" content="camera=(self), microphone=(), geolocation=(), payment=(), accelerometer=(self https://www.youtube.com), gyroscope=(self https://www.youtube.com), picture-in-picture=(self https://www.youtube.com)">
 <title>Mile End Kicks</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>@</text></svg>">
 <style>
@@ -68,7 +68,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: url('real exterior/exteriorr.png') no-repeat 38% 48%;
+    background: url('real exterior/exteriorrr.png') no-repeat 38% 48%;
     background-size: cover;
     z-index: -3;
     transition: opacity 1.6s ease 0.2s;
@@ -80,7 +80,7 @@
   .bg-interior {
     position: fixed;
     inset: 0;
-    background: url('real exterior/interiorr.png') no-repeat 35% 45%;
+    background: url('real exterior/interiorrr.png') no-repeat 35% 45%;
     background-size: cover;
     z-index: -4;
     opacity: 0;
@@ -172,6 +172,32 @@
     transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
   }
 
+  @keyframes phone-celebrate-spin {
+    0%   { transform: rotateY(0deg) scale(1); }
+    15%  { transform: rotateY(54deg) scale(1.03); }
+    50%  { transform: rotateY(180deg) scale(1.06); }
+    85%  { transform: rotateY(306deg) scale(1.03); }
+    100% { transform: rotateY(360deg) scale(1); }
+  }
+  .phone-flipper.celebrate-spin {
+    animation: phone-celebrate-spin 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 1;
+  }
+
+  @keyframes phone-rewind-spin {
+    0%   { transform: rotateY(0deg) scale(1); }
+    10%  { transform: rotateY(-72deg) scale(1.02); }
+    25%  { transform: rotateY(-180deg) scale(1.04); }
+    40%  { transform: rotateY(-288deg) scale(1.02); }
+    50%  { transform: rotateY(-360deg) scale(1.03); }
+    60%  { transform: rotateY(-432deg) scale(1.04); }
+    75%  { transform: rotateY(-540deg) scale(1.03); }
+    90%  { transform: rotateY(-648deg) scale(1.01); }
+    100% { transform: rotateY(-720deg) scale(1); }
+  }
+  .phone-flipper.rewind-spin {
+    animation: phone-rewind-spin 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1;
+  }
+
   .phone {
     position: absolute;
     width: 330px;
@@ -222,7 +248,7 @@
     border-radius: 56px;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    transform: rotateY(180deg) translateZ(5px);
+    transform: rotateY(180deg) translateZ(8px);
     overflow: visible;
     z-index: 1;
   }
@@ -233,35 +259,46 @@
     border-radius: 56px;
     overflow: hidden;
     position: relative;
-    /* Flat white polycarbonate — subtle top-to-bottom gradient only */
-    background: linear-gradient(180deg, #f6f6f6 0%, #f0f0f0 30%, #eaeaea 70%, #e2e2e2 100%);
+    /* Glossy white polycarbonate — fat curved iPhone 3GS shell */
+    background:
+      /* Center bright, edges darken for 3D curvature illusion */
+      radial-gradient(ellipse at 48% 42%, #fcfcfc 0%, #f5f5f3 25%, #edece8 50%, #e0ddd8 75%, #d2cec6 100%);
     box-shadow:
-      /* outer chrome band */
-      0 0 0 2px #c8c8c8,
-      0 0 0 4.5px #8e8e8e,
-      /* subtle top highlight */
-      inset 0 2px 6px rgba(255,255,255,0.80),
-      /* subtle bottom shadow */
-      inset 0 -2px 6px rgba(0,0,0,0.06),
-      /* drop shadow for physical depth */
-      0 6px 12px rgba(0,0,0,0.22),
-      0 24px 60px rgba(0,0,0,0.55),
-      0 50px 100px rgba(0,0,0,0.30);
+      /* outer chrome/stainless band — thicker for fat look */
+      0 0 0 3px #d4d4d4,
+      0 0 0 5px #a8a8a8,
+      0 0 0 6.5px #787878,
+      0 0 0 7.5px #555,
+      /* inner curvature highlights — strong left/right falloff for roundness */
+      inset 0 3px 10px rgba(255,255,255,0.95),
+      inset 0 -4px 12px rgba(0,0,0,0.10),
+      inset 10px 0 22px rgba(0,0,0,0.07),
+      inset -10px 0 22px rgba(0,0,0,0.07),
+      /* top/bottom curvature shadow */
+      inset 0 15px 30px rgba(0,0,0,0.03),
+      inset 0 -15px 30px rgba(0,0,0,0.05),
+      /* drop shadow for physical depth — bigger for fat phone */
+      0 8px 16px rgba(0,0,0,0.25),
+      0 30px 70px rgba(0,0,0,0.55),
+      0 55px 110px rgba(0,0,0,0.30);
   }
 
-  /* Flat gloss band — subtle top shine on flat back panel */
+  /* Glossy reflection — big curved highlight like real iPhone 3GS glossy back */
   .phone-back-inner::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 35%;
-    border-radius: 56px 56px 0 0;
+    top: -25%; left: -35%;
+    width: 170%;
+    height: 75%;
+    border-radius: 50%;
     background: linear-gradient(
-      180deg,
-      rgba(255,255,255,0.55) 0%,
-      rgba(255,255,255,0.20) 40%,
-      rgba(255,255,255,0)    100%
+      150deg,
+      rgba(255,255,255,0.70) 0%,
+      rgba(255,255,255,0.45) 20%,
+      rgba(255,255,255,0.18) 45%,
+      rgba(255,255,255,0)    60%
     );
+    transform: rotate(-8deg);
     pointer-events: none;
     z-index: 4;
   }
@@ -272,10 +309,67 @@
     position: absolute;
     inset: 1px;
     border-radius: 55px;
-    border: 1.5px solid rgba(255,255,255,0.80);
-    box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.04);
+    border: 1.5px solid rgba(255,255,255,0.85);
+    box-shadow:
+      inset 0 0 0 0.5px rgba(0,0,0,0.04),
+      /* secondary soft gloss at bottom */
+      inset 0 -25px 50px rgba(255,255,255,0.10);
     pointer-events: none;
     z-index: 5;
+  }
+
+  /* Dust/wear/micro-scratch overlay — makes it look used */
+  .back-wear {
+    position: absolute;
+    inset: 0;
+    border-radius: 56px;
+    pointer-events: none;
+    z-index: 7;
+    /* Noise texture via SVG for dust/fingerprints */
+    background:
+      /* Scattered dust specks */
+      radial-gradient(circle at 25% 18%, rgba(160,150,130,0.12) 0%, transparent 2%),
+      radial-gradient(circle at 72% 25%, rgba(140,130,110,0.10) 0%, transparent 1.5%),
+      radial-gradient(circle at 58% 65%, rgba(150,140,120,0.08) 0%, transparent 2.5%),
+      radial-gradient(circle at 15% 72%, rgba(160,150,130,0.09) 0%, transparent 1.8%),
+      radial-gradient(circle at 82% 80%, rgba(140,130,110,0.07) 0%, transparent 2%),
+      radial-gradient(circle at 40% 45%, rgba(130,120,100,0.06) 0%, transparent 3%),
+      radial-gradient(circle at 65% 12%, rgba(155,145,125,0.08) 0%, transparent 1.2%),
+      radial-gradient(circle at 30% 88%, rgba(145,135,115,0.10) 0%, transparent 2%),
+      /* Fingerprint smudge areas — soft blurry patches */
+      radial-gradient(ellipse at 55% 50%, rgba(120,110,90,0.04) 0%, transparent 18%),
+      radial-gradient(ellipse at 35% 35%, rgba(130,120,100,0.03) 0%, transparent 15%),
+      radial-gradient(ellipse at 68% 70%, rgba(110,100,85,0.035) 0%, transparent 12%);
+    mix-blend-mode: multiply;
+  }
+
+  /* Micro-scratch overlay */
+  .back-scratches {
+    position: absolute;
+    inset: 0;
+    border-radius: 56px;
+    pointer-events: none;
+    z-index: 8;
+    opacity: 0.35;
+    background:
+      /* Fine diagonal scratches */
+      linear-gradient(32deg, transparent 49.5%, rgba(255,255,255,0.15) 49.8%, rgba(255,255,255,0.15) 50.2%, transparent 50.5%),
+      linear-gradient(158deg, transparent 49.3%, rgba(255,255,255,0.10) 49.7%, rgba(255,255,255,0.10) 50.3%, transparent 50.7%),
+      linear-gradient(45deg, transparent 49.6%, rgba(255,255,255,0.08) 49.9%, rgba(255,255,255,0.08) 50.1%, transparent 50.4%),
+      linear-gradient(12deg, transparent 49.4%, rgba(0,0,0,0.04) 49.8%, rgba(0,0,0,0.04) 50.2%, transparent 50.6%),
+      linear-gradient(170deg, transparent 49.5%, rgba(255,255,255,0.06) 49.8%, rgba(255,255,255,0.06) 50.2%, transparent 50.5%);
+    background-size: 140px 200px, 180px 160px, 120px 240px, 200px 180px, 160px 220px;
+    mix-blend-mode: overlay;
+  }
+
+  /* Yellowing tint near edges — aged plastic look */
+  .back-aging {
+    position: absolute;
+    inset: 0;
+    border-radius: 56px;
+    pointer-events: none;
+    z-index: 6;
+    background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(200,185,150,0.06) 80%, rgba(180,165,130,0.10) 100%);
   }
 
   /* === 3D Phone Edge / Thickness === */
@@ -292,71 +386,77 @@
   .phone-edge-top,
   .phone-edge-bottom {
     position: absolute;
-    background: linear-gradient(180deg, #5a5a5a 0%, #4a4a4a 20%, #3a3a3a 50%, #2a2a2a 80%, #222 100%);
     backface-visibility: visible;
   }
   .phone-edge-left {
-    width: 10px;
-    height: 520px;
-    top: 50px;
+    width: 16px;
+    height: 530px;
+    top: 45px;
     left: 0;
     transform-origin: left center;
-    transform: rotateY(-90deg) translateX(-5px);
-    border-radius: 2px;
+    transform: rotateY(-90deg) translateX(-8px);
+    border-radius: 3px;
+    /* Chrome band — light catches left side, curved highlight */
+    background: linear-gradient(180deg, #999 0%, #888 10%, #777 30%, #666 50%, #555 75%, #444 100%);
+    box-shadow: inset 0 0 4px rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.2);
   }
   .phone-edge-right {
-    width: 10px;
-    height: 520px;
-    top: 50px;
+    width: 16px;
+    height: 530px;
+    top: 45px;
     right: 0;
     transform-origin: right center;
-    transform: rotateY(90deg) translateX(5px);
-    border-radius: 2px;
+    transform: rotateY(90deg) translateX(8px);
+    border-radius: 3px;
+    /* Chrome band — shadow side */
+    background: linear-gradient(180deg, #777 0%, #666 10%, #555 30%, #444 50%, #3a3a3a 75%, #2a2a2a 100%);
+    box-shadow: inset 0 0 3px rgba(255,255,255,0.06);
   }
   .phone-edge-top {
-    width: 230px;
-    height: 10px;
+    width: 240px;
+    height: 16px;
     top: 0;
-    left: 50px;
+    left: 45px;
     transform-origin: center top;
-    transform: rotateX(90deg) translateY(-5px);
-    border-radius: 2px;
-    background: linear-gradient(90deg, #5a5a5a 0%, #666 30%, #777 50%, #666 70%, #5a5a5a 100%);
+    transform: rotateX(90deg) translateY(-8px);
+    border-radius: 3px;
+    background: linear-gradient(90deg, #777 0%, #999 20%, #aaa 50%, #999 80%, #777 100%);
+    box-shadow: inset 0 0 3px rgba(255,255,255,0.18);
   }
   .phone-edge-bottom {
-    width: 230px;
-    height: 10px;
+    width: 240px;
+    height: 16px;
     bottom: 0;
-    left: 50px;
+    left: 45px;
     transform-origin: center bottom;
-    transform: rotateX(-90deg) translateY(5px);
-    border-radius: 2px;
-    background: linear-gradient(90deg, #3a3a3a 0%, #444 30%, #4a4a4a 50%, #444 70%, #3a3a3a 100%);
+    transform: rotateX(-90deg) translateY(8px);
+    border-radius: 3px;
+    background: linear-gradient(90deg, #444 0%, #555 20%, #5a5a5a 50%, #555 80%, #444 100%);
   }
 
-  /* Single small rear camera — top-centre, old iPhone style, no bump */
+  /* Rear camera — top-left, iPhone 3GS style, no bump */
   .back-camera {
     position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 18px; height: 18px;
+    top: 38px;
+    left: 48px;
+    width: 16px; height: 16px;
     border-radius: 50%;
-    background: radial-gradient(circle at 36% 33%, #3d4d6a 0%, #121220 52%, #07070e 100%);
+    background: radial-gradient(circle at 38% 35%, #4a5a7a 0%, #1a1a2a 48%, #08080e 100%);
     box-shadow:
-      0 0 0 2px #b8b8b8,
-      0 0 0 3.5px #787878,
-      inset 0 0 5px rgba(0,0,0,0.85);
-    z-index: 3;
+      0 0 0 2.5px #c0c0c0,
+      0 0 0 4px #888,
+      inset 0 0 4px rgba(0,0,0,0.9),
+      0 1px 3px rgba(0,0,0,0.5);
+    z-index: 6;
   }
 
   /* Tiny lens flare */
   .back-camera::after {
     content: '';
     position: absolute;
-    top: 3px; left: 3px;
-    width: 5px; height: 3px;
-    background: radial-gradient(ellipse, rgba(190,220,255,0.52), transparent);
+    top: 2px; left: 3px;
+    width: 4px; height: 2.5px;
+    background: radial-gradient(ellipse, rgba(180,210,255,0.55), transparent);
     border-radius: 50%;
   }
 
@@ -374,24 +474,44 @@
   }
 
   .back-logo svg {
-    width: 34px;
-    height: 42px;
-    fill: #ababab;
+    width: 38px;
+    height: 46px;
+    fill: #a8a8a8;
     filter:
-      drop-shadow(0 1px 1px rgba(255,255,255,0.50))
-      drop-shadow(0 -1px 0 rgba(0,0,0,0.14));
+      drop-shadow(0 1px 1px rgba(255,255,255,0.55))
+      drop-shadow(0 -0.5px 0 rgba(0,0,0,0.18));
+    opacity: 0.85;
   }
 
-  /* "iPhone" wordmark — subtle, near bottom */
+  /* "iPhone" wordmark — near bottom */
   .back-iphone-label {
     position: absolute;
-    bottom: 108px; left: 50%;
+    bottom: 122px; left: 50%;
     transform: translateX(-50%);
     font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 300;
-    letter-spacing: 2.5px;
-    color: #b4b4b4;
+    letter-spacing: 3px;
+    color: #a8a8a8;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    user-select: none;
+    z-index: 3;
+  }
+
+  /* 32GB capacity badge */
+  .back-capacity {
+    position: absolute;
+    bottom: 98px; left: 50%;
+    transform: translateX(-50%);
+    font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 8.5px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+    color: #a8a8a8;
+    border: 1px solid #c0c0c0;
+    border-radius: 3px;
+    padding: 1px 6px;
+    text-shadow: 0 0.5px 0 rgba(255,255,255,0.4);
     user-select: none;
     z-index: 3;
   }
@@ -399,14 +519,15 @@
   /* Regulatory / model text */
   .back-text {
     position: absolute;
-    bottom: 38px; left: 50%;
+    bottom: 42px; left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    font-size: 6px;
-    color: #b2b2b2;
+    font-size: 5.5px;
+    color: #aaa;
     letter-spacing: 0.3px;
-    line-height: 1.8;
+    line-height: 2;
     white-space: nowrap;
+    text-shadow: 0 0.5px 0 rgba(255,255,255,0.35);
     user-select: none;
     z-index: 3;
   }
@@ -743,6 +864,38 @@
   }
 
   .lock-spacer { flex: 1; }
+
+  /* Vibration shake */
+  @keyframes notif-vibrate {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-1.5px); }
+    20% { transform: translateX(1.5px); }
+    30% { transform: translateX(-1px); }
+    40% { transform: translateX(1px); }
+    50% { transform: translateX(-0.5px); }
+    60% { transform: translateX(0.5px); }
+  }
+  .phone-vibrate {
+    animation: notif-vibrate 0.35s ease-in-out;
+  }
+
+  /* Double-ping vibration for back button */
+  @keyframes double-ping {
+    0%, 100% { transform: translateX(0); }
+    8%  { transform: translateX(-2px); }
+    16% { transform: translateX(2px); }
+    24% { transform: translateX(-1.5px); }
+    32% { transform: translateX(1px); }
+    40% { transform: translateX(0); }
+    55% { transform: translateX(-2px); }
+    63% { transform: translateX(2px); }
+    71% { transform: translateX(-1.5px); }
+    79% { transform: translateX(1px); }
+    87% { transform: translateX(0); }
+  }
+  .phone-double-ping {
+    animation: double-ping 0.45s ease-in-out;
+  }
 
   .slide-area {
     position: relative;
@@ -1307,9 +1460,9 @@
   .msg-app .app-header-bg { background: linear-gradient(180deg, #7ec44e 0%, #5da832 30%, #4d8f28 55%, #3a7518 80%, #2d6010 100%); }
   .msg-app .app-header { border-bottom: 1px solid #1e4a08; }
   .msg-app .app-header-title { position: absolute; left: 0; right: 0; padding: 0 90px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; pointer-events: none; }
-  .msg-app .app-body { background: #fff; }
+  .msg-app .app-body { background: #fff; position: relative; }
   .msg-thread-list { background: #fff; min-height: 100%; }
-  .msg-thread-item { display: flex; align-items: center; padding: 9px 10px; border-bottom: 1px solid #e0e0e0; cursor: pointer; gap: 9px; transition: background 0.12s; position: relative; box-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+  .msg-thread-item { display: flex; align-items: center; padding: 7px 10px; border-bottom: 1px solid #e0e0e0; cursor: pointer; gap: 9px; transition: background 0.12s; position: relative; box-shadow: 0 1px 0 rgba(255,255,255,0.6); }
   .msg-thread-item:active { background: linear-gradient(180deg, #5898e8 0%, #2060c0 100%); }
   .msg-thread-item:active .msg-thread-name,
   .msg-thread-item:active .msg-thread-time,
@@ -1323,10 +1476,12 @@
   .msg-thread-preview { font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
   .msg-thread-arrow { font-size: 14px; color: #c7c7cc; flex-shrink: 0; }
   .msg-unread-dot { position: absolute; left: 3px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #3478f6; }
-  .msg-convo { display: none; flex-direction: column; min-height: 100%; background: #fff; }
+  .msg-convo { display: none; flex-direction: column; position: absolute; inset: 0; background: #fff; }
   .msg-convo.visible { display: flex; }
   .msg-convo-messages {
     flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 8px 8px 12px 8px;
     display: flex;
     flex-direction: column;
@@ -1382,8 +1537,76 @@
     text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
   }
   .msg-send-btn:active { filter: brightness(0.85); }
+  .msg-typing { display: flex; gap: 3px; align-items: center; padding: 10px 14px !important; min-height: 0; }
+  .msg-typing span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #999; animation: msgTypingDot 1.2s infinite ease-in-out; }
+  .msg-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .msg-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes msgTypingDot {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+    30% { opacity: 1; transform: scale(1); }
+  }
   .msg-compose-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); z-index: 2; width: 28px; height: 28px; border-radius: 5px; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 49%, rgba(0,0,0,0.05) 51%, rgba(0,0,0,0.1) 100%); border: 1px solid rgba(0,0,0,0.25); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .msg-compose-btn svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+
+  /* iOS 4 skeuomorphic alert */
+  .ios4-alert-overlay {
+    position: absolute; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.45);
+    display: flex; align-items: center; justify-content: center;
+    animation: ios4AlertFadeIn 0.2s ease-out;
+  }
+  @keyframes ios4AlertFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .ios4-alert-box {
+    width: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 18px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.12);
+    animation: ios4AlertPop 0.2s ease-out;
+  }
+  @keyframes ios4AlertPop {
+    0% { transform: scale(0.7); opacity: 0; }
+    70% { transform: scale(1.02); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .ios4-alert-body {
+    background: linear-gradient(180deg, #6e7a94 0%, #475168 4%, #3c4660 8%, #313c54 50%, #2a3348 80%, #242d40 100%);
+    padding: 16px 14px 14px;
+    text-align: center;
+  }
+  .ios4-alert-title {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 14px; font-weight: 700; color: #fff;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.5);
+    margin-bottom: 6px;
+  }
+  .ios4-alert-msg {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 11px; line-height: 1.4; color: #ddd;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.4);
+  }
+  .ios4-alert-btns {
+    display: flex;
+    border-top: 1px solid rgba(0,0,0,0.5);
+  }
+  .ios4-alert-btn {
+    flex: 1;
+    padding: 9px 0;
+    text-align: center;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #fff;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.4);
+    background: linear-gradient(180deg, #4a5a78 0%, #3a4a68 45%, #2e3e58 55%, #354868 100%);
+    border: none; cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.15);
+  }
+  .ios4-alert-btn:active {
+    background: linear-gradient(180deg, #2a3a58 0%, #1e2e48 45%, #1a2840 55%, #223050 100%);
+  }
 
   /* Instagram */
   .ig-header { height: 44px; flex-shrink: 0; position: relative; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #1a3060; overflow: hidden; }
@@ -2176,8 +2399,9 @@
   /* Player */
   .vid-player { display:none; flex-direction:column; height:100%; background:#000; }
   .vid-player.visible { display:flex; }
-  .vid-player-viewport { flex:1; display:flex; align-items:center; justify-content:center; position:relative; background:#000; overflow:hidden; }
-  .vid-player-canvas { width:100%; max-height:200px; background:#111; }
+  .vid-player-viewport { flex:1; min-height:0; max-height:calc(100% - 125px); display:flex; align-items:center; justify-content:center; position:relative; background:#000; overflow:hidden; }
+  .vid-player-viewport video { width:100%; max-height:100%; object-fit:cover; display:block; margin-left:-8px; }
+  .vid-player-canvas { width:100%; height:100%; background:#111; }
   .vid-player-info { padding:10px 12px; background:#1a1a1a; }
   .vid-player-title { color:#fff; font-size:15px; font-weight:600; }
   .vid-player-sub { color:#888; font-size:11px; margin-top:2px; }
@@ -2617,6 +2841,18 @@
   .app-teal .app-header-bg { background: linear-gradient(180deg, #50b0b0 0%, #40a0a0 20%, #308080 55%, #206060 85%, #185050 100%); }
   .app-brown .app-header-bg { background: linear-gradient(180deg, #b09060 0%, #8a6a3a 50%, #705028 100%); }
 
+  /* Old iOS Alert */
+  .ios3-alert-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.55); z-index:9999; display:flex; align-items:center; justify-content:center; animation:ios3AlertFadeIn 0.2s ease-out; }
+  @keyframes ios3AlertFadeIn { from{opacity:0} to{opacity:1} }
+  .ios3-alert-box { width:220px; border-radius:14px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25); border:1.5px solid rgba(255,255,255,0.18); background:linear-gradient(180deg, rgba(110,120,145,0.97) 0%, rgba(60,68,88,0.97) 4%, rgba(40,48,68,0.96) 50%, rgba(28,34,52,0.96) 100%); animation:ios3AlertPop 0.25s ease-out; }
+  @keyframes ios3AlertPop { from{transform:scale(0.7);opacity:0} 60%{transform:scale(1.03)} to{transform:scale(1);opacity:1} }
+  .ios3-alert-body { padding:16px 14px 12px; text-align:center; }
+  .ios3-alert-title { color:#fff; font-size:16px; font-weight:bold; text-shadow:0 -1px 1px rgba(0,0,0,0.6); margin-bottom:4px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
+  .ios3-alert-msg { color:rgba(255,255,255,0.88); font-size:12px; line-height:1.35; text-shadow:0 -1px 1px rgba(0,0,0,0.4); font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
+  .ios3-alert-btns { border-top:1px solid rgba(0,0,0,0.45); display:flex; }
+  .ios3-alert-btn { flex:1; padding:9px 0; text-align:center; color:#fff; font-size:16px; font-weight:bold; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; cursor:pointer; border:none; background:linear-gradient(180deg, rgba(120,140,180,0.5) 0%, rgba(60,80,130,0.6) 49%, rgba(30,55,110,0.85) 50%, rgba(20,45,95,0.9) 100%); text-shadow:0 -1px 1px rgba(0,0,0,0.5); border-bottom-left-radius:12px; border-bottom-right-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.18); }
+  .ios3-alert-btn:active { background:linear-gradient(180deg, rgba(20,45,95,0.9) 0%, rgba(30,55,110,0.85) 50%, rgba(60,80,130,0.6) 100%); }
+
   /* YouTube App */
   .yt-app { background: #fff !important; }
   .yt-app .app-header { border-bottom: none; }
@@ -2637,7 +2873,7 @@
   .yt-video-row { display: flex; align-items: flex-start; padding: 8px 10px; gap: 10px; border-bottom: 1px solid #ddd; background: #fff; cursor: pointer; transition: background 0.12s; }
   .yt-video-row:active { background: #e0ecff; }
   .yt-thumb { width: 100px; height: 60px; border-radius: 3px; background: #222; flex-shrink: 0; overflow: hidden; position: relative; }
-  .yt-thumb canvas { width: 100%; height: 100%; display: block; }
+  .yt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .yt-thumb-dur { position: absolute; bottom: 2px; right: 3px; background: rgba(0,0,0,0.75); color: #fff; font-size: 8px; padding: 1px 3px; border-radius: 2px; font-family: 'Helvetica Neue', Helvetica, sans-serif; }
   .yt-video-info { flex: 1; min-width: 0; }
   .yt-video-title { font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; font-weight: 600; color: #222; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -2646,7 +2882,8 @@
   .yt-watch { display: none; flex-direction: column; flex: 1; overflow: hidden; background: #000; }
   .yt-watch.active { display: flex; }
   .yt-player-area { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; flex-shrink: 0; }
-  .yt-player-canvas { width: 100%; height: 100%; display: block; }
+  .yt-player-thumb { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+  .yt-player-area iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; z-index: 2; }
   .yt-player-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .yt-play-btn-big { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
   .yt-play-btn-big:active { transform: scale(0.9); }
@@ -2744,18 +2981,18 @@
 
 <!-- ========== COVER OVERLAY STYLES (independent) ========== -->
 <style>
-  /* OPAQUE WALL — nothing shows through. Image has its own slider baked in. */
+  /* OPAQUE WALL — nothing shows through. Image preloaded via JS to prevent flash. */
   #cover-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     z-index: 99999;
-    background-color: #000; /* solid black fallback while image loads */
-    background-image: url('real exterior/exteriorr.png');
+    background-color: #1a1510;
+    background-image: url('real exterior/exteriorrr.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 1; /* OPACO, NO transparente */
+    opacity: 1;
     overflow: hidden;
     transition: opacity 0.6s ease;
     will-change: opacity;
@@ -2765,105 +3002,142 @@
     pointer-events: none;
   }
 
-  /* VISIBLE SLIDER — posicionado dinámicamente sobre el slider de la imagen */
+  /* Cover slider container — positioned by JS at bottom-center */
   #cover-swipe-zone {
     position: absolute;
-    /* La posición se calcula via JS para alinear con el slider de la imagen */
-    cursor: grab;
     z-index: 2;
     touch-action: none;
     user-select: none;
-    /* Valores base - JS los ajustará */
-    width: 215px;
-    height: 37px;
+    /* Default center-bottom position; JS overrides on load */
+    left: 50%;
+    top: 75%;
+    transform: translateX(-50%);
   }
   #cover-swipe-zone:active {
     cursor: grabbing;
   }
 
-  /* Slider track — matches the phone's .slide-track style */
-  .cover-slider-track {
-    position: relative;
-    width: 170%;
-    height: 190%;
-    background: linear-gradient(180deg,
-      rgba(0,0,0,0.55) 0%,
-      rgba(20,20,20,0.50) 50%,
-      rgba(10,10,10,0.55) 100%
-    );
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow:
-      inset 0 2px 5px rgba(0,0,0,0.55),
-      inset 0 -1px 1px rgba(255,255,255,0.04),
-      inset 0 0 12px rgba(0,0,0,0.2),
-      0 1px 0 rgba(255,255,255,0.08);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
+  /* Cover slider fills its container, scaling internals with --phone-scale */
+  #cover-swipe-zone .slide-track {
+    width: 100%;
+    height: 100%;
   }
-
-  /* Slider knob — matches the phone's .slide-knob style exactly */
-  .cover-slider-knob {
-    position: absolute;
-    left: 3px;
+  #cover-swipe-zone .slide-knob {
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: calc(100% - 6px);
-    border-radius: 9px;
-    background: linear-gradient(180deg,
-      #c8c8c8 0%, #b0b0b0 15%, #8a8a8a 50%, #707070 80%, #606060 100%);
-    box-shadow:
-      0 2px 4px rgba(0,0,0,0.55),
-      0 0.5px 0 rgba(255,255,255,0.15),
-      inset 0 1px 0 rgba(255,255,255,0.45),
-      inset 0 -1px 1px rgba(0,0,0,0.30);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    touch-action: none;
-    user-select: none;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: calc(100% - 4px);
+    width: calc(44px * var(--phone-scale, 1));
+    border-radius: calc(9px * var(--phone-scale, 1));
   }
-  .cover-slider-knob.dragging {
-    transition: none;
+  #cover-swipe-zone .slide-knob::after {
+    font-size: calc(14px * var(--phone-scale, 1));
   }
-  .cover-slider-knob::after {
-    content: '❯❯';
-    font-size: 14px;
-    font-weight: 700;
-    color: #333;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-    letter-spacing: -3px;
+  #cover-swipe-zone .slide-text-container {
+    left: calc(48px * var(--phone-scale, 1));
+  }
+  #cover-swipe-zone .slide-text {
+    white-space: nowrap;
+    font-size: calc(16px * var(--phone-scale, 1));
   }
 
-  /* Slide to unlock text — matches phone's .slide-text */
-  .cover-slider-text {
+  /* ===== Cover Lock Screen Notifications (iOS 5 style) ===== */
+  #cover-notif-container {
     position: absolute;
-    left: 48px;
-    right: 8px;
-    text-align: center;
-    overflow: hidden;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    color: transparent;
-    background: linear-gradient(90deg,
-      rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.15) 35%,
-      rgba(255,255,255,0.95) 50%,
-      rgba(255,255,255,0.15) 65%, rgba(255,255,255,0.15) 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 2.5s ease-in-out infinite;
-    z-index: 1;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     pointer-events: none;
+  }
+
+  .cover-notif {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: linear-gradient(180deg,
+      rgba(45,47,55,0.85) 0%,
+      rgba(28,30,36,0.90) 50%,
+      rgba(20,22,26,0.93) 100%
+    );
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.13);
+    box-shadow:
+      0 2px 10px rgba(0,0,0,0.55),
+      0 1px 3px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.12);
+    opacity: 0;
+    transform: translateY(-18px) scale(0.97);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    pointer-events: auto;
+  }
+
+  .cover-notif.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .cover-notif-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.45);
+  }
+
+  .cover-notif-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    display: block;
+  }
+
+  .cover-notif-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cover-notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .cover-notif-sender {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    letter-spacing: 0.2px;
+  }
+
+  .cover-notif-time {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: rgba(255,255,255,0.50);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .cover-notif-body {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.1px;
   }
 
   /* Hide flip-hint while cover is active */
@@ -2914,11 +3188,32 @@
 
 <!-- ========== COVER OVERLAY — PARED OPACA con slider visible ========== -->
 <div id="cover-overlay">
-  <!-- Slider HTML visible encima de la imagen -->
+  <div id="cover-notif-container">
+    <div class="cover-notif" id="coverNotif1">
+      <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+      <div class="cover-notif-content">
+        <div class="cover-notif-header">
+          <span class="cover-notif-sender">chevy</span>
+          <span class="cover-notif-time">now</span>
+        </div>
+        <div class="cover-notif-body">come outside i'm not going in alone</div>
+      </div>
+    </div>
+    <div class="cover-notif" id="coverNotif2">
+      <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+      <div class="cover-notif-content">
+        <div class="cover-notif-header">
+          <span class="cover-notif-sender">archi</span>
+          <span class="cover-notif-time">now</span>
+        </div>
+        <div class="cover-notif-body">hey did you end up going last night or</div>
+      </div>
+    </div>
+  </div>
   <div id="cover-swipe-zone">
-    <div class="cover-slider-track">
-      <div class="cover-slider-knob" id="coverKnob"></div>
-      <div class="cover-slider-text">slide to unlock</div>
+    <div class="slide-track" id="coverSlideTrack">
+      <div class="slide-knob" id="coverKnob"></div>
+      <div class="slide-text-container"><div class="slide-text">slide to unlock</div></div>
     </div>
   </div>
 </div>
@@ -3068,7 +3363,11 @@
         <div class="back-camera"></div>
         <div class="back-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.6 267.8-317.6 99.8 0 176.7 65.7 235.3 65.7 56.1 0 144.5-70.2 261.6-70.2zM585.3 185.7c10.7-34.7 17.3-75.4 17.3-116.1 0-5.8-.5-11.7-1.5-17.2-52.5 1.9-114.3 35.1-151.3 81.2-33.1 39.5-68.7 102.5-68.7 163.4 0 6.4.9 12.8 1.5 14.7 3.5.6 9.2 1.5 14.9 1.5 47.5 0 105.4-31.6 137.8-79.6z"/></svg></div>
         <div class="back-iphone-label">iPhone</div>
-        <div class="back-text">Designed by Apple in California<br>Assembled in China<br>Model A1303 EMC 2430A</div>
+        <div class="back-capacity">32GB</div>
+        <div class="back-text">Designed by Apple in California<br>Assembled in China  Model No. A1303<br><span style="font-size:5px;letter-spacing:0.5px">FCC ID: BCG-E2430A  IC: 579C-E2430A</span></div>
+        <div class="back-aging"></div>
+        <div class="back-wear"></div>
+        <div class="back-scratches"></div>
       </div>
     </div>
 
@@ -3125,6 +3424,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     return {
+      _getCtx: getCtx,
       // Unlock — metallic spring click
       unlock() {
         const ac = getCtx();
@@ -3322,6 +3622,84 @@ document.addEventListener('DOMContentLoaded', () => {
         g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.015);
         osc.connect(g).connect(ac.destination);
         osc.start(); osc.stop(ac.currentTime + 0.015);
+      },
+
+      // Celebrate spin — playful ascending sparkle whoosh
+      celebrateSpin() {
+        const ac = getCtx();
+        const now = ac.currentTime;
+        // Rising sparkle notes
+        const notes = [1200, 1500, 1800, 2200, 2600, 3000];
+        notes.forEach((freq, i) => {
+          const osc = ac.createOscillator();
+          osc.type = 'sine';
+          const t = now + i * 0.07;
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.linearRampToValueAtTime(freq * 1.15, t + 0.12);
+          const g = ac.createGain();
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.08, t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+          osc.connect(g).connect(ac.destination);
+          osc.start(t); osc.stop(t + 0.18);
+        });
+        // Soft whoosh noise layer
+        const bufLen = ac.sampleRate * 0.4;
+        const buf = ac.createBuffer(1, bufLen, ac.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+        const noise = ac.createBufferSource();
+        noise.buffer = buf;
+        const bpf = ac.createBiquadFilter();
+        bpf.type = 'bandpass';
+        bpf.frequency.setValueAtTime(800, now);
+        bpf.frequency.linearRampToValueAtTime(3000, now + 0.35);
+        bpf.Q.value = 0.8;
+        const ng = ac.createGain();
+        ng.gain.setValueAtTime(0, now);
+        ng.gain.linearRampToValueAtTime(0.06, now + 0.1);
+        ng.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        noise.connect(bpf).connect(ng).connect(ac.destination);
+        noise.start(now); noise.stop(now + 0.4);
+      },
+
+      // Rewind spin — playful descending twinkle whoosh (going back)
+      rewindSpin() {
+        const ac = getCtx();
+        const now = ac.currentTime;
+        // Descending twinkle notes
+        const notes = [3000, 2600, 2200, 1800, 1500, 1200];
+        notes.forEach((freq, i) => {
+          const osc = ac.createOscillator();
+          osc.type = 'sine';
+          const t = now + i * 0.065;
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.linearRampToValueAtTime(freq * 0.88, t + 0.11);
+          const g = ac.createGain();
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.07, t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+          osc.connect(g).connect(ac.destination);
+          osc.start(t); osc.stop(t + 0.16);
+        });
+        // Soft reverse whoosh noise layer
+        const bufLen = ac.sampleRate * 0.35;
+        const buf = ac.createBuffer(1, bufLen, ac.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.25;
+        const noise = ac.createBufferSource();
+        noise.buffer = buf;
+        const bpf = ac.createBiquadFilter();
+        bpf.type = 'bandpass';
+        bpf.frequency.setValueAtTime(3000, now);
+        bpf.frequency.linearRampToValueAtTime(600, now + 0.3);
+        bpf.Q.value = 0.7;
+        const ng = ac.createGain();
+        ng.gain.setValueAtTime(0, now);
+        ng.gain.linearRampToValueAtTime(0.05, now + 0.08);
+        ng.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        noise.connect(bpf).connect(ng).connect(ac.destination);
+        noise.start(now); noise.stop(now + 0.35);
       }
     };
   })();
@@ -3551,7 +3929,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── IMAGE ICON LOOKUP — load from iphone icons/ folder ──
     const _iconFiles = {
       'messages':'message.png','camera':'camera.png','map':'maps.png','music':'music.png',
-      'photobooth':'photobooth.jpg','youtube':'youtube.png','weather':'weather.png',
+      'photobooth':'photobooth.png','youtube':'youtube.png','weather':'weather.png',
       'voicememo':'voice memo.png','pages':'pages.png','notes':'notes.png',
       'newstand':'newstand.png','appstore':'appstore.png','calculator':'calculator.png',
       'compass':'compass.png','cards':'cards.png','clock':'clock.png',
@@ -3561,6 +3939,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'instagram':'instagram.png','garageband':'garageband.png',
       'gamecenter':'game center.png','facetime':'facetime.png','airport':'wifi.png'
     };
+    const _iconBase = 'iphone icons/optimized/';
     if (_iconFiles[id]) {
       const _img = new Image();
       _img.onload = function() {
@@ -3570,7 +3949,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.restore();
         gloss();
       };
-      _img.src = 'iphone icons/' + _iconFiles[id];
+      _img.src = _iconBase + _iconFiles[id];
       return;
     }
 
@@ -5125,7 +5504,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const refl = document.createElement('div'); refl.className = 'dock-reflection';
       const effectFile = {phone:'phone.png',safari:'safari.png',mail:'email.png',settings:'setting.png'}[icon.id];
       if (effectFile) {
-        const ri = document.createElement('img'); ri.src = 'effect/' + effectFile; refl.appendChild(ri);
+        const ri = document.createElement('img'); ri.src = 'effect/optimized/' + effectFile; refl.appendChild(ri);
       }
       cell.appendChild(refl);
     }
@@ -5150,7 +5529,8 @@ document.addEventListener('DOMContentLoaded', () => {
       {title:'things i hate', body:'men with opinions about authenticity\nmusic writers who flirt by insulting you\nbeing broke\nmy own face when i\'m trying too hard'},
       {title:'packing list toronto', body:'charger\nnotebook (both)\nblack jacket not brown\nrent cheque for madeline\n\nwindow measurements:\nleft: 34 x 52\nright: 28 x 52\n\nreturn bus: megabus oct 26 2pm\nconfirmation: MBX-4479201'},
       {title:'french phrases', body:'je suis désolée = i\'m sorry\nest-ce que je peux = can i\nje cherche = i\'m looking for\nc\'est combien = how much\nje ne comprends pas = i don\'t understand\nmerci quand même = thanks anyway\noù sont les toilettes = where is the bathroom'},
-      {title:'store inventory ideas', body:'ask about the nike dunks shipment\nrestock AF1 white — always sell out\nsomeone asked for saucony jazz today??\nnew balance 574 grey — order 3 more pairs\nwindow display: rotate every 2 weeks\ntalk to hugo about consignment deal'}
+      {title:'store inventory ideas', body:'ask about the nike dunks shipment\nrestock AF1 white — always sell out\nsomeone asked for saucony jazz today??\nnew balance 574 grey — order 3 more pairs\nwindow display: rotate every 2 weeks\ntalk to hugo about consignment deal'},
+      {title:'You are a loser', body:'You are a loser\nYou are a loser\nYou are a loser\nYou are a lo'}
     ];
 
     const notesScreen = document.createElement('div');
@@ -5232,16 +5612,293 @@ document.addEventListener('DOMContentLoaded', () => {
       convo.innerHTML = msgsHTML; msgScreen.querySelector('#msgBody').appendChild(convo);
     });
 
-    // --- AUTO-REPLY POOLS ---
-    const _replyPools = {
-      'chevy': ['yo','come thru','lol ok','we\'re at the bar','bring cigarettes','whatever you say','lol','sure','nah','come to the loft','you coming or what','ok cool','later','who cares','bring beer too'],
-      'archi': ['yeah it\'s here','we have practice at 8','bring your notes','ok','sounds right','i\'ll be there','sure','not sure yet','ask hugo','the amp is broken again','yeah','let me know','i\'ll check','we need to talk about the setlist','ok cool'],
-      'madeline': ['bleak','whatever','ok','no','sure','fine','lol','are you serious','i\'m going to bed','you\'re impossible','eat something','don\'t','why','lock the door','pasta is in the fridge'],
-      'hugo': ['sent it again','did you get it?','let me know','ok thanks','can you check your email','i need it by friday','cool','sounds good','i\'ll call the venue','forward me the thing','when are you free','we need to talk','check your inbox','confirmed','thanks grace'],
-      'jessie': ['omg really?!','tell me everything!','no way!!','WAIT WHAT','i knew it!!','you have to tell me','this is incredible','omg','i\'m screaming','are you serious rn','i cannot believe this','TELL ME MORE','you\'re kidding','finally!!','i literally called it'],
-      'mom': ['call me when you can','are you sleeping enough?','I sent you money','please eat a vegetable','your father says hi','I worry about you','did you get my email?','call me tomorrow','I love you sweetie','are you warm enough?','Linda says hi','please be careful','when are you coming home?','I found more of your things','do you need anything?'],
-      'unknown montreal number': ['Ok.','Thank you.','The room is still available.','Let me know if you have questions.','Friday works.','See you then.','That\'s fine.','Please confirm.','Noted.','2pm is best.','We can discuss when you arrive.','The lease is month to month.','References would be helpful.','Let me check and get back to you.','Ok, sounds good.']
+    // --- CONTEXT-AWARE REPLY ENGINE ---
+    const _convoHistory = {};
+    msgThreads.forEach((t, i) => {
+      _convoHistory[t.name] = t.msgs.map(m => ({from: m.f === 'grace' ? 'user' : 'them', text: m.t}));
+    });
+
+    const _charProfiles = {
+      'chevy': {
+        delay: [600, 1800],
+        doubleTextChance: 0.15,
+        ignoreChance: 0.05,
+        patterns: [
+          {match: /^(hey|hi|yo|sup|what'?s up|hello)/i, replies: ['yo','sup','hey','what','yoooo','hey what','yes','hiii lol jk whats up']},
+          {match: /where (are|r) (you|u)|where u at|where are u/i, replies: ['loft','bar','outside','dep','casa','walking around','at hugo\'s actually','the usual spot','wouldn\'t u like to know','outside ur building come down']},
+          {match: /(coming|come|going|go out|tonight|plans|down|wanna|hang)/i, replies: ['yeah come thru','u coming or not','we\'re at the loft','come outside','yeah why','nah staying in','where','depends who\'s going','obv','meet at casa','yeah everyone\'s going','u better be there','we\'re pregaming at mine','bring people','maybe later','not without cigarettes']},
+          {match: /^(yes|yeah|yea|yep|ok|okay|sure|bet|alright|k|kk)/i, replies: ['cool','ok','bet','sweet','see u there','nice','good','finally','ok sick','aight']},
+          {match: /^(no|nah|nope|can'?t|i can'?t|i don'?t)/i, replies: ['lol ok','whatever','ur loss','fine','boring','lame','weak','excuses','boooo','suit yourself','u always say that then show up anyway']},
+          {match: /(cig|smoke|smoking|cigarette)/i, replies: ['bring some','i\'m out','who has','ask archi','the dep is still open','we\'re all out','madeline took the last one','u said u don\'t smoke lol','i know u have some','check my jacket pocket']},
+          {match: /(practice|band|show|gig|play|set|setlist|song|amp|guitar|bass|drum)/i, replies: ['yeah 9pm','hugo won\'t shut up about it','bring ur stuff','loft at 8','we need to run it again','ask hugo','i forgot my pick again','archi already set up','sound check at 6','we killed it last time','the new song is sick','i can\'t hear out of my left ear from last show']},
+          {match: /archi/i, replies: ['idk ask him','he\'s here','he was asking about u','lol archi','he\'s at the loft','probably','he\'s being archi about it','leave the boy alone']},
+          {match: /madeline/i, replies: ['she\'s scary','ask her not me','madeline said no','lol madeline','she\'s at home probably','she\'s gonna say something mean about this']},
+          {match: /hugo/i, replies: ['hugo is emailing someone rn probably','ask hugo','he\'s handling it','classic hugo','he sent like 4 texts about it already','hugo is being hugo']},
+          {match: /jessie/i, replies: ['lol jessie','she knows everything','jessie told everyone','don\'t tell jessie','she\'s probably already told 6 people','yeah she\'s coming']},
+          {match: /(feel|sad|upset|miss|love|sorry|mean|hurt|cry|depress|anxious)/i, replies: ['lol','ok','chill','ur overthinking it','come outside','bring beer and we\'ll talk about it never','u good?','don\'t be weird about it','ok well come to the loft then','fresh air fixes everything','that\'s deep bro','sounds like u need a beer']},
+          {match: /(lol|lmao|haha|funny|dead|dying|omg)/i, replies: ['lol','hahaha','dead','stop','lmaooo','bro','literally','i know right','ur killing me','hahahah']},
+          {match: /(stupid|idiot|dumb|worst|annoying|hate you|the worst)/i, replies: ['lol','whatever','u love me','ok dramatic','sure','guilty','and yet u keep texting me','ur not wrong','i know','at least i\'m fun']},
+          {match: /(drunk|wasted|hungover|last night|blackout)/i, replies: ['lmaooo','same','i don\'t remember','that was ur fault','we don\'t talk about that','classic','i\'m still recovering','whose idea was that','never again','never again (until friday)']},
+          {match: /(drink|beer|bar|party|shots|bottle|wine)/i, replies: ['come thru','bring beer too','we\'re at casa','the dep has tall cans','already started','hurry up','i got a bottle','bring ice','pregaming rn','way ahead of u']},
+          {match: /(late|tired|sleep|bed|awake|up\b)/i, replies: ['sleep is for the weak','come outside','still up','lol go to bed then','same','nah','it\'s not even that late','the night is young','u can sleep when ur dead']},
+          {match: /(money|pay|owe|broke|cash|rent|borrow|lend)/i, replies: ['don\'t look at me','lol same','we\'re all broke','dep takes debit','not my problem','i owe archi like 40 bucks already','u think i have money?','ask hugo he\'s responsible','broke until forever']},
+          {match: /(food|eat|hungry|pizza|burger|poutine|dep)/i, replies: ['poutine run?','dep has those sandwich things','i ate already','bring food','the pizza place is still open','starving actually','fairmount bagels','let\'s get poutine']},
+          {match: /(girl|boy|date|dating|hook|kiss|cute|hot|crush)/i, replies: ['lol who','details','wait what','since when','don\'t be weird','tell me later','i saw nothing','ur on ur own with this one','not my business','oooooh']},
+          {match: /(thanks|thank|thx|appreciate)/i, replies: ['ya','np','whatever','don\'t mention it','lol ok','sure']},
+          {match: /(help|need|favor|can u)/i, replies: ['depends','what','maybe','lol what now','fine','this better be quick','u owe me']},
+          {match: /(where.*go|go where|what.*do|do what)/i, replies: ['loft','casa','dep','wherever','outside','idc u pick','ur place','the usual','does it matter','anywhere']},
+          {match: /(bye|goodnight|gotta go|later|peace|leaving)/i, replies: ['later','peace','bye','see ya','aight','don\'t die','later loser','peace out']},
+          {match: /(wait|hold on|one sec|give me a)/i, replies: ['hurry up','ok','waiting','k','how long','come onnn']},
+          {match: /(bored|boring|nothing to do|what do i do)/i, replies: ['come outside','loft','let\'s do something','that\'s a u problem','come over','there\'s always something happening']}
+        ],
+        fallback: ['lol','ok','sure','whatever','come outside','yo','ok cool','nah','bring cigarettes','later','who cares','come thru','idk','lol ok','bet','ya']
+      },
+      'archi': {
+        delay: [1500, 4000],
+        doubleTextChance: 0.08,
+        ignoreChance: 0.03,
+        patterns: [
+          {match: /^(hey|hi|hello)/i, replies: ['hey','hi','hey what\'s up','hey grace']},
+          {match: /(notebook|left|forgot|leave|stuff|thing|jacket|keys|bag|phone|charger)/i, replies: ['yeah it\'s here','i can bring it tomorrow','it\'s at the loft','do you need it tonight','i put it by the door','i found it after you left','want me to hold onto it','it\'s safe don\'t worry']},
+          {match: /(still (there|up|around|awake|here)|you (there|up|awake|around))/i, replies: ['yeah','yeah i\'m here','mhm','still here','barely but yeah','yeah what\'s up']},
+          {match: /(bring|drop off|pick up|grab|come get)/i, replies: ['i can after class','yeah i\'ll bring it','tomorrow works','when do you need it','i can drop it off','i\'ll swing by','want me to leave it outside','i can come by later']},
+          {match: /(weird|awkward|quiet|different|off|wrong|acting)/i, replies: ['i\'m not being weird','what do you mean','no i\'m fine','i don\'t think i am','sorry','i didn\'t realize','it\'s nothing','i\'m just tired','why do you say that','what did i do']},
+          {match: /(practice|band|show|gig|set|setlist|song|play|amp|guitar|bass|mic)/i, replies: ['practice is at 8','the amp is broken again','we need to talk about the setlist','yeah i\'ll be there','hugo already sent the list','sounds good','i\'ve been working on that bridge part','the new arrangement is better','we should run the opener twice','i think the second song needs work']},
+          {match: /(feel|like you|miss|care|about (me|us|you)|between us)/i, replies: ['yeah','what do you mean','i don\'t know how to answer that','can we talk about this in person','yeah i do','it\'s complicated','i\'m not good at this over text','that\'s a lot to text','you know i do','i don\'t want to say the wrong thing']},
+          {match: /jessie/i, replies: ['what did she say','she talks too much','i don\'t know what you\'re talking about','that\'s not what happened','ignore her','she\'s exaggerating','what exactly did she tell you','of course she did','she needs to stop']},
+          {match: /(told|said|heard|people|everyone|talking|rumor)/i, replies: ['who said that','that\'s not true','what are people saying','ignore them','who told you that','i don\'t care what people say','it\'s not their business','that\'s taken out of context']},
+          {match: /(lol|haha|funny|lmao)/i, replies: ['haha','yeah','lol','hah','that\'s funny']},
+          {match: /^(yes|yeah|yea|ok|sure|alright|sounds good|cool)/i, replies: ['ok','cool','sounds good','yeah','nice','ok great','good']},
+          {match: /^(no|nah|nope|can'?t|i can'?t|not really)/i, replies: ['ok','that\'s fine','no worries','alright','another time then','sure no problem']},
+          {match: /(sorry|apologize|my bad|my fault|didn\'t mean)/i, replies: ['it\'s fine','don\'t worry about it','you don\'t have to apologize','it\'s ok','seriously it\'s fine','stop apologizing']},
+          {match: /(do you|are you|would you|can you|will you)/i, replies: ['yeah','maybe','i think so','i\'m not sure','depends','probably','why','why do you ask']},
+          {match: /(writ|alanis|rage|structure|underline|journal|note|poem|lyric)/i, replies: ['it was good','you should keep writing','i liked the part about structure','yeah i read some of it','sorry i didn\'t mean to read too much','the handwriting was really intense','you have a thing with underlines','it made me think','you\'re a good writer grace']},
+          {match: /(tonight|hang|come over|see you|later|tomorrow|this week)/i, replies: ['yeah maybe','i\'ll be at the loft','sure','let me know','what time','i\'m free after 7','depends on practice','yeah i\'d like that','where','text me when you\'re heading out']},
+          {match: /chevy/i, replies: ['yeah he texted me too','is he at the loft','he\'s probably at the bar','classic chevy','what about him','he owes me money','i saw him earlier']},
+          {match: /madeline/i, replies: ['she\'s funny','ask madeline','i don\'t know what she thinks about it','she\'ll have an opinion','she\'s probably right','madeline would know']},
+          {match: /(thanks|thank|thx|appreciate)/i, replies: ['of course','yeah','don\'t mention it','anytime','sure','no problem','yeah of course']},
+          {match: /(walk|walking|outside|fresh air|go for a)/i, replies: ['want company','i could use a walk too','where are you going','be careful it\'s late','sounds nice','i\'ll come']},
+          {match: /(sleep|tired|bed|exhausted|awake|rest|can\'t sleep)/i, replies: ['you should sleep','yeah me too','i\'m still up if you want to talk','get some rest','same honestly','it\'s late']},
+          {match: /(food|eat|hungry|dinner|cook|coffee|breakfast)/i, replies: ['have you eaten','do you want to get coffee','i haven\'t eaten either','there\'s that place on bernard','i could eat','want me to bring something']},
+          {match: /(good morning|morning|good night|gn|goodnight)/i, replies: ['morning','good morning','night','goodnight grace','sleep well','gn']},
+          {match: /(miss|missing|without|wish you|wish i)/i, replies: ['yeah','me too','i know','it\'s not the same','same','i know what you mean']},
+          {match: /(scared|nervous|worried|anxious|panic)/i, replies: ['about what','it\'s going to be ok','what happened','do you want to talk about it','i\'m here','you\'re going to be fine','breathe']},
+          {match: /(cute|handsome|pretty|attractive|beautiful)/i, replies: ['thanks','you think so?','stop','haha','that\'s nice of you','you\'re being weird']},
+          {match: /(hate|angry|mad|frustrated|annoyed|pissed)/i, replies: ['what happened','at who','do you want to talk about it','that sucks','i\'m sorry','who do i need to fight','are you ok']},
+          {match: /(bye|gotta go|leaving|talk later|ttyl)/i, replies: ['ok','talk later','bye','text me later','be safe','see you']},
+          {match: /(help|need|favor|can u|could u)/i, replies: ['yeah what do you need','of course','sure what is it','always','what\'s going on','yeah tell me']}
+        ],
+        fallback: ['yeah','ok','sure','i\'ll be there','let me know','not sure yet','sounds right','i\'ll check','hm','yeah maybe','i\'m here','fair enough']
+      },
+      'madeline': {
+        delay: [800, 2500],
+        doubleTextChance: 0.04,
+        ignoreChance: 0.12,
+        patterns: [
+          {match: /^(hey|hi|hello|yo)/i, replies: ['hi','what','hey','you\'re alive','oh god what now']},
+          {match: /(messed|messed up|ruined|screwed|fucked|disaster|terrible|everything.*(wrong|bad|awful))/i, replies: ['probably','yeah','sounds about right','bold of you to notice','you\'ll survive','i mean yeah','and?','this surprises you?','tell me something new','on brand']},
+          {match: /(serious|seriously|for real|actually|honest|not joking|i mean it)/i, replies: ['i am','always','unfortunately','when am i not','deadly','do i look like i\'m not','tragically yes']},
+          {match: /(should i|text him|text (archi|chevy)|call him|talk to him|reach out|message him)/i, replies: ['no','absolutely not','do not','why would you do that','god no','put the phone down','step away from the keyboard','nothing good comes from this','you know the answer already','i\'m begging you not to']},
+          {match: /(he texted|she texted|they texted|got a text|messaged me|he replied|he wrote)/i, replies: ['bleak','what did it say','delete it','don\'t respond','tragic','and you opened it why','screenshot','how long did you stare at it before texting me','ignore it','what time did he send it']},
+          {match: /(coming home|home tonight|be home|coming back|be back)/i, replies: ['when','lock the door','pasta is in the fridge','don\'t wake me up','fine','i already locked up','bring milk','i\'m already asleep so','text me when you\'re close']},
+          {match: /(food|eat|hungry|dinner|cook|pasta|groceries|yogurt|bread|snack)/i, replies: ['eat something','pasta is in the fridge','we have nothing','i ate your yogurt','there\'s bread','you need to go to the store','we\'re out of everything','i\'m not cooking','eat a real meal','the bread might be stale honestly']},
+          {match: /chevy/i, replies: ['bleak','again?','this is a pattern','you don\'t need this','ok','predictable','chevy is chaos and you know it','he\'s going to be chevy about it','are you surprised','blink twice if you need help']},
+          {match: /archi/i, replies: ['interesting','hm','and?','don\'t look at me like that','ok','this is above my pay grade','you should talk to him','he\'s nice. too nice probably','hm. proceed with caution','what happened with archi']},
+          {match: /(feel|sad|cry|upset|anxious|panic|scared|lonely|alone|depressed|overwhelmed)/i, replies: ['come home','eat something','you\'re fine','you\'ll survive','take a walk','that tracks','do you want tea','you need sleep','i\'m making tea if you want some','you\'re spiraling. eat bread.','it\'s temporary','come sit on the couch']},
+          {match: /(think|opinion|thoughts|good idea|bad idea|what do you think|should i)/i, replies: ['no','probably bad','i don\'t have opinions anymore','bleak','you already know','you\'re asking the wrong person','my opinion is no','i think you should sleep on it','don\'t do it','my opinion hasn\'t changed']},
+          {match: /(lol|lmao|haha|funny|dead)/i, replies: ['lol','sure','ok','hm','glad someone finds it funny','k','ha']},
+          {match: /^(yes|yeah|yea|ok|sure|fine)/i, replies: ['ok','cool','sure','great','thrilling','noted','riveting']},
+          {match: /^(no|nah|nope|not really)/i, replies: ['ok','good','finally','smart','first smart thing you\'ve said today','correct answer']},
+          {match: /(mean|rude|harsh|cold|heartless|brutal|judgmental)/i, replies: ['accurate','thanks','i know','i prefer honest','it\'s called clarity','somebody has to be','you\'re welcome','i call it efficient']},
+          {match: /(love you|best|amazing|great|thank|appreciate|you'?re.*(best|great|good))/i, replies: ['ok','sure','don\'t','whatever','gross','suspicious','what do you want','that\'s alarming']},
+          {match: /(going out|party|bar|drink|tonight|plans|out tonight)/i, replies: ['without me?','don\'t die','lock the door when you leave','bleak','have fun i guess','bring your keys','i\'m not waiting up','take a cab home','don\'t do anything i wouldn\'t do. which is nothing.']},
+          {match: /(sleep|tired|bed|exhausted|awake|can\'t sleep|insomnia)/i, replies: ['go to sleep','same','i\'m going to bed','stop texting me then','goodnight','melatonin is in the bathroom','close your eyes. stop thinking.','same but also i don\'t care','that makes two of us']},
+          {match: /^(what|why|how)\b/i, replies: ['no','idk','does it matter','why','don\'t ask me that','the answer is no','do you really want to know','because','exactly']},
+          {match: /^(who|where|when)\b/i, replies: ['idk','who cares','does it matter','not my problem','don\'t involve me','irrelevant']},
+          {match: /(sorry|apologize|my bad)/i, replies: ['ok','for what','don\'t','you\'re fine','stop','it\'s fine','whatever']},
+          {match: /(help|need|advice|what do i do|idk what to do)/i, replies: ['eat something','go to sleep','stop texting boys','you already know','i can\'t help you with this one','have you tried not doing that','drink water','take a walk and come back']},
+          {match: /(want|wish|if only|i just want)/i, replies: ['ok','same','don\'t we all','bleak','and?','that\'s nice','sure']},
+          {match: /(ugly|fat|stupid|dumb|bad at|i suck|i\'m the worst|i can\'t do anything)/i, replies: ['stop','incorrect','shut up','you\'re being dramatic','objectively wrong','ok that\'s enough','not true','i\'m not doing this']},
+          {match: /(mom|parents|family|dad|home|hometown)/i, replies: ['call your mom','they miss you probably','go home sometime','your mom is nice','family stuff is hard']},
+          {match: /(weather|cold|rain|snow|winter|hot|warm)/i, replies: ['bleak','it\'s always cold here','i hate it','yeah','this city','suffering']},
+          {match: /(movie|show|watch|netflix|tv|book|read)/i, replies: ['what','is it good','no','maybe','i\'m busy being miserable','sure','depends what it is']},
+          {match: /(bye|goodnight|gn|gotta go|leaving|talk later)/i, replies: ['bye','night','lock the door','goodnight','don\'t die','k bye','later']},
+          {match: /(morning|good morning|just woke up|awake)/i, replies: ['unfortunately','same','coffee','already?','no','it\'s too early for this']},
+          {match: /(cute|pretty|hot|beautiful|attractive|look good)/i, replies: ['ok','sure','whatever','don\'t be weird','thanks i guess','is this going somewhere']},
+          {match: /(jessie|hugo)/i, replies: ['ok','sure','and?','not my business','lol','cool','that tracks']},
+          {match: /(mad at me|you (mad|angry|upset)|are we (ok|good|fine))/i, replies: ['i\'m not mad','no','we\'re fine','why would i be mad','you\'re projecting','i\'m always like this','i\'m just tired']},
+          {match: /(guess what|you won\'t believe|omg|oh my god|listen)/i, replies: ['what','oh no','this can\'t be good','go on','i\'m scared to ask','what now']}
+        ],
+        fallback: ['bleak','ok','sure','whatever','lol','no','fine','why','hm','i\'m going to bed','bold','k','that tracks','and?','noted']
+      },
+      'hugo': {
+        delay: [1000, 3000],
+        doubleTextChance: 0.1,
+        ignoreChance: 0.02,
+        patterns: [
+          {match: /^(hey|hi|hello)/i, replies: ['hey','hi grace','what\'s up','hey what do you need']},
+          {match: /(email|attachment|send|sent|file|pdf|document|inbox)/i, replies: ['check your email','i sent it again','did you get it?','which one','i\'ll resend it','check your inbox','i forwarded it','let me know if it came through','the right one this time','it should be in your spam maybe']},
+          {match: /(practice|band|show|gig|venue|booker|booking|sound|soundcheck|load)/i, replies: ['practice is confirmed for 8','i\'ll call the venue','did you email the booker','the sound guy confirmed','we need to load in by 6','i already handled it','i booked the slot','we\'re second on the bill','merch table is set up','i printed the setlist already','the promoter wants us at 7','we need to be professional about this']},
+          {match: /(when|what time|schedule|tomorrow|friday|today|this week|next week)/i, replies: ['when are you free','i need it by friday','tomorrow works','let me check','2pm?','i\'ll send the details','thursday is better','let me check my calendar','sometime this week','i have a window at 3']},
+          {match: /^(yes|yeah|yea|ok|sure|done|got it|sent|yep)/i, replies: ['cool','thanks grace','sounds good','perfect','confirmed','great','appreciate it','good','finally','ok great']},
+          {match: /^(no|nah|nope|can'?t|i can'?t|not yet)/i, replies: ['ok when then','we need to figure this out','let me know when you can','that\'s a problem','ok i\'ll handle it','we can\'t keep pushing this','grace this is important','it needs to happen','ok but soon','alright i\'ll find someone else']},
+          {match: /archi/i, replies: ['ask archi directly','i\'ll cc him','he knows','i already told him','archi said he\'d be there','did archi confirm','he hasn\'t responded to my email']},
+          {match: /chevy/i, replies: ['is chevy coming','chevy hasn\'t confirmed','tell chevy to check his email','chevy owes me for the cables','does chevy have the van','classic chevy']},
+          {match: /madeline/i, replies: ['not my department','ask madeline','madeline isn\'t involved in this','she\'s not on the email chain','that\'s between you two']},
+          {match: /jessie/i, replies: ['jessie isn\'t relevant here','is jessie coming to the show','ok','focus','not the point right now']},
+          {match: /(money|pay|budget|cost|rent|owe|gas|van|deposit|gear)/i, replies: ['i\'ll send you the breakdown','check the spreadsheet','we need to talk about this','the venue wants a deposit','i\'ll figure it out','we\'re over budget','everyone owes 15 for gas','the venue takes 30 percent','i\'m tracking expenses','who\'s covering the van rental']},
+          {match: /(lol|haha|funny|lmao)/i, replies: ['haha','anyway','sure','ok','ha','right','yeah that\'s funny']},
+          {match: /(sorry|my bad|forgot|didn\'t|oops)/i, replies: ['it\'s fine just send it','no worries','just get it done','ok','happens','don\'t let it happen again','it\'s ok just do it now','grace please']},
+          {match: /(did you|can you|could you|would you|will you)/i, replies: ['yeah','i\'ll check','give me a sec','let me look','probably','i think so','on it','one sec','doing it now','i\'ll get to it']},
+          {match: /(feel|sad|upset|love|hate|miss|care|emotional|stress)/i, replies: ['are you ok?','do you need anything?','that\'s not really my area','talk to madeline about that','ok','do you want to talk','i\'m here if you need','is this about the band or personal']},
+          {match: /(forward|need|give me|pass|info|details|address|number)/i, replies: ['forward me the thing','i need it by friday','i\'ll send it over','check your inbox','what exactly do you need','i\'ll text you the info','sending it now','which one']},
+          {match: /(poster|flyer|design|promo|promote|social media|post)/i, replies: ['i\'ll make the poster','who\'s doing the flyer','we need to promote this','can you post something','i\'ll handle the facebook event','the poster needs the right time on it']},
+          {match: /(plan|organize|list|order|figure out|sort out|handle)/i, replies: ['i\'m on it','let me make a list','i\'ll organize it','we need a plan','i\'ll figure it out','already done','working on it','give me an hour']},
+          {match: /(late|running late|on my way|stuck|traffic|delay)/i, replies: ['how late','we can\'t start without you','hurry','ok just get here','this is why i said be early','it\'s fine just come']},
+          {match: /(good|nice|great|awesome|perfect|sick)/i, replies: ['yeah','cool','nice','agreed','good','sweet','perfect']},
+          {match: /(problem|issue|broken|fix|wrong|doesn\'t work)/i, replies: ['what\'s wrong','i\'ll look at it','can you be specific','send me a photo','i\'ll fix it','when did this happen','that\'s not ideal']},
+          {match: /(thanks|thank|thx|appreciate)/i, replies: ['np','sure','of course','yeah','don\'t mention it','anytime']},
+          {match: /(idea|think|suggest|proposal|pitch|maybe we should)/i, replies: ['i\'m listening','could work','send me the details','let me think about it','run the numbers first','interesting','we can discuss tomorrow','not bad actually']},
+          {match: /(bye|later|gotta go|talk later|ttyl|goodnight)/i, replies: ['later','ok','talk tomorrow','bye','check your email before tomorrow','night']},
+          {match: /(help|favor|need you to|urgent|asap|important)/i, replies: ['what is it','ok','i\'m on it','how urgent','send me what you have','what do you need']},
+          {match: /(food|eat|lunch|dinner|coffee|break)/i, replies: ['after we finish this','sure','i could eat','let\'s focus first','coffee would be good','meet at the dep?']}
+        ],
+        fallback: ['ok','sounds good','let me know','i\'ll check','cool','confirmed','thanks grace','got it','check your email','when are you free','noted','i\'ll handle it','send me the details','working on it']
+      },
+      'jessie': {
+        delay: [500, 1500],
+        doubleTextChance: 0.25,
+        ignoreChance: 0.02,
+        patterns: [
+          {match: /^(hey|hi|hello|yo)/i, replies: ['hiii','omg hi','hey!!','HELLO','hiiiiii','oh hey','omg hiii']},
+          {match: /(who told|how do you know|who said|where did you hear|how did you)/i, replies: ['literally everyone','i have my sources','does it matter','i just know','a little bird','don\'t worry about it','i\'m not revealing my sources','everyone except you apparently','it\'s going around','you\'re the last to know lol']},
+          {match: /archi/i, replies: ['he was asking about you','omg what happened','HE LIKES YOU','i literally called it','did something happen??','tell me everything','he\'s so obvious about it','he looked at you for like 10 minutes at practice','i can\'t with you two','everyone sees it but you','he mentioned you yesterday btw','wait did he text you']},
+          {match: /(like me|likes me|into me|he like|does he|is he into)/i, replies: ['yes lol','obviously','are you blind','literally everyone can see it','YES','you\'re the only one who doesn\'t know','i promise you yes','the whole loft knows','it\'s so painfully obvious','how do you not see it','girl YES','i would bet money on it']},
+          {match: /(stop|shut up|enough|quit|drop it|leave it|don\'t|please stop)/i, replies: ['i\'m just saying','fine fine','ok but like','sorry not sorry','i\'ll stop when it stops being true','OK','fine i\'ll shut up','for now','my lips are sealed (not really)','ok ok ok','but am i wrong though']},
+          {match: /(party|going out|bar|tonight|plans|casa|show|event|hang out)/i, replies: ['wait who\'s going','OMG can i come','is chevy going','who\'s playing','i\'m so there','what are you wearing','who else is coming','i need details','time and place','i\'m already getting ready','this is going to be so good','is archi going']},
+          {match: /chevy/i, replies: ['lol chevy','he\'s a mess','is this about last night','oh no what did he do','classic chevy','he was SO drunk','chevy is unhinged honestly','what did chevy do now','he\'s funny though','i saw him at the dep','everyone has a chevy story','he\'s a lot']},
+          {match: /madeline/i, replies: ['she\'s so funny','madeline said what??','lol she\'s brutal','she told me','she would say that','madeline doesn\'t hold back','iconic honestly','madeline is scary and i respect it','she said something SO funny yesterday','she\'s the funniest person i know']},
+          {match: /hugo/i, replies: ['hugo is so serious','lol hugo','he emailed me about it','classic hugo','he\'s stressed','hugo has never relaxed in his life','he\'s probably making a spreadsheet rn','bless his heart','hugo means well']},
+          {match: /(gossip|drama|tea|secret|tell me|heard|rumor|juicy|news)/i, replies: ['TELL ME','omg what','spill','i need details','wait what happened','you can\'t just say that and stop','SPILL RIGHT NOW','i\'m sitting down for this','ok go','i need to know everything','don\'t leave anything out']},
+          {match: /(dating|boyfriend|girlfriend|love|relationship|together|single|couple|hooking up)/i, replies: ['WAIT WHAT','omg tell me more','who??','since when??','i KNEW it','this is huge','SHUT UP','wait with who','i need a timeline','this changes everything','HOW DID I NOT KNOW','i\'m losing my mind']},
+          {match: /(lol|lmao|haha|funny|dead|dying|omg)/i, replies: ['LMAOOO','i\'m literally dying','hahaha','STOP','dead','omg','i CAN\'T','screaming','help','literally crying','this is too much']},
+          {match: /^(yes|yeah|yea|ok|yep|mhm)/i, replies: ['omg','AND THEN','i knew it!!','tell me more','wait really??','ok continue','GO ON','i\'m listening','don\'t stop','keep going']},
+          {match: /^(no|nah|nope|not really)/i, replies: ['wait really?','are you sure','hmm','ok but still','that\'s suspicious','i don\'t believe you','ur lying','the truth will come out','ok if you say so','hmmmm']},
+          {match: /(sad|upset|cry|feel|bad|hurt|lonely|struggling|having a hard)/i, replies: ['nooo are you ok','do you want to talk','that sucks','come over','i\'m here','ugh i\'m sorry','do you need ice cream','want to come over','i hate that for you','you deserve better','come here i\'ll make tea','what happened']},
+          {match: /^(what|why|how|where|when)\b/i, replies: ['ok so','wait let me think','idk but','good question','honestly','hmm','well','SO','it\'s a long story']},
+          {match: /(kiss|kissed|hook|hooked|made out|slept|sex)/i, replies: ['WHAT','NO','SHUT UP','TELL ME EVERYTHING','I CANNOT BREATHE','oh my god oh my god','with WHO','WHEN','i\'m passing out','this is the best day of my life','i need every detail']},
+          {match: /(ignore|ghosted|left on read|didn\'t respond|no response|hasn\'t texted)/i, replies: ['that\'s weird','red flag','hmm','that says a lot','maybe they\'re busy','or maybe not','i wouldn\'t read into it (i would)','suspicious','do you want me to investigate','i can find out']},
+          {match: /(what should i (do|say|wear|text)|should i|how do i)/i, replies: ['ok first of all','hmm let me think','do NOT listen to me but','ok here\'s what you do','girl idk','my advice is always terrible but','ask madeline she\'s smarter','do the opposite of what chevy would do','follow your heart or whatever','just go for it']},
+          {match: /(thanks|thank|thx|appreciate|you\'re the best)/i, replies: ['ofc','always','duh','that\'s what i\'m here for','i love you','anytime','you owe me gossip']},
+          {match: /(boring|bored|nothing happening|dry|quiet)/i, replies: ['same','ugh','let\'s do something','we need drama','this city is dead tonight','come over','let\'s go somewhere','movie night?']},
+          {match: /(promise|swear|don\'t tell|keep.*secret|between us)/i, replies: ['i promise','my lips are sealed','obviously','i would NEVER','who would i even tell','your secret is safe','absolutely','i\'ll take it to my grave (probably)']},
+          {match: /(bye|gotta go|later|leaving|ttyl|goodnight|gn)/i, replies: ['byeee','nooo don\'t go','ok fine','text me later!!','WAIT','night!!','love youuu','bye keep me updated','goodnight but text me if anything happens']},
+          {match: /(cute|pretty|hot|attractive|good looking)/i, replies: ['who are we talking about','SO cute','right??','i know right','literally','agreed','wait who','facts']},
+          {match: /(hate|angry|mad|pissed|annoyed|frustrated)/i, replies: ['at who','omg what happened','vent to me','that\'s valid','who do i need to fight','spill','they probably deserved it','ugh i\'m sorry']}
+        ],
+        fallback: ['omg','wait what','no way','i\'m screaming','TELL ME','are you serious rn','finally','lol','that\'s wild','wait','literally','i can\'t','shut up','no','what','hiii']
+      },
+      'mom': {
+        delay: [2000, 6000],
+        doubleTextChance: 0.12,
+        ignoreChance: 0.0,
+        patterns: [
+          {match: /^(hey|hi|hello|hey mom|hi mom|mama)/i, replies: ['Hi sweetie','Hello! How are you?','Hi honey','There you are! I was thinking about you','Hello dear']},
+          {match: /^(fine|good|i'?m (fine|good|ok|okay|alright|doing (ok|good|fine)))/i, replies: ['Are you sure?','Ok good','That\'s good to hear','Eat something','Get some rest','I\'m glad','You always say fine','Ok sweetie','That\'s a relief']},
+          {match: /(eat|food|hungry|dinner|lunch|breakfast|cook|grocery|groceries|meal|starving)/i, replies: ['Are you eating enough?','Please eat a vegetable','Don\'t just eat yogurt','I worry about your diet','Make sure you eat properly','Did you eat today?','Rice and beans is cheap and nutritious','I can send you a recipe','You need protein','Stop eating at 2am','A real meal with vegetables please']},
+          {match: /(sleep|tired|exhausted|bed|awake|rest|nap|insomnia|can\'t sleep)/i, replies: ['Please get some rest','Did you sleep?','You need to sleep more','Go to bed early tonight','Are you sleeping enough?','Sleep is important','You used to never stay up this late','Turn off your phone and sleep','Chamomile tea helps','Try to get 8 hours']},
+          {match: /(money|rent|broke|pay|afford|budget|expensive|cost|cheap|poor)/i, replies: ['Do you need money?','I can send you some','Let me know if you need anything','How much is rent now?','Your father and I can help','I\'m transferring some now','Are you managing ok?','Don\'t be too proud to ask for help','Money is tight everywhere','I put some in your account']},
+          {match: /(home|safe|walk|night|late|alone|dark|cab|taxi|bus|metro)/i, replies: ['Text me when you get home','Please be careful','Don\'t walk alone at night','Are you home safe?','Lock your door','Take a cab if it\'s late','Stay in well lit areas','I always worry when you\'re out late','Please be safe','Call me when you\'re home']},
+          {match: /(love you|miss you|miss home|miss mom|i love|love u)/i, replies: ['I love you too','I miss you too sweetie','We miss you here','Come home soon','Love you always','I love you so much','You\'ll always be my baby','We love you','The house isn\'t the same without you','I think about you every day']},
+          {match: /^(yes|yeah|yea|ok|sure|i will|i did|i am|i do)/i, replies: ['Good','Ok good','Thank you sweetie','I\'m glad','That makes me feel better','Promise?','Ok I believe you','Good girl','That\'s what I like to hear','Ok honey']},
+          {match: /^(no|nah|not really|not yet|i didn\'t|i haven\'t)/i, replies: ['Why not?','Please try','You should','I worry about you','Ok but please try','Grace please','That worries me','You need to','Promise me you will','When will you?']},
+          {match: /(friend|chevy|archi|madeline|jessie|hugo)/i, replies: ['Are they nice?','Is that the one you mentioned?','Are they taking care of you?','Invite them for dinner sometime','That\'s nice','I\'m glad you have friends there','Are they a good influence?','You\'ve mentioned them before','Do they eat properly','Tell them I say hello']},
+          {match: /(work|job|school|class|study|career|interview|internship|resume)/i, replies: ['How is it going?','Are you keeping up?','Don\'t overwork yourself','That sounds promising','Your father asks about your work','I\'m proud of you','Keep at it','That sounds like a good opportunity','Are you enjoying it?','Don\'t forget to study']},
+          {match: /(visit|coming home|come home|christmas|holiday|weekend|summer|break)/i, replies: ['When are you coming home?','We would love to see you','Your room is ready','The dog misses you','Let me know your dates','I can pick you up from the station','We haven\'t seen you in so long','Come for the weekend at least','Your grandmother asks about you','I\'ll make your favorite dinner']},
+          {match: /(sick|cold|flu|doctor|health|hurt|pain|hospital|medicine|fever)/i, replies: ['Go to the doctor','Are you ok??','Do you need me to come?','Take medicine','Please take care of yourself','Do you have a thermometer?','Drink lots of fluids','I can come up there if you need me','Do you have health insurance?','Rest and drink tea']},
+          {match: /(apartment|room|landlord|lease|move|living|roommate|place)/i, replies: ['Is it safe?','Make sure you have a proper lease','Does it have heat?','Is the neighborhood ok?','Send me the address','How are your roommates?','Do you have smoke detectors?','Is the door sturdy?','Does the lock work properly?','Send me photos of it']},
+          {match: /(cold|weather|snow|rain|winter|warm|coat|jacket|freeze|freezing)/i, replies: ['Are you warm enough?','Wear your coat','It\'s cold there this time of year','Bundle up','Did you bring warm clothes?','I saw the weather forecast up there','Wear layers','Don\'t forget gloves','Your good coat is in the closet here','Montreal winters are no joke']},
+          {match: /(sad|upset|cry|depressed|unhappy|hard time|struggling|tough|difficult)/i, replies: ['What\'s wrong?','Talk to me','I\'m here for you always','Do you want me to call?','It will get better sweetie','You are so loved','Everyone goes through hard times','I wish I could hug you right now','You\'re stronger than you think','Call me if you need to talk']},
+          {match: /(happy|great|amazing|wonderful|excited|good news|awesome)/i, replies: ['That makes me so happy!','Tell me more!','I\'m so glad','Wonderful!','That\'s great news','I\'m smiling','You deserve it','I\'m so proud of you','That\'s lovely','Share the good news!']},
+          {match: /(sorry|apologize|my bad|my fault|didn\'t mean)/i, replies: ['It\'s ok sweetie','Don\'t apologize','You don\'t need to be sorry','It\'s fine honey','I understand','You\'re only human','Don\'t be too hard on yourself']},
+          {match: /(band|music|playing|guitar|singing|concert|perform)/i, replies: ['How\'s the music going?','When is your next show?','I\'d love to come see you play','Your father wants a recording','Are you still enjoying it?','That sounds wonderful','Follow your passion','Send me a video sometime','I tell everyone about your music']},
+          {match: /(dating|boyfriend|girlfriend|seeing someone|relationship|single)/i, replies: ['Oh?','Is this someone special?','Are they nice to you?','When can we meet them?','As long as you\'re happy','Your father will have questions','Tell me about them','Be careful with your heart','You deserve someone wonderful']},
+          {match: /(thanks|thank you|thx|appreciate|grateful)/i, replies: ['Of course sweetie','Always','That\'s what moms are for','Anything for you','You\'re welcome honey','Always here for you']},
+          {match: /(bye|goodnight|gn|gotta go|talk later|ttyl|going to bed)/i, replies: ['Goodnight sweetie','Sleep well','I love you','Talk tomorrow?','Sweet dreams','Lock your door','Goodnight honey, love you','Call me tomorrow?','Sleep tight']},
+          {match: /(morning|good morning|just woke up)/i, replies: ['Good morning!','Did you sleep well?','Good morning sweetie','Eat breakfast','I\'ve been up for hours','Morning honey']},
+          {match: /(how are you|how.*you doing|what.*up to|what are you doing)/i, replies: ['I\'m fine dear, how are YOU?','Good, cleaning the house','Your father and I are fine','Thinking about you actually','Just had lunch with Linda','Doing laundry, the usual','I\'m good sweetie, are you ok?']}
+        ],
+        fallback: ['Call me when you can','Are you ok?','I worry about you','Please eat something','Your father says hi','Did you get my email?','I love you','Text me when you can','Please be careful','How are you doing?','Let me know if you need anything','I\'m always here','Are you taking care of yourself?','I think about you all the time']
+      },
+      'unknown montreal number': {
+        delay: [3000, 8000],
+        doubleTextChance: 0.03,
+        ignoreChance: 0.15,
+        patterns: [
+          {match: /^(hey|hi|hello|yo|bonjour)/i, replies: ['Hi.','Hello.','Hi, who is this?','Hello, yes?','Hi. Are you still interested in the room?']},
+          {match: /^(yes|yeah|yea|ok|sure|interested|i am|definitely|for sure)/i, replies: ['Ok.','Good. When works for you?','Can you come by this week?','Friday works.','Let me know a time.','Great.','This week then.','I can show it Thursday or Friday.']},
+          {match: /^(no|nah|nope|not really|i can'?t|changed my mind|not interested|never ?mind)/i, replies: ['Ok. Let me know if that changes.','Understood.','No problem.','Ok.','That\'s fine.','I have other people interested.','Ok. Thanks for letting me know.','Noted.']},
+          {match: /(room|apartment|rent|lease|move|place|space|live|living|flat|studio)/i, replies: ['The room is still available.','Rent is month to month.','References would be helpful.','It\'s furnished.','You can see it this week.','550 plus utilities.','It\'s on the second floor.','Quiet building.','No lease break fee.','Available the first of the month.','One bedroom with a small balcony.']},
+          {match: /(when|what time|available|free|schedule|day|come by|visit|see it|view)/i, replies: ['Friday works.','2pm is best.','Anytime after 3.','Let me know what works.','This week?','Morning or afternoon?','I\'m available Thursday.','Tomorrow at 2?','Can you do Saturday morning?','After 5 on weekdays.']},
+          {match: /(who (is this|are you)|your name|which|what is this about|what do you want)/i, replies: ['This is about the room on Bernard.','You contacted me on Craigslist.','We spoke last week.','About the listing.','You emailed about the apartment.','The room you asked about.']},
+          {match: /(heat|laundry|pet|parking|wifi|internet|bathroom|kitchen|window|floor|included|utilities|hydro|electric)/i, replies: ['Yes.','We can discuss when you arrive.','It\'s included.','That\'s fine.','I\'ll show you when you visit.','Heat is included.','There\'s a laundromat on the corner.','No pets.','Street parking.','Wifi is split with upstairs.','All included except hydro.']},
+          {match: /(money|pay|deposit|first.*last|cost|price|how much|afford|expensive|cheap|budget)/i, replies: ['First and last.','550 plus utilities.','We can discuss.','Cash preferred.','Negotiable.','550 firm.','Depends on the unit.','Below market for the area.','That\'s the asking price.','Post-dated cheques preferred.']},
+          {match: /(talk|call|phone|speak|discuss)/i, replies: ['Can you talk tomorrow?','I prefer text.','Sure. When?','Let me know a time.','Text is easier for me.','I can call after 6.','Is this urgent?']},
+          {match: /(ok|thanks|thank you|sounds good|cool|great|perfect)/i, replies: ['Ok.','See you then.','Sounds good.','Confirmed.','Let me know if you have questions.','Great.','Good.','Looking forward to it.']},
+          {match: /(sorry|late|apologize|my bad|forgot|delayed)/i, replies: ['That\'s fine.','No problem.','Ok.','Let me know.','It happens.','Just let me know when you can.']},
+          {match: /(weird|creepy|sketchy|scam|real|legit|suspicious|safe)/i, replies: ['?','I don\'t understand.','This is a real listing.','Ok.','Let me know if you\'re still interested.','I can provide references from current tenants.','You can bring someone if you\'d like.','It\'s a normal apartment.']},
+          {match: /(neighbor|neighbourhood|area|location|street|address|mile end|bernard|close to|near)/i, replies: ['Bernard and Clark.','Mile End area.','Near Parc metro.','Good neighborhood.','Quiet street.','Close to everything.','I can send you the exact address when you confirm.','Right off the main strip.']},
+          {match: /(move in|when.*move|start|begin|first|date|available from)/i, replies: ['First of the month.','Whenever you\'re ready.','Two weeks notice from current tenant.','Immediately if you want.','The first works.','Move in anytime after the 1st.']},
+          {match: /(roommate|other people|who else|share|shared|alone|other tenant)/i, replies: ['One other tenant upstairs.','Quiet person.','You\'d have the place to yourself.','Shared entrance only.','Separate units.','The other tenant works nights.','Very quiet building.']},
+          {match: /(big|small|size|square|footage|how big|how small|tiny|spacious)/i, replies: ['About 450 sq ft.','Enough for one person.','Not huge but livable.','You can see for yourself.','Standard for the area.','It feels bigger than it looks.']},
+          {match: /(contract|agreement|sign|paperwork|legal|document)/i, replies: ['Standard lease.','We can go over it when you visit.','Nothing complicated.','Month to month after the first year.','I\'ll have the papers ready.','Regie du logement standard.']},
+          {match: /(bye|later|talk later|will do|gotta go|ttyl)/i, replies: ['Ok.','Talk soon.','Let me know.','Bye.','Ok, take care.','Sounds good.']},
+          {match: /(maybe|not sure|thinking|consider|let me think|i\'ll think)/i, replies: ['Take your time.','Let me know.','Ok.','I have other people interested though.','No rush.','The offer stands.','Don\'t wait too long.']}
+        ],
+        fallback: ['Ok.','Let me know.','That\'s fine.','Noted.','We can discuss.','Please confirm.','Friday works.','See you then.','Let me know if you have questions.','Confirmed.','Sure.','Take your time.']
+      }
     };
+
+    // Pick a reply that hasn't been used recently
+    const _recentReplies = {};
+    function _pickReply(name, candidates) {
+      if (!_recentReplies[name]) _recentReplies[name] = [];
+      const recent = _recentReplies[name];
+      // filter out recently used
+      let available = candidates.filter(r => !recent.includes(r));
+      if (available.length === 0) { _recentReplies[name] = []; available = candidates; }
+      const pick = available[Math.floor(Math.random() * available.length)];
+      recent.push(pick);
+      if (recent.length > 5) recent.shift();
+      return pick;
+    }
+
+    function _generateReply(contactName, userText) {
+      const profile = _charProfiles[contactName];
+      if (!profile) return null;
+      const lower = userText.toLowerCase().trim();
+      // Check ignore chance
+      if (Math.random() < profile.ignoreChance) return null;
+      // Try pattern matching
+      for (const p of profile.patterns) {
+        if (p.match.test(lower)) {
+          const mainReply = _pickReply(contactName, p.replies);
+          // Double text chance
+          if (Math.random() < profile.doubleTextChance) {
+            const secondReply = _pickReply(contactName, profile.fallback);
+            return [mainReply, secondReply];
+          }
+          return mainReply;
+        }
+      }
+      // Fallback
+      const fb = _pickReply(contactName, profile.fallback);
+      if (Math.random() < profile.doubleTextChance) {
+        const secondReply = _pickReply(contactName, profile.fallback);
+        return [fb, secondReply];
+      }
+      return fb;
+    }
 
     // --- SEND + AUTO-REPLY LOGIC ---
     function sendMsgAndReply(convoIdx) {
@@ -5258,20 +5915,58 @@ document.addEventListener('DOMContentLoaded', () => {
       msgsContainer.appendChild(sentRow);
       input.value = '';
       msgsContainer.scrollTop = msgsContainer.scrollHeight;
-      // Schedule auto-reply
+      // Track history
       const contactName = msgThreads[convoIdx].name;
-      const pool = _replyPools[contactName];
-      if (pool) {
-        const delay = 1000 + Math.random() * 1500;
+      if (!_convoHistory[contactName]) _convoHistory[contactName] = [];
+      _convoHistory[contactName].push({from: 'user', text: text});
+      // Generate context-aware reply
+      const reply = _generateReply(contactName, text);
+      if (reply === null) return; // character ignored the message
+      const profile = _charProfiles[contactName];
+      const baseDelay = profile ? profile.delay[0] + Math.random() * (profile.delay[1] - profile.delay[0]) : 1500;
+      // Show typing indicator
+      const typingRow = document.createElement('div');
+      typingRow.className = 'msg-bubble-row received';
+      typingRow.innerHTML = '<div class="msg-bubble msg-typing"><span>•</span><span>•</span><span>•</span></div>';
+      const typingDelay = Math.min(baseDelay * 0.4, 600);
+      setTimeout(() => {
+        msgsContainer.appendChild(typingRow);
+        msgsContainer.scrollTop = msgsContainer.scrollHeight;
+      }, typingDelay);
+      if (Array.isArray(reply)) {
+        // Double text: first message
         setTimeout(() => {
+          typingRow.remove();
           iPhoneSounds.triTone();
-          const reply = pool[Math.floor(Math.random() * pool.length)];
+          const recvRow = document.createElement('div');
+          recvRow.className = 'msg-bubble-row received';
+          recvRow.innerHTML = `<div class="msg-bubble">${sanitizeHTML(reply[0])}</div>`;
+          msgsContainer.appendChild(recvRow);
+          msgsContainer.scrollTop = msgsContainer.scrollHeight;
+          _convoHistory[contactName].push({from: 'them', text: reply[0]});
+          // Second message after short pause
+          const gap = 400 + Math.random() * 800;
+          setTimeout(() => {
+            iPhoneSounds.triTone();
+            const recvRow2 = document.createElement('div');
+            recvRow2.className = 'msg-bubble-row received';
+            recvRow2.innerHTML = `<div class="msg-bubble">${sanitizeHTML(reply[1])}</div>`;
+            msgsContainer.appendChild(recvRow2);
+            msgsContainer.scrollTop = msgsContainer.scrollHeight;
+            _convoHistory[contactName].push({from: 'them', text: reply[1]});
+          }, gap);
+        }, baseDelay);
+      } else {
+        setTimeout(() => {
+          typingRow.remove();
+          iPhoneSounds.triTone();
           const recvRow = document.createElement('div');
           recvRow.className = 'msg-bubble-row received';
           recvRow.innerHTML = `<div class="msg-bubble">${sanitizeHTML(reply)}</div>`;
           msgsContainer.appendChild(recvRow);
           msgsContainer.scrollTop = msgsContainer.scrollHeight;
-        }, delay);
+          _convoHistory[contactName].push({from: 'them', text: reply});
+        }, baseDelay);
       }
     }
 
@@ -5319,6 +6014,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     apps.messages = msgScreen;
 
+    // --- MESSAGES FIRST-OPEN ALERT ---
+    const _msgAlertConfig = {
+      title: 'Messages',
+      text: 'i lost my phone. i guess you can answer my messages. ugh',
+      btnLabel: 'OK',
+      delayMs: 300,
+      sessionKey: '_msgAlertShown'
+    };
+    let _msgAlertShown = false;
+    msgScreen._initMessages = function() {
+      if (_msgAlertShown) return;
+      _msgAlertShown = true;
+      setTimeout(function() {
+        const overlay = document.createElement('div');
+        overlay.className = 'ios4-alert-overlay';
+        overlay.innerHTML =
+          '<div class="ios4-alert-box">' +
+            '<div class="ios4-alert-body">' +
+              '<div class="ios4-alert-title">' + _msgAlertConfig.title + '</div>' +
+              '<div class="ios4-alert-msg">' + _msgAlertConfig.text + '</div>' +
+            '</div>' +
+            '<div class="ios4-alert-btns">' +
+              '<div class="ios4-alert-btn">' + _msgAlertConfig.btnLabel + '</div>' +
+            '</div>' +
+          '</div>';
+        overlay.querySelector('.ios4-alert-btn').addEventListener('click', function() {
+          iPhoneSounds.tap();
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.15s ease';
+          setTimeout(function() { overlay.remove(); }, 150);
+        });
+        msgScreen.appendChild(overlay);
+      }, _msgAlertConfig.delayMs);
+    };
+
     // --- INSTAGRAM ---
     const igScreen = document.createElement('div'); igScreen.className = 'app-screen'; igScreen.id = 'app-instagram'; igScreen.style.background = '#f2f2f2';
     function drawIgAvatar(canvas) { const ctx = canvas.getContext('2d'), s = canvas.width; ctx.fillStyle = '#8a7060'; ctx.fillRect(0,0,s,s); ctx.fillStyle = '#c0a888'; ctx.beginPath(); ctx.arc(s/2, s*0.4, s*0.25, 0, Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(s/2, s*0.9, s*0.3, s*0.2, 0, 0, Math.PI*2); ctx.fill(); }
@@ -5351,7 +6081,7 @@ document.addEventListener('DOMContentLoaded', () => {
     igPosts.forEach((p, i) => {
       const post = document.createElement('div'); post.className = 'ig-post';
       const mediaHTML = p.type === 'video'
-        ? `<div class="ig-post-image"><video src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;" playsinline muted loop></video></div>`
+        ? `<div class="ig-post-image"><video src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;" playsinline muted loop preload="none"></video></div>`
         : `<div class="ig-post-image"><img src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
       const captionHTML = p.caption ? `<div class="ig-caption"><strong>bonepatrolband</strong> ${p.caption}</div>` : '';
       const igAvatarSrc = 'ig bone patrol icon/On set in Montreal for @clevack upcoming film @mileendkicksmovie Coming Out April 17, 2026What a.jpg';
@@ -5549,12 +6279,12 @@ document.addEventListener('DOMContentLoaded', () => {
       {title:'Novacane', artist:'Frank Ocean', dur:'5:01', secs:301, hue:250, src:'music/do not text him/Frank Ocean - Novacane.mp3'}
     ];
     const playlists = [
-      {name:'jagged little pill spiral', icon:'💿', color:'#a04070', tracks:[0,1,2,3,4]},
-      {name:'bone patrol fixation', icon:'🔊', color:'#cc6030', tracks:[5,6,7]},
-      {name:'montreal 2011', icon:'🏙', color:'#4080a0', tracks:[8,9,10,11,12,13]},
-      {name:'self-mythology', icon:'✨', color:'#8060b0', tracks:[14,15,16,17,18,19]},
-      {name:'songs for walking home', icon:'🌙', color:'#3060a0', tracks:[20,21,22,23,24,25,26]},
-      {name:'do not text him', icon:'📵', color:'#cc3030', tracks:[27,28,29,30,31], recent:true}
+      {name:'jagged little pill spiral', cover:'playlists covers/1.jpg', color:'#a04070', tracks:[0,1,2,3,4]},
+      {name:'bone patrol fixation', cover:'playlists covers/2.jpg', color:'#cc6030', tracks:[5,6,7]},
+      {name:'montreal 2011', cover:'playlists covers/3.jpg', color:'#4080a0', tracks:[8,9,10,11,12,13]},
+      {name:'self-mythology', cover:'playlists covers/4.jpg', color:'#8060b0', tracks:[14,15,16,17,18,19]},
+      {name:'songs for walking home', cover:'playlists covers/5.jpg', color:'#3060a0', tracks:[20,21,22,23,24,25,26]},
+      {name:'do not text him', cover:'playlists covers/6.jpg', color:'#cc3030', tracks:[27,28,29,30,31], recent:true}
     ];
     const musicScreen = document.createElement('div'); musicScreen.className = 'app-screen music-app'; musicScreen.id = 'app-music';
     musicScreen.innerHTML = `
@@ -5582,7 +6312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicNP = musicScreen.querySelector('#musicNP');
     playlists.forEach((pl, i) => {
       const item = document.createElement('div'); item.className = 'music-pl-item';
-      item.innerHTML = `<div class="music-pl-icon" style="background:${pl.color};border-radius:6px;color:#fff;font-size:18px">${pl.icon}</div>
+      item.innerHTML = `<div class="music-pl-icon" style="border-radius:4px;overflow:hidden"><img src="${pl.cover}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
         <div class="music-pl-info"><div class="music-pl-name">${pl.name}</div><div class="music-pl-count">${pl.tracks.length} songs</div></div>
         ${pl.recent?'<span style="font-size:8px;color:#aaa;font-style:italic;margin-right:4px">recently played</span>':''}
         <div class="music-pl-arrow">›</div>`;
@@ -5604,19 +6334,25 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => playTrack(i, num)); musicTrackListEl.appendChild(item);
       });
     }
-    function drawNPArt(hue) {
+    function drawNPArt(hue, coverSrc) {
       const canvas = musicScreen.querySelector('#musicNPArtCanvas'); const ctx = canvas.getContext('2d'), s = 180;
-      ctx.fillStyle = `hsl(${hue||0}, 30%, 18%)`; ctx.fillRect(0, 0, s, s);
-      for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.arc(s*0.3 + i*15, s*0.5 + Math.sin(i)*20, 20 + i*8, 0, Math.PI*2); ctx.fillStyle = `hsla(${(hue||0) + i*20}, 40%, ${30 + i*8}%, 0.4)`; ctx.fill(); }
-      for (let i = 0; i < 300; i++) { ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.04})`; ctx.fillRect(Math.random()*s, Math.random()*s, 1, 1); }
-      const vg = ctx.createRadialGradient(s/2, s/2, s*0.2, s/2, s/2, s*0.7); vg.addColorStop(0, 'transparent'); vg.addColorStop(1, 'rgba(0,0,0,0.5)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, s, s);
+      if (coverSrc) {
+        const img = new Image();
+        img.onload = function() { ctx.drawImage(img, 0, 0, s, s); };
+        img.src = coverSrc;
+      } else {
+        ctx.fillStyle = `hsl(${hue||0}, 30%, 18%)`; ctx.fillRect(0, 0, s, s);
+        for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.arc(s*0.3 + i*15, s*0.5 + Math.sin(i)*20, 20 + i*8, 0, Math.PI*2); ctx.fillStyle = `hsla(${(hue||0) + i*20}, 40%, ${30 + i*8}%, 0.4)`; ctx.fill(); }
+        for (let i = 0; i < 300; i++) { ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.04})`; ctx.fillRect(Math.random()*s, Math.random()*s, 1, 1); }
+        const vg = ctx.createRadialGradient(s/2, s/2, s*0.2, s/2, s/2, s*0.7); vg.addColorStop(0, 'transparent'); vg.addColorStop(1, 'rgba(0,0,0,0.5)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, s, s);
+      }
     }
     function playTrack(plIdx, trackNum) {
       musicCurrentPlaylist = plIdx; musicCurrentTrackIdx = trackNum; const pl = playlists[plIdx]; const track = allTracks[pl.tracks[trackNum]];
       musicTrackListEl.style.display = 'none'; musicPlEl.style.display = 'none'; musicNP.classList.add('visible');
       musicScreen.querySelector('#musicHeaderTitle').textContent = 'Now Playing'; musicScreen.querySelector('#musicBackBtn').textContent = pl.name;
       musicScreen.querySelector('#musicNPTitle').textContent = track.title; musicScreen.querySelector('#musicNPArtist').textContent = track.artist;
-      drawNPArt(track.hue); musicTrackDuration = track.secs; musicProgress = 0; musicPlaying = true; updatePlayIcon(); startProgressTimer(); playAudioTrack(track);
+      drawNPArt(track.hue, pl.cover); musicTrackDuration = track.secs; musicProgress = 0; musicPlaying = true; updatePlayIcon(); startProgressTimer(); playAudioTrack(track);
     }
     let _musicAudio = null;
     function playAudioTrack(track) {
@@ -6085,80 +6821,50 @@ document.addEventListener('DOMContentLoaded', () => {
     apps.photobooth = pbScreen;
 
     // --- YOUTUBE ---
+    // ═══ YOUTUBE VIDEO CONFIG ═══════════════════════════════════════════════
+    // Edit this array to add/remove/change videos.
+    // Thumbnails and playback auto-generate from YouTube URLs.
+    const ytVideoConfig = [
+      // ── FEATURED ──────────────────────────────────────────────────────────
+      { url:'https://www.youtube.com/watch?v=NuSbELCNloc', title:'Arcade Fire - Sprawl II (Mountains Beyond Mountains)', uploader:'ArcadeFireVEVO', views:'8,234,112', date:'Aug 12, 2010', dur:'5:38', desc:'Official video from The Suburbs. Filmed in Austin, Texas.', sections:['featured','favorites'] },
+      { url:'https://www.youtube.com/watch?v=JtH68PJIQLE', title:'Grimes - Oblivion', uploader:'GrimesVEVO', views:'42,891,003', date:'Feb 21, 2012', dur:'4:12', desc:'Grimes performing at a monster truck rally. Directed by Emily Kai Bock.', sections:['featured','favorites'] },
+      { url:'https://www.youtube.com/watch?v=EhJvSw99G1E', title:'Plants and Animals - Lightshow', uploader:'Secret City Records', views:'156,892', date:'Mar 3, 2008', dur:'4:41', desc:'Official video by Plants and Animals. Montreal.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=4BJDNw7o6so', title:'Phoenix - Lisztomania', uploader:'PhoenixVEVO', views:'89,120,445', date:'Jun 15, 2009', dur:'4:02', desc:'Official video for Lisztomania by Phoenix from Wolfgang Amadeus Phoenix.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=tjecYugTbIQ', title:'Grizzly Bear - Two Weeks', uploader:'GrizzlyBearVEVO', views:'18,567,201', date:'May 28, 2009', dur:'4:22', desc:'Official video for Two Weeks from Veckatimest. Directed by Patrick Daughters.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=i3Jv9fNPjgk', title:'Azealia Banks - 212 ft. Lazy Jay', uploader:'AzealiaBanksVEVO', views:'196,442,871', date:'May 14, 2012', dur:'3:27', desc:'Official music video for 212 featuring Lazy Jay.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=NPcyTyilmYY', title:'Alanis Morissette - You Learn', uploader:'AlanisMorissetteVEVO', views:'24,331,089', date:'Oct 3, 2009', dur:'3:59', desc:'Official video from Jagged Little Pill.', sections:['featured','favorites'] },
+      { url:'https://www.youtube.com/watch?v=CUjIY_XxF1g', title:'Alanis Morissette - Hand In My Pocket', uploader:'AlanisMorissetteVEVO', views:'31,889,442', date:'Oct 3, 2009', dur:'3:44', desc:'Official video from Jagged Little Pill.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=sy1dYFGkPUE', title:'Justice - D.A.N.C.E.', uploader:'JusticeVEVO', views:'67,892,104', date:'Oct 26, 2009', dur:'3:33', desc:'Official video for D.A.N.C.E. by Justice from Cross.', sections:['featured'] },
+      { url:'https://www.youtube.com/watch?v=-5Ae-LhMIG0', title:'Future Islands - Seasons (Waiting On You)', uploader:'4aborrecords', views:'22,108,763', date:'Mar 10, 2014', dur:'3:43', desc:'Official video. The Letterman performance changed everything.', sections:['featured','favorites'] },
+      // ── LOCAL (MONTREAL / INDIE SCENE) ────────────────────────────────────
+      { url:'https://www.youtube.com/watch?v=tmtRR6rpY4Q', title:'Karkwa - Nouvelle vague', uploader:'Karkwa', views:'312,445', date:'Sep 15, 2010', dur:'4:28', desc:'Vidéoclip officiel. Polaris Music Prize winners 2010.', sections:['local'] },
+      { url:'https://www.youtube.com/watch?v=UHwSk8bFS4M', title:'Malajube - Montréal -40°C', uploader:'Bravo musique', views:'891,204', date:'Oct 22, 2006', dur:'3:59', desc:'Le vidéoclip officiel. This is what January feels like.', sections:['local'] },
+      { url:'https://www.youtube.com/watch?v=GCBC4XbMyxw', title:'Handsome Furs - Serve the People (Live Montreal)', uploader:'lazark', views:'18,432', date:'Jun 25, 2011', dur:'4:15', desc:'Live at Il Motore. The sound is rough but the energy is real.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=8tZkzL4j3BU', title:'Grimes - REALiTi', uploader:'GrimesVEVO', views:'28,904,221', date:'Mar 9, 2015', dur:'3:49', desc:'Demo version. The raw one. Before Art Angels cleaned everything up.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=UuEr6fheqDI', title:'Grimes - Genesis', uploader:'GrimesVEVO', views:'31,220,187', date:'Aug 23, 2012', dur:'5:24', desc:'Directed by Grimes. Swords and convertibles in the desert.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=0Y1wm7CFRCQ', title:'TOPS - Way to be Loved', uploader:'TOPS', views:'1,245,880', date:'Sep 17, 2014', dur:'3:31', desc:'Montreal band. This song sounds like driving down Saint-Laurent at 2am.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=MeRIAew8eXc', title:'Mac DeMarco - Freaking Out the Neighborhood', uploader:'MacDeMarcoVEVO', views:'42,667,109', date:'Apr 22, 2013', dur:'2:52', desc:'Shot in Montreal. He used to live like five blocks from here.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=1y6smkh6c-0', title:'Arcade Fire - Ready to Start', uploader:'ArcadeFireVEVO', views:'12,440,892', date:'Sep 9, 2010', dur:'4:16', desc:'From The Suburbs. This one hits different when you actually live here.', sections:['local','favorites'] },
+      { url:'https://www.youtube.com/watch?v=HhZaHf8RP6g', title:'Justice - TTHHEE PPAARRTTYY', uploader:'JusticeVEVO', views:'8,221,039', date:'Nov 19, 2008', dur:'3:34', desc:'The sequel to D.A.N.C.E. that no one asked for but everyone needed.', sections:['local'] },
+    ];
+
+    function extractYtId(url) {
+      const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : '';
+    }
+
+    const ytProcessed = ytVideoConfig.map(v => ({
+      ...v,
+      ytId: extractYtId(v.url),
+      thumbUrl: 'https://img.youtube.com/vi/' + extractYtId(v.url) + '/mqdefault.jpg'
+    }));
+
     const ytVideos = {
-      featured: [
-        { id:'f1', title:'Bone Patrol - ASL (Official Video)', uploader:'BonePatrolMTL', views:'2,847', date:'Mar 14, 2011', dur:'3:42', desc:'Official video for A Sign Language by Bone Patrol. Filmed at the loft on St-Laurent. Directed by Hugo.', color:'#3a2828', accent:'#cc4444' },
-        { id:'f2', title:'Bone Patrol Live at Loft Practice', uploader:'hugofilmsthings', views:'412', date:'Feb 8, 2011', dur:'8:17', desc:'Full set from the last practice before the Casa show. Sorry camera dies at the end.', color:'#2a2a1a', accent:'#aa8844' },
-        { id:'f3', title:'Alanis Morissette - Behind Jagged Little Pill', uploader:'AlanisOfficial', views:'1,203,447', date:'Jun 20, 2005', dur:'22:04', desc:'Alanis reflects on the making of Jagged Little Pill, ten years after release. Interview footage and studio sessions.', color:'#1a2a3a', accent:'#6688aa' },
-        { id:'f4', title:'Jagged Little Pill Retrospective (Full)', uploader:'MusicDocArchive', views:'87,221', date:'Sep 3, 2010', dur:'48:31', desc:'A comprehensive look back at the album that defined a generation. Features interviews with producers and collaborators.', color:'#2a1a2a', accent:'#9966aa' },
-        { id:'f5', title:'Montreal Summer Show Highlights 2010', uploader:'mtlopenmic', views:'1,034', date:'Aug 22, 2010', dur:'6:12', desc:'Highlights from the outdoor stage at Parc du Portugal, summer 2010. Featuring performances from local bands.', color:'#1a3a2a', accent:'#44aa66' },
-      ],
-      local: [
-        { id:'l1', title:'Casa del Popolo - Mystery Band Night', uploader:'casadelpopolo', views:'678', date:'Jan 15, 2011', dur:'4:55', desc:'Audience footage from mystery band night at Casa del Popolo. Second band might be Bone Patrol.', color:'#2a2218', accent:'#bb8833' },
-        { id:'l2', title:'Mile End Rehearsal Room - Winter 2011', uploader:'hugofilmsthings', views:'89', date:'Jan 28, 2011', dur:'12:33', desc:'Rehearsal room footage, January 2011. Cold room, broken heater, still played for two hours.', color:'#1a1a2a', accent:'#5566bb' },
-        { id:'l3', title:'Interview: Local Band Talks Touring', uploader:'mtlmusicblog', views:'234', date:'Dec 12, 2010', dur:'7:41', desc:'A local Montreal band discusses the reality of touring eastern Canada in a van with no heat. Full interview.', color:'#2a2a2a', accent:'#888888' },
-        { id:'l4', title:'Grainy Venue Footage - Divan Orange', uploader:'scenekid2009', views:'456', date:'Nov 3, 2010', dur:'3:28', desc:'Found this on my old phone. Can\'t remember the band name but the bassist was incredible.', color:'#3a2a1a', accent:'#cc9944' },
-        { id:'l5', title:'Late Night Set at La Vitrola', uploader:'vitrola_shows', views:'312', date:'Feb 19, 2011', dur:'15:02', desc:'Late night set recorded February 2011. 2am. Everyone exhausted. Somehow the best show of the month.', color:'#1a1a1a', accent:'#cc3355' },
-      ],
-      favorites: [
-        { id:'v1', title:'Bone Patrol - ASL (Official Video)', uploader:'BonePatrolMTL', views:'2,847', date:'Mar 14, 2011', dur:'3:42', desc:'Official video for A Sign Language by Bone Patrol. Filmed at the loft on St-Laurent.', color:'#3a2828', accent:'#cc4444', fav:true },
-        { id:'v2', title:'Alanis Morissette - Ironic (Official)', uploader:'AlanisOfficial', views:'89,442,103', date:'Oct 2, 2009', dur:'4:05', desc:'The official music video for Ironic by Alanis Morissette from Jagged Little Pill.', color:'#2a3040', accent:'#7799cc', fav:true },
-        { id:'v3', title:'Jagged Little Pill Retrospective (Full)', uploader:'MusicDocArchive', views:'87,221', date:'Sep 3, 2010', dur:'48:31', desc:'A comprehensive look back at the album that defined a generation.', color:'#2a1a2a', accent:'#9966aa', fav:true },
-        { id:'v4', title:'Bone Patrol at Casa - Front Row', uploader:'grace_pine', views:'23', date:'Feb 6, 2011', dur:'5:18', desc:'I was literally in the front row. Hugo kept looking at me. Or at the exit sign behind me. Either way.', color:'#2a2a18', accent:'#ccaa33', fav:true },
-        { id:'v5', title:'Arctic Monkeys - 505 (Live)', uploader:'ArcticMonkeysVEVO', views:'12,304,556', date:'Aug 15, 2007', dur:'5:21', desc:'Arctic Monkeys performing 505 live. From the Favourite Worst Nightmare tour.', color:'#1a2a2a', accent:'#44aaaa', fav:true },
-      ]
+      featured: ytProcessed.filter(v => v.sections.includes('featured')),
+      local: ytProcessed.filter(v => v.sections.includes('local')),
+      favorites: ytProcessed.filter(v => v.sections.includes('favorites')).map(v => ({...v, fav:true}))
     };
-    const ytAllVideos = [...ytVideos.featured, ...ytVideos.local, ...ytVideos.favorites];
-
-    function drawYtThumb(canvas, video) {
-      const ctx = canvas.getContext('2d');
-      const w = canvas.width = 200, h = canvas.height = 120;
-      // Background gradient
-      const bg = ctx.createLinearGradient(0, 0, w, h);
-      bg.addColorStop(0, video.color);
-      bg.addColorStop(1, '#111');
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, w, h);
-      // Accent shapes for visual variety
-      ctx.globalAlpha = 0.15;
-      ctx.fillStyle = video.accent;
-      const seed = video.id.charCodeAt(1) * 7;
-      for (let i = 0; i < 3; i++) {
-        const x = (seed * (i+1) * 13) % w;
-        const y = (seed * (i+1) * 7) % h;
-        const r = 20 + (seed * (i+1)) % 40;
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
-      }
-      ctx.globalAlpha = 0.08;
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, w, h * 0.4);
-      ctx.globalAlpha = 1;
-      // Play triangle
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      ctx.beginPath();
-      ctx.moveTo(w*0.4, h*0.3); ctx.lineTo(w*0.65, h*0.5); ctx.lineTo(w*0.4, h*0.7);
-      ctx.closePath(); ctx.fill();
-    }
-
-    function drawYtPlayerThumb(canvas, video) {
-      const ctx = canvas.getContext('2d');
-      const w = canvas.width = 640, h = canvas.height = 360;
-      const bg = ctx.createLinearGradient(0, 0, w, h);
-      bg.addColorStop(0, video.color); bg.addColorStop(1, '#0a0a0a');
-      ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
-      ctx.globalAlpha = 0.12; ctx.fillStyle = video.accent;
-      const seed = video.id.charCodeAt(1) * 7;
-      for (let i = 0; i < 5; i++) {
-        const x = (seed*(i+1)*17)%w, y = (seed*(i+1)*11)%h, r = 30+(seed*(i+1))%60;
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
-      }
-      ctx.globalAlpha = 0.06; ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h*0.35);
-      ctx.globalAlpha = 1;
-      // Stage-like bottom gradient
-      const stage = ctx.createLinearGradient(0, h*0.7, 0, h);
-      stage.addColorStop(0, 'transparent'); stage.addColorStop(1, 'rgba(0,0,0,0.5)');
-      ctx.fillStyle = stage; ctx.fillRect(0, h*0.7, w, h*0.3);
-    }
+    const ytAllVideos = ytProcessed;
 
     const ytScreen = document.createElement('div'); ytScreen.className = 'app-screen yt-app'; ytScreen.id = 'app-youtube';
     ytScreen.innerHTML = `
@@ -6169,10 +6875,10 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="yt-section" id="ytFavorites"></div>
       <div class="yt-section yt-search-section" id="ytSearch">
         <div class="yt-search-bar"><input class="yt-search-field" id="ytSearchField" placeholder="Search YouTube..." type="text"><button class="yt-search-btn" id="ytSearchBtn">Search</button></div>
-        <div class="yt-search-results" id="ytSearchResults"><div class="yt-search-empty">search for bone patrol, alanis, montreal...</div></div>
+        <div class="yt-search-results" id="ytSearchResults"><div class="yt-search-empty">search arcade fire, grimes, karkwa...</div></div>
       </div>
       <div class="yt-watch" id="ytWatch">
-        <div class="yt-player-area"><canvas class="yt-player-canvas" id="ytPlayerCanvas"></canvas><div class="yt-player-overlay" id="ytPlayerOverlay"><div class="yt-play-btn-big" id="ytPlayBtn"></div></div></div>
+        <div class="yt-player-area" id="ytPlayerArea"><img class="yt-player-thumb" id="ytPlayerThumb" src="" alt=""><div class="yt-player-overlay" id="ytPlayerOverlay"><div class="yt-play-btn-big" id="ytPlayBtn"></div></div></div>
         <div class="yt-progress-bar" id="ytProgressBar"><div class="yt-progress-fill" id="ytProgressFill"><div class="yt-progress-dot"></div></div></div>
         <div class="yt-watch-info" id="ytWatchInfo"></div>
       </div>
@@ -6189,9 +6895,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = document.createElement('div');
       row.className = 'yt-video-row';
       row.innerHTML = `
-        <div class="yt-thumb"><canvas></canvas><div class="yt-thumb-dur">${video.dur}</div>${video.fav?'<div class="yt-fav-star">⭐</div>':''}</div>
+        <div class="yt-thumb"><img src="${video.thumbUrl}" alt=""><div class="yt-thumb-dur">${video.dur}</div>${video.fav?'<div class="yt-fav-star">⭐</div>':''}</div>
         <div class="yt-video-info"><div class="yt-video-title">${video.title}</div><div class="yt-video-meta">${video.uploader} · ${video.views} views · ${video.date}</div></div>`;
-      drawYtThumb(row.querySelector('canvas'), video);
       row.addEventListener('click', () => openYtWatch(video));
       return row;
     }
@@ -6240,15 +6945,21 @@ document.addEventListener('DOMContentLoaded', () => {
       watch.classList.add('active');
       ytScreen.querySelector('.yt-tabbar').style.display = 'none';
 
-      // Draw player canvas
-      drawYtPlayerThumb(ytScreen.querySelector('#ytPlayerCanvas'), video);
+      // Show thumbnail, remove any old iframe
+      const playerArea = ytScreen.querySelector('#ytPlayerArea');
+      const thumb = ytScreen.querySelector('#ytPlayerThumb');
+      const oldIframe = playerArea.querySelector('iframe');
+      if (oldIframe) oldIframe.remove();
+      thumb.src = 'https://img.youtube.com/vi/' + video.ytId + '/hqdefault.jpg';
+      thumb.style.display = 'block';
 
-      // Update play btn
+      // Show overlay + play btn
+      ytScreen.querySelector('#ytPlayerOverlay').style.display = 'flex';
       const playBtn = ytScreen.querySelector('#ytPlayBtn');
       playBtn.classList.remove('playing');
 
       // Progress
-      ytScreen.querySelector('#ytProgressFill').style.width = '0%';
+      ytScreen.querySelector('#ytProgressBar').style.display = 'none';
 
       // Populate info
       const info = ytScreen.querySelector('#ytWatchInfo');
@@ -6281,6 +6992,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeYtWatch() {
       ytPlaying = false;
       clearInterval(ytPlayTimer);
+      // Remove iframe to stop playback
+      const playerArea = ytScreen.querySelector('#ytPlayerArea');
+      const iframe = playerArea.querySelector('iframe');
+      if (iframe) iframe.remove();
       ytScreen.querySelector('#ytWatch').classList.remove('active');
       ytScreen.querySelector('.yt-tabbar').style.display = '';
       ytScreen.querySelector(ytSectionMap[ytCurrentTab]).classList.add('active');
@@ -6291,36 +7006,25 @@ document.addEventListener('DOMContentLoaded', () => {
       backBtn.onclick = null;
     }
 
-    // Play/Pause
+    // Play — embed real YouTube iframe
     ytScreen.querySelector('#ytPlayerOverlay').addEventListener('click', () => {
-      const playBtn = ytScreen.querySelector('#ytPlayBtn');
-      if (ytPlaying) {
-        ytPlaying = false;
-        clearInterval(ytPlayTimer);
-        playBtn.classList.remove('playing');
-      } else {
-        ytPlaying = true;
-        playBtn.classList.add('playing');
-        ytPlayTimer = setInterval(() => {
-          if (!ytCurrentVideo) return;
-          const parts = ytCurrentVideo.dur.split(':');
-          const totalSec = parseInt(parts[0]) * 60 + parseInt(parts[1]);
-          ytPlayProgress += 1;
-          if (ytPlayProgress >= totalSec) { ytPlayProgress = 0; ytPlaying = false; playBtn.classList.remove('playing'); clearInterval(ytPlayTimer); }
-          ytScreen.querySelector('#ytProgressFill').style.width = (ytPlayProgress / totalSec * 100) + '%';
-        }, 1000);
-      }
-    });
-
-    // Progress bar scrub
-    ytScreen.querySelector('#ytProgressBar').addEventListener('click', (e) => {
       if (!ytCurrentVideo) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const parts = ytCurrentVideo.dur.split(':');
-      const totalSec = parseInt(parts[0]) * 60 + parseInt(parts[1]);
-      ytPlayProgress = Math.floor(pct * totalSec);
-      ytScreen.querySelector('#ytProgressFill').style.width = (pct * 100) + '%';
+      const playerArea = ytScreen.querySelector('#ytPlayerArea');
+      const thumb = ytScreen.querySelector('#ytPlayerThumb');
+      const overlay = ytScreen.querySelector('#ytPlayerOverlay');
+      // Create YouTube iframe with autoplay
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + ytCurrentVideo.ytId + '?autoplay=1&playsinline=1&rel=0&origin=' + encodeURIComponent(window.location.origin);
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      playerArea.appendChild(iframe);
+      // Hide thumbnail and overlay
+      thumb.style.display = 'none';
+      overlay.style.display = 'none';
+      ytPlaying = true;
+      // Hide our progress bar — YouTube has its own
+      ytScreen.querySelector('#ytProgressBar').style.display = 'none';
     });
 
     // Search
@@ -6331,7 +7035,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function doYtSearch() {
       const q = ytSearchField.value.trim().toLowerCase();
       ytSearchResults.innerHTML = '';
-      if (!q) { ytSearchResults.innerHTML = '<div class="yt-search-empty">search for bone patrol, alanis, montreal...</div>'; return; }
+      if (!q) { ytSearchResults.innerHTML = '<div class="yt-search-empty">search arcade fire, grimes, karkwa...</div>'; return; }
       const results = ytAllVideos.filter(v =>
         v.title.toLowerCase().includes(q) || v.uploader.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q)
       );
@@ -8361,16 +9065,9 @@ notes toward an avoidable disaster` }
     vidScreen.id = 'app-videos';
 
     const vidVideos = [
-      { id:'v1', title:'bone patrol — asl (live)', meta:'Casa del Popolo · Live', dur:'3:42', badge:'live', colors:['#2a1a2e','#4a2040','#1a0a1e'], partial:0.6, section:'recently watched' },
-      { id:'v2', title:'loft practice feb 12', meta:'Camera Roll · Feb 2011', dur:'1:58', badge:'camera roll', colors:['#3a2a1a','#5a4020','#2a1a0a'], partial:0, section:'recently watched' },
-      { id:'v3', title:'IMG_0847', meta:'Camera Roll · Jan 2011', dur:'0:47', badge:'live', colors:['#1a1a2a','#30203a','#0a0a1a'], partial:0, section:'recently watched' },
-      { id:'v4', title:'alanis interview fragment', meta:'Saved · YouTube rip', dur:'2:14', badge:'saved', colors:['#2a2a2a','#444','#1a1a1a'], partial:0.3, section:'saved clips' },
-      { id:'v5', title:'jagged little pill tv spot', meta:'Saved · 1995 promo', dur:'0:31', badge:'saved', colors:['#2e2218','#4a3828','#1a1008'], partial:0, section:'saved clips' },
-      { id:'v6', title:'bernard street walk', meta:'Camera Roll · Mar 2011', dur:'1:22', badge:'camera roll', colors:['#0a0a1e','#1a1a3a','#050510'], partial:0, section:'city footage' },
-      { id:'v7', title:'IMG_1204', meta:'Camera Roll · Feb 2011', dur:'0:38', badge:'camera roll', colors:['#1a1a0a','#2a2a10','#0a0a00'], partial:0, section:'city footage' },
-      { id:'v8', title:'madeline cooking disaster', meta:'Camera Roll · Dec 2010', dur:'4:11', badge:'', colors:['#1a1a1a','#2a2a2a','#111'], partial:0, section:'other' },
-      { id:'v9', title:'fairmount bagel line 3am', meta:'Camera Roll · Jan 2011', dur:'0:53', badge:'camera roll', colors:['#0a1a2a','#102030','#000a14'], partial:0, section:'other' },
-      { id:'v10', title:'parc du portugal july', meta:'Camera Roll · Jul 2010', dur:'2:07', badge:'camera roll', colors:['#1a2a1a','#2a3a20','#0a1a0a'], partial:0, section:'other' }
+      { id:'v1', title:'archi is so cute (and annoying)', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/archie is so cute (and annoying).mp4', partial:0, section:'camera roll' },
+      { id:'v2', title:'he called me out', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/he called me out.mp4', partial:0, section:'camera roll' },
+      { id:'v3', title:'oh', meta:'Camera Roll', dur:'0:00', badge:'', file:'videos/oh.mp4', partial:0, section:'camera roll' },
     ];
 
     let vidPlaying = false;
@@ -8435,19 +9132,35 @@ notes toward an avoidable disaster` }
           html += '<div class="vid-section-hdr">' + curSection + '</div>';
         }
         html += '<div class="vid-row" data-vidx="' + i + '">';
-        html += '<div class="vid-thumb"><canvas class="vid-thumb-cv" data-vi="' + i + '"></canvas><div class="vid-thumb-play"></div></div>';
+        if(v.file){
+          html += '<div class="vid-thumb"><video src="' + v.file + '" preload="metadata" muted data-vi="' + i + '" style="width:100%;height:100%;object-fit:cover;display:block"></video><div class="vid-thumb-play"></div></div>';
+        } else {
+          html += '<div class="vid-thumb"><canvas class="vid-thumb-cv" data-vi="' + i + '"></canvas><div class="vid-thumb-play"></div></div>';
+        }
         html += '<div class="vid-info">';
         html += '<div class="vid-title">' + (v.partial > 0 ? '<span class="vid-progress-dot"></span>' : '') + v.title + '</div>';
         html += '<div class="vid-meta">' + v.meta + (v.badge ? ' <span class="vid-badge">' + v.badge + '</span>' : '') + '</div>';
-        html += '<div class="vid-duration">' + v.dur + '</div>';
+        html += '<div class="vid-duration vid-dur-display" data-vidx="' + i + '">' + v.dur + '</div>';
         html += '</div></div>';
       });
       lib.innerHTML = html;
 
-      // Draw thumbnails
+      // Video thumbnails: seek to 1s for frame, read real duration
+      lib.querySelectorAll('.vid-thumb video').forEach(vid => {
+        vid.addEventListener('loadedmetadata', () => {
+          vid.currentTime = 1;
+          const idx = parseInt(vid.dataset.vi);
+          const dur = vidFmtTime(Math.floor(vid.duration));
+          vidVideos[idx].dur = dur;
+          const durEl = lib.querySelector('.vid-dur-display[data-vidx="' + idx + '"]');
+          if(durEl) durEl.textContent = dur;
+        });
+      });
+
+      // Canvas thumbnails fallback
       lib.querySelectorAll('.vid-thumb-cv').forEach(cv => {
         const idx = parseInt(cv.dataset.vi);
-        vidDrawThumb(cv, vidVideos[idx].colors, 80, 50);
+        if(vidVideos[idx].colors) vidDrawThumb(cv, vidVideos[idx].colors, 80, 50);
       });
 
       // Row click handlers
@@ -8479,11 +9192,29 @@ notes toward an avoidable disaster` }
       const player = vidScreen.querySelector('.vid-player');
       player.classList.add('visible');
 
-      // Setup canvas
-      const canvas = player.querySelector('.vid-player-canvas');
-      canvas.width = 640; canvas.height = 400;
-      canvas.style.width = '100%'; canvas.style.height = '200px';
-      vidDrawPlayer(canvas, v, 0);
+      // Setup player viewport
+      const viewport = player.querySelector('.vid-player-viewport');
+      const oldCanvas = viewport.querySelector('canvas');
+      const oldVidEl = viewport.querySelector('video');
+      if(oldCanvas) oldCanvas.remove();
+      if(oldVidEl) oldVidEl.remove();
+
+      let vidEl = null;
+      if(v.file){
+        vidEl = document.createElement('video');
+        vidEl.src = v.file;
+        vidEl.playsInline = true;
+        vidEl.preload = 'metadata';
+        vidEl.style.cssText = 'display:block;background:#000';
+        viewport.appendChild(vidEl);
+      } else {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'vid-player-canvas';
+        canvas.width = 640; canvas.height = 400;
+        canvas.style.width = '100%'; canvas.style.height = '200px';
+        viewport.appendChild(canvas);
+        vidDrawPlayer(canvas, v, 0);
+      }
 
       // Info
       player.querySelector('.vid-player-title').textContent = v.title;
@@ -8502,26 +9233,54 @@ notes toward an avoidable disaster` }
       fill.style.width = pct + '%';
       fill.style.transition = 'none';
 
-      playBtn.onclick = () => {
-        if (vidPlaying) {
-          vidPause();
-        } else {
-          vidPlay(canvas, v, totalSec, elapsed, remain, fill, playBtn);
-        }
-      };
-
-      // Scrub on track click
-      const track = player.querySelector('.vid-track');
-      track.onclick = (e) => {
-        const rect = track.getBoundingClientRect();
-        const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        vidCurrentTime = Math.floor(ratio * totalSec);
-        elapsed.textContent = vidFmtTime(vidCurrentTime);
-        remain.textContent = '-' + vidFmtTime(totalSec - vidCurrentTime);
-        fill.style.transition = 'none';
-        fill.style.width = (ratio * 100) + '%';
-        vidDrawPlayer(canvas, v, ratio);
-      };
+      if(v.file && vidEl){
+        // Real video playback
+        vidEl.addEventListener('loadedmetadata', ()=>{
+          remain.textContent = '-' + vidFmtTime(Math.floor(vidEl.duration));
+        });
+        vidEl.addEventListener('timeupdate', ()=>{
+          if(!vidEl.duration) return;
+          elapsed.textContent = vidFmtTime(Math.floor(vidEl.currentTime));
+          remain.textContent = '-' + vidFmtTime(Math.floor(vidEl.duration - vidEl.currentTime));
+          fill.style.width = (vidEl.currentTime / vidEl.duration * 100) + '%';
+        });
+        vidEl.addEventListener('ended', ()=>{
+          vidPlaying = false;
+          playBtn.textContent = '▶';
+        });
+        playBtn.onclick = () => {
+          if(vidPlaying){ vidEl.pause(); vidPlaying = false; playBtn.textContent = '▶'; }
+          else { vidEl.play(); vidPlaying = true; playBtn.textContent = '❚❚'; }
+        };
+        const track = player.querySelector('.vid-track');
+        track.onclick = (e) => {
+          if(!vidEl.duration) return;
+          const rect = track.getBoundingClientRect();
+          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          vidEl.currentTime = ratio * vidEl.duration;
+        };
+      } else {
+        playBtn.onclick = () => {
+          if (vidPlaying) {
+            vidPause();
+          } else {
+            const canvas = viewport.querySelector('canvas');
+            vidPlay(canvas, v, totalSec, elapsed, remain, fill, playBtn);
+          }
+        };
+        const track = player.querySelector('.vid-track');
+        track.onclick = (e) => {
+          const rect = track.getBoundingClientRect();
+          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          vidCurrentTime = Math.floor(ratio * totalSec);
+          elapsed.textContent = vidFmtTime(vidCurrentTime);
+          remain.textContent = '-' + vidFmtTime(totalSec - vidCurrentTime);
+          fill.style.transition = 'none';
+          fill.style.width = (ratio * 100) + '%';
+          const canvas = viewport.querySelector('canvas');
+          if(canvas) vidDrawPlayer(canvas, v, ratio);
+        };
+      }
     }
 
     function vidPlay(canvas, v, totalSec, elapsed, remain, fill, playBtn) {
@@ -8583,7 +9342,7 @@ notes toward an avoidable disaster` }
     vidRenderLibrary();
 
     vidScreen._initVid = () => { vidRenderLibrary(); };
-    vidScreen._cleanupVid = () => { vidStopPlayback(); };
+    vidScreen._cleanupVid = () => { vidStopPlayback(); const v = vidScreen.querySelector('.vid-player video'); if(v){v.pause();v.currentTime=0;} };
     apps.videos = vidScreen;
     // ===== END VIDEOS APP =====
 
@@ -8599,7 +9358,7 @@ notes toward an avoidable disaster` }
       <div class="photos-viewer" id="phViewer">
         <div class="photos-viewer-topbar"><div class="photos-viewer-btn" id="phViewerBack">‹ Back</div><div class="photos-viewer-counter" id="phViewerCount"></div><div style="min-width:50px"></div></div>
         <div class="photos-viewer-canvas" id="phViewerWrap"><canvas id="phViewerCvs" width="300" height="300"></canvas></div>
-        <div class="photos-viewer-bottom"><div class="photos-viewer-nav" id="phPrev">◀ Prev</div><div class="photos-viewer-nav" id="phNext">Next ▶</div></div>
+        <div class="photos-viewer-bottom"><div class="photos-viewer-nav" id="phPrev">◀ Prev</div><div class="photos-viewer-nav" id="phSave" style="font-size:11px;color:#4cd964;font-weight:600;">⤓ Save</div><div class="photos-viewer-nav" id="phNext">Next ▶</div></div>
       </div>`;
     appContainer.appendChild(phScreen);
 
@@ -8879,6 +9638,28 @@ notes toward an avoidable disaster` }
       if (phCurrentIdx < phViewerPhotos.length-1) { phCurrentIdx++; phRenderViewer(); }
     });
 
+    // Download/save photo
+    phScreen.querySelector('#phSave').addEventListener('click', () => {
+      const photo = phViewerPhotos[phCurrentIdx];
+      if (!photo) return;
+      const a = document.createElement('a');
+      if (photo.dataUrl) {
+        a.href = photo.dataUrl;
+        a.download = 'mek-photo-' + (phCurrentIdx + 1) + '.jpg';
+      } else if (photo.src) {
+        a.href = photo.src;
+        a.download = photo.src.split('/').pop() || 'mek-photo.jpg';
+      } else {
+        // Canvas-generated photo — render to dataUrl
+        const cvs = phScreen.querySelector('#phViewerCvs');
+        if (cvs) {
+          a.href = cvs.toDataURL('image/jpeg', 0.9);
+          a.download = 'mek-photo-' + (phCurrentIdx + 1) + '.jpg';
+        }
+      }
+      if (a.href) { document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+    });
+
     // Touch swipe in viewer
     let phTouchX = 0;
     phScreen.querySelector('#phViewerWrap').addEventListener('touchstart', (e) => { phTouchX = e.touches[0].clientX; });
@@ -8893,6 +9674,27 @@ notes toward an avoidable disaster` }
     phScreen._initPhotos = () => { phRenderAlbums(); };
     phScreen._cleanupPhotos = () => { phScreen.querySelector('#phViewer').classList.remove('visible'); };
     apps.photos = phScreen;
+
+    // Camera/Photobooth thumbnail → open Photos app at that photo
+    function openPhotosAtLastCapture() {
+      // Close current app (camera or photobooth)
+      if (currentApp === 'camera' && cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+      if (currentApp === 'photobooth') { stopPbAnimation(); if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; } }
+      const curScreen = allApps[currentApp];
+      if (curScreen) curScreen.classList.remove('app-visible');
+      // Open Photos app
+      currentApp = 'photos';
+      phoneState = 'app';
+      phScreen.classList.add('app-visible');
+      // Go to Camera Roll album and open viewer at last photo
+      phOpenAlbum('cameraroll');
+      const lastIdx = phViewerPhotos.length - 1;
+      if (lastIdx >= 0) phOpenViewer(lastIdx);
+    }
+    camScreen.querySelector('#camThumb').addEventListener('click', function() {
+      if (capturedPhotos.length > 0) openPhotosAtLastCapture();
+    });
+
     // ===== END PHOTOS APP =====
 
     // ===== NUMBERS APP =====
@@ -9953,36 +10755,10 @@ notes toward an avoidable disaster` }
     // ===== iMOVIE APP =====
     (function(){
       const projects = [
-        {id:'bp-rough',title:'bone patrol rough cut',dur:'01:47',edited:'edited yesterday',badge:'draft',
-         clips:[{l:'stage lights',c:['#1a0a2a','#3a1a5a','#6a2aaa'],d:18},{l:'guitar solo',c:['#2a0a1a','#5a1a3a','#8a2a5a'],d:14},{l:'crowd shot',c:['#0a0a1a','#1a1a3a','#3a2a5a'],d:11},{l:'amp closeup',c:['#1a1a0a','#3a3a1a','#5a5a2a'],d:9},{l:'encore',c:['#2a0a2a','#5a1a5a','#8a3a8a'],d:15}],
-         mood:['#1a0a2a','#3a1a5a','#5a2a8a']},
-        {id:'apt-tour',title:'apartment walkthrough',dur:'00:58',edited:'last week',badge:null,
-         clips:[{l:'front door',c:['#2a2018','#4a3828','#5a4838'],d:12},{l:'kitchen',c:['#1a1a10','#3a3a20','#5a5a30'],d:10},{l:'bedroom',c:['#2a2a25','#3a3a35','#4a4a45'],d:14},{l:'window view',c:['#2a3040','#3a4050','#4a5060'],d:8}],
-         mood:['#2a2018','#3a3025','#4a4030']},
-        {id:'casa-montage',title:'casa del popolo montage',dur:'01:12',edited:'2 weeks ago',badge:null,
-         clips:[{l:'exterior',c:['#1a1008','#3a2818','#5a4028'],d:8},{l:'door opening',c:['#0a0808','#1a1818','#2a2828'],d:6},{l:'crowd',c:['#1a0a0a','#3a1a1a','#5a2a2a'],d:10},{l:'stage',c:['#2a1020','#4a2040','#6a3060'],d:12},{l:'glasses clink',c:['#1a1a08','#3a3a18','#5a5a28'],d:7}],
-         mood:['#1a1008','#3a2515','#5a3a20']},
-        {id:'jagged-clips',title:'jagged research clips',dur:'02:03',edited:'edited today',badge:null,
-         clips:[{l:'tv fragment',c:['#1a1a2a','#2a2a4a','#3a3a6a'],d:15},{l:'notebook page',c:['#2a2a1a','#4a4a3a','#6a6a5a'],d:8},{l:'interview',c:['#1a1a1a','#3a3a3a','#5a5a5a'],d:20},{l:'notes closeup',c:['#2a2a1a','#4a4a2a','#6a6a3a'],d:10},{l:'album cover',c:['#1a0a1a','#3a1a3a','#5a2a5a'],d:6}],
-         mood:['#1a1a2a','#2a2a4a','#3a3a5a']},
-        {id:'bagel-line',title:'fairmount at 3am',dur:'00:34',edited:'last month',badge:null,
-         clips:[{l:'lineup outside',c:['#2a1a08','#4a3018','#6a4828'],d:12},{l:'counter',c:['#1a1020','#2a2040','#3a3060'],d:10},{l:'bagels close up',c:['#2a2a0a','#4a4a1a','#6a6a2a'],d:8}],
-         mood:['#2a1a08','#4a3020','#6a4530']},
-        {id:'madeline-bday',title:'madeline birthday',dur:'00:41',edited:'3 weeks ago',badge:'unfinished',
-         clips:[{l:'candles',c:['#2a1a08','#4a3020','#6a4830'],d:16},{l:'singing',c:['#1a0a0a','#3a2020','#4a2828'],d:14},{l:'cake',c:['#2a2a1a','#4a4a30','#5a5a40'],d:11}],
-         mood:['#2a1a08','#3a2518','#4a3020']},
-        {id:'summer-footage',title:'summer footage maybe',dur:'01:22',edited:'june',badge:'unfinished',
-         clips:[{l:'sunlight',c:['#3a3a1a','#5a5a2a','#7a7a3a'],d:10},{l:'sidewalk',c:['#2a2a1a','#4a4a2a','#6a6a3a'],d:12},{l:'park bench',c:['#1a2a1a','#2a4a2a','#3a6a3a'],d:9},{l:'sky pan',c:['#2a3a4a','#3a5a6a','#4a7a8a'],d:11}],
-         mood:['#3a3a1a','#5a5a2a','#7a7a3a']},
-        {id:'loft-edit',title:'loft practice edit',dur:'01:05',edited:'last week',badge:null,
-         clips:[{l:'room wide',c:['#2a1a0a','#4a3018','#5a4020'],d:10},{l:'guitar cables',c:['#1a1a1a','#2a2a2a','#3a3a3a'],d:8},{l:'amp dial',c:['#2a2a1a','#4a4a2a','#5a5a3a'],d:7},{l:'drums',c:['#1a0a0a','#3a1a1a','#4a2a2a'],d:12},{l:'singing',c:['#2a1a2a','#4a2a4a','#5a3a5a'],d:10}],
-         mood:['#2a1a0a','#4a3018','#5a4020']},
-        {id:'book-trailer',title:'book trailer attempt',dur:'01:38',edited:'revised',badge:null,
-         clips:[{l:'title card',c:['#1a1a1a','#2a2a2a','#3a3a3a'],d:9},{l:'typing hands',c:['#2a2a1a','#4a4a3a','#6a6a5a'],d:8},{l:'album cover',c:['#1a0a1a','#3a1a3a','#5a2a5a'],d:10},{l:'street footage',c:['#2a1a0a','#4a3018','#5a4020'],d:11},{l:'venue exterior',c:['#1a1a2a','#2a2a3a','#3a3a4a'],d:13},{l:'fade to black',c:['#0a0a0a','#151515','#1a1a1a'],d:10}],
-         mood:['#1a1a1a','#2a2a3a','#3a3a4a']},
-        {id:'summer-footage',title:'parc du portugal july',dur:'00:52',edited:'june',badge:'unfinished',
-         clips:[{l:'grass',c:['#1a2a1a','#2a4a2a','#3a6a3a'],d:14},{l:'fountain',c:['#1a1a2a','#2a2a3a','#3a3a5a'],d:10},{l:'people',c:['#2a2a1a','#4a4a3a','#5a5a4a'],d:12},{l:'sunset',c:['#3a2a1a','#5a4020','#6a5030'],d:8}],
-         mood:['#1a2a1a','#2a3a20','#3a4a2a']}
+        {id:'bp-rehearsal',title:'bone patrol band rehearsal',dur:'01:47',edited:'edited yesterday',badge:'draft',
+         video:'imovie/bone patrol band rehearsal.mp4',
+         clips:[{l:'full rehearsal',c:['#1a0a2a','#3a1a5a','#6a2aaa'],d:107}],
+         mood:['#1a0a2a','#3a1a5a','#5a2a8a']}
       ];
 
       const sc = document.createElement('div');
@@ -10043,18 +10819,34 @@ notes toward an avoidable disaster` }
         projects.forEach((p,i) => {
           const row = document.createElement('div');
           row.className = 'imovie-project-row';
-          row.innerHTML = `
-            <div class="imovie-project-thumb">
-              <canvas></canvas>
-              <div class="imov-filmstrip"></div>
-            </div>
-            <div class="imovie-project-info">
-              <div class="imovie-project-title">${p.title}${p.badge?`<span class="imovie-project-badge imovie-badge-${p.badge}">${p.badge}</span>`:''}</div>
-              <div class="imovie-project-meta">${p.dur} · ${p.edited} · ${p.clips.length} clips</div>
-            </div>
-            <span class="imovie-chevron">›</span>`;
-          const cv = row.querySelector('canvas');
-          drawThumb(cv, p.mood, 160, 90);
+          if(p.video){
+            row.innerHTML = `
+              <div class="imovie-project-thumb">
+                <video src="${p.video}" preload="metadata" muted style="width:100%;height:100%;object-fit:cover;display:block"></video>
+                <div class="imov-filmstrip"></div>
+              </div>
+              <div class="imovie-project-info">
+                <div class="imovie-project-title">${p.title}${p.badge?`<span class="imovie-project-badge imovie-badge-${p.badge}">${p.badge}</span>`:''}</div>
+                <div class="imovie-project-meta">${p.dur} · ${p.edited} · ${p.clips.length} clip${p.clips.length>1?'s':''}</div>
+              </div>
+              <span class="imovie-chevron">›</span>`;
+            // Seek to 1s for thumbnail frame
+            const thumbVid = row.querySelector('video');
+            thumbVid.addEventListener('loadedmetadata', ()=>{ thumbVid.currentTime = 1; });
+          } else {
+            row.innerHTML = `
+              <div class="imovie-project-thumb">
+                <canvas></canvas>
+                <div class="imov-filmstrip"></div>
+              </div>
+              <div class="imovie-project-info">
+                <div class="imovie-project-title">${p.title}${p.badge?`<span class="imovie-project-badge imovie-badge-${p.badge}">${p.badge}</span>`:''}</div>
+                <div class="imovie-project-meta">${p.dur} · ${p.edited} · ${p.clips.length} clips</div>
+              </div>
+              <span class="imovie-chevron">›</span>`;
+            const cv = row.querySelector('canvas');
+            drawThumb(cv, p.mood, 160, 90);
+          }
           row.addEventListener('click', ()=>renderEditor(p));
           body.appendChild(row);
           if(i===2){
@@ -10080,9 +10872,21 @@ notes toward an avoidable disaster` }
         // Preview area
         const previewArea = document.createElement('div');
         previewArea.className = 'imovie-preview-area';
-        const prevCanvas = document.createElement('canvas');
-        prevCanvas.className = 'imovie-preview-canvas';
-        previewArea.appendChild(prevCanvas);
+        let prevCanvas = null;
+        let videoEl = null;
+        if(proj.video){
+          videoEl = document.createElement('video');
+          videoEl.className = 'imovie-preview-canvas';
+          videoEl.src = proj.video;
+          videoEl.playsInline = true;
+          videoEl.preload = 'metadata';
+          videoEl.style.objectFit = 'cover';
+          previewArea.appendChild(videoEl);
+        } else {
+          prevCanvas = document.createElement('canvas');
+          prevCanvas.className = 'imovie-preview-canvas';
+          previewArea.appendChild(prevCanvas);
+        }
 
         const overlay = document.createElement('div');
         overlay.className = 'imovie-preview-overlay';
@@ -10115,12 +10919,16 @@ notes toward an avoidable disaster` }
         scrubBar.addEventListener('click', (e)=>{
           const rect = scrubBar.getBoundingClientRect();
           const pct = Math.max(0, Math.min(1, (e.clientX - rect.left)/rect.width));
-          playProgress = pct * 100;
-          scrubFill.style.width = playProgress + '%';
-          updatePreviewFrame(prevCanvas, proj, playProgress);
-          const totalSec = parseDur(proj.dur);
-          const curSec = Math.floor(totalSec * pct);
-          timeL.textContent = fmtTime(curSec);
+          if(proj.video && videoEl && videoEl.duration){
+            videoEl.currentTime = pct * videoEl.duration;
+          } else {
+            playProgress = pct * 100;
+            scrubFill.style.width = playProgress + '%';
+            if(prevCanvas) updatePreviewFrame(prevCanvas, proj, playProgress);
+            const totalSec = parseDur(proj.dur);
+            const curSec = Math.floor(totalSec * pct);
+            timeL.textContent = fmtTime(curSec);
+          }
         });
 
         // Timeline
@@ -10180,52 +10988,84 @@ notes toward an avoidable disaster` }
         body.appendChild(editor);
 
         // Draw initial preview
-        updatePreviewFrame(prevCanvas, proj, 0);
+        if(prevCanvas) updatePreviewFrame(prevCanvas, proj, 0);
 
         // Play button
         const pauseSvg = `<svg viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
         const playSvg = `<svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>`;
 
         playBtn.addEventListener('click', ()=>{
-          if(isPlaying){
-            stopPlayback();
-            playBtn.innerHTML = playSvg;
-            playBtn.classList.remove('playing');
+          if(proj.video && videoEl){
+            // Real video playback
+            if(isPlaying){
+              videoEl.pause();
+              isPlaying = false;
+              playBtn.innerHTML = playSvg;
+              playBtn.classList.remove('playing');
+            } else {
+              videoEl.play();
+              isPlaying = true;
+              playBtn.innerHTML = pauseSvg;
+              playBtn.classList.add('playing');
+            }
           } else {
-            isPlaying = true;
-            playBtn.innerHTML = pauseSvg;
-            playBtn.classList.add('playing');
-            const totalSec = parseDur(proj.dur);
-            const stepMs = 200;
-            const stepPct = (100 / (totalSec * (1000/stepMs)));
-            playInterval = setInterval(()=>{
-              playProgress += stepPct;
-              if(playProgress >= 100){
-                playProgress = 100;
-                stopPlayback();
-                playBtn.innerHTML = playSvg;
-                playBtn.classList.remove('playing');
-              }
-              scrubFill.style.width = playProgress + '%';
-              updatePreviewFrame(prevCanvas, proj, playProgress);
-              const curSec = Math.floor(totalSec * playProgress / 100);
-              timeL.textContent = fmtTime(curSec);
-              // highlight active clip
-              const totalD = proj.clips.reduce((s,c)=>s+c.d,0);
-              let acc = 0;
-              const target = totalD * playProgress / 100;
-              for(let ci=0;ci<proj.clips.length;ci++){
-                acc += proj.clips[ci].d;
-                if(acc >= target){
-                  const els = strip.querySelectorAll('.imovie-clip');
-                  if(activeClipEl) activeClipEl.classList.remove('active');
-                  if(els[ci]){els[ci].classList.add('active'); activeClipEl=els[ci];}
-                  break;
+            // Canvas-based playback fallback
+            if(isPlaying){
+              stopPlayback();
+              playBtn.innerHTML = playSvg;
+              playBtn.classList.remove('playing');
+            } else {
+              isPlaying = true;
+              playBtn.innerHTML = pauseSvg;
+              playBtn.classList.add('playing');
+              const totalSec = parseDur(proj.dur);
+              const stepMs = 200;
+              const stepPct = (100 / (totalSec * (1000/stepMs)));
+              playInterval = setInterval(()=>{
+                playProgress += stepPct;
+                if(playProgress >= 100){
+                  playProgress = 100;
+                  stopPlayback();
+                  playBtn.innerHTML = playSvg;
+                  playBtn.classList.remove('playing');
                 }
-              }
-            }, stepMs);
+                scrubFill.style.width = playProgress + '%';
+                updatePreviewFrame(prevCanvas, proj, playProgress);
+                const curSec = Math.floor(totalSec * playProgress / 100);
+                timeL.textContent = fmtTime(curSec);
+                const totalD = proj.clips.reduce((s,c)=>s+c.d,0);
+                let acc = 0;
+                const target = totalD * playProgress / 100;
+                for(let ci=0;ci<proj.clips.length;ci++){
+                  acc += proj.clips[ci].d;
+                  if(acc >= target){
+                    const els = strip.querySelectorAll('.imovie-clip');
+                    if(activeClipEl) activeClipEl.classList.remove('active');
+                    if(els[ci]){els[ci].classList.add('active'); activeClipEl=els[ci];}
+                    break;
+                  }
+                }
+              }, stepMs);
+            }
           }
         });
+        // Video time update for scrubber sync
+        if(videoEl){
+          videoEl.addEventListener('timeupdate', ()=>{
+            if(!videoEl.duration) return;
+            const pct = (videoEl.currentTime / videoEl.duration) * 100;
+            scrubFill.style.width = pct + '%';
+            timeL.textContent = fmtTime(Math.floor(videoEl.currentTime));
+          });
+          videoEl.addEventListener('loadedmetadata', ()=>{
+            timeR.textContent = fmtTime(Math.floor(videoEl.duration));
+          });
+          videoEl.addEventListener('ended', ()=>{
+            isPlaying = false;
+            playBtn.innerHTML = playSvg;
+            playBtn.classList.remove('playing');
+          });
+        }
       }
 
       function updatePreviewFrame(canvas, proj, pct){
@@ -10338,6 +11178,8 @@ notes toward an avoidable disaster` }
       };
       sc._cleanupImovie = ()=>{
         stopPlayback();
+        const vid = body.querySelector('video');
+        if(vid){ vid.pause(); vid.currentTime = 0; }
         body.style.overflow = '';
       };
       apps.imovie = sc;
@@ -10956,6 +11798,26 @@ notes toward an avoidable disaster` }
     if (t.closest('.cards-card-item')) { iPhoneSounds.tap(); return; }
   });
 
+  // ===== OLD iOS STORAGE ALERT =====
+  const _ios3AlertShown = {};
+  function showIos3Alert(screen) {
+    const appId = screen.id.replace('app-','');
+    if (_ios3AlertShown[appId]) return;
+    _ios3AlertShown[appId] = true;
+    const overlay = document.createElement('div');
+    overlay.className = 'ios3-alert-overlay';
+    overlay.innerHTML = '<div class="ios3-alert-box"><div class="ios3-alert-body"><div class="ios3-alert-title">Storage Almost Full</div><div class="ios3-alert-msg">There is not enough storage available.</div></div><div class="ios3-alert-btns"><div class="ios3-alert-btn">OK</div></div></div>';
+    screen.appendChild(overlay);
+    overlay.querySelector('.ios3-alert-btn').addEventListener('click', function(e) {
+      e.stopPropagation();
+      iPhoneSounds.tap();
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.15s ease-out';
+      setTimeout(function() { overlay.remove(); }, 150);
+    });
+    overlay.addEventListener('click', function(e) { e.stopPropagation(); });
+  }
+
   // ===== APP OPEN/CLOSE =====
   function openApp(appId) {
     if (jiggleMode) return;
@@ -10979,6 +11841,7 @@ notes toward an avoidable disaster` }
       }, 350);
     }
 
+    if (appId === 'messages' && screen._initMessages) { screen._initMessages(); }
     if (appId === 'photobooth' && screen._initPb) { screen._initPb(); }
     if (appId === 'map' && screen._initMap) { screen._initMap(); }
     if (appId === 'weather' && screen._initWeather) { screen._initWeather(); }
@@ -10991,6 +11854,7 @@ notes toward an avoidable disaster` }
     if (appId === 'itunes' && screen._initItunes) { screen._initItunes(); }
     if (appId === 'imovie' && screen._initImovie) { screen._initImovie(); }
     if (appId === 'gamecenter' && screen._initGc) { screen._initGc(); }
+    if (appId === 'airport' || appId === 'gamecenter' || appId === 'garageband' || appId === 'compass') { showIos3Alert(screen); }
     if (appId === 'facetime' && screen._initFacetime) { screen._initFacetime(); }
     if (appId === 'instagram' && screen._initIg) { screen._initIg(); }
   }
@@ -11305,6 +12169,7 @@ notes toward an avoidable disaster` }
     lockScreen.classList.add('hidden');
     homeScreen.classList.add('visible');
     phoneState = 'home';
+    lockScreen.style.opacity = '';
   });
 
   // ===== POSITION BACK BUTTON & FLIP HINT RELATIVE TO PHONE =====
@@ -11361,102 +12226,152 @@ notes toward an avoidable disaster` }
 // Global site lock — phone interactions check this before responding
 window.siteUnlocked = false;
 
+// Cover overlay image is now set directly in CSS — no preload delay needed.
+
 document.addEventListener('DOMContentLoaded', function() {
   const overlay = document.getElementById('cover-overlay');
   const swipeZone = document.getElementById('cover-swipe-zone');
   const knob = document.getElementById('coverKnob');
-  
-  if (!overlay || !swipeZone || !knob) { 
-    window.siteUnlocked = true; 
-    return; 
+
+  if (!overlay || !swipeZone || !knob) {
+    window.siteUnlocked = true;
+    return;
   }
 
   // ==========================================
-  // CONFIGURACIÓN: Slider en la imagen original (exterior.png: 1920x1080)
-  // EDITÁ ESTOS VALORES para que coincidan con el slider dibujado en la imagen
+  // Position cover slider on top of phone's slide-to-unlock
   // ==========================================
-  const IMG_W = 1920;
-  const IMG_H = 1080;
-  
-  // Coordenadas del slider en la imagen ORIGINAL (en píxeles)
-  // Para encontrar estos valores, abrí exterior.png en Photoshop/GIMP
-  // y medí la posición del slider que ya está dibujado
-  const SLIDER_IN_IMG = {
-    x: 760,      // Posición X del slider en la imagen (esquina superior izquierda)
-    y: 768,      // Posición Y del slider en la imagen
-    width: 232,  // Ancho del slider en la imagen
-    height: 38   // Alto del slider en la imagen
-  };
-  
-  // ==========================================
-  // CÁLCULO MATEMÁTICO EXACTO
-  // background-size: cover escala la imagen proporcionalmente para llenar el viewport
-  // ==========================================
-  function calculateSliderPosition() {
+  function applyPosition() {
+    const phoneSlideTrack = document.getElementById('slideTrack');
+    if (phoneSlideTrack) {
+      const rect = phoneSlideTrack.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const downOffset = vw > 1024 ? -(rect.height * 0.2) : vw > 768 ? rect.height * 0.3 : (vw >= 765) ? rect.height * 3.0 : vw > 600 ? rect.height * 2.3 : rect.height * 1.8;
+      const scale = vw <= 600 ? 1.25 : vw <= 768 ? 1.25 : vw <= 1024 ? 0.9 : 1;
+      const scaledW = rect.width * scale;
+      const scaledH = rect.height * scale;
+      const leftAdj = rect.left - (scaledW - rect.width) / 2;
+      swipeZone.style.left = leftAdj + 'px';
+      swipeZone.style.top = (rect.top + downOffset) + 'px';
+      swipeZone.style.width = scaledW + 'px';
+      swipeZone.style.height = scaledH + 'px';
+      swipeZone.style.transform = 'none';
+      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+    }
+    // Fallback if phone element not found
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    
-    // Ratio de la imagen y del viewport
-    const imgRatio = IMG_W / IMG_H;
-    const viewportRatio = vw / vh;
-    
-    let scale, offsetX, offsetY;
-    
-    if (viewportRatio > imgRatio) {
-      // Viewport más ancho que la imagen → la imagen llena el ancho, se corta arriba/abajo
-      scale = vw / IMG_W;
-      offsetX = 0;
-      offsetY = (vh - (IMG_H * scale)) / 2;
-    } else {
-      // Viewport más alto que la imagen → la imagen llena el alto, se corta a los lados
-      scale = vh / IMG_H;
-      offsetX = (vw - (IMG_W * scale)) / 2;
-      offsetY = 0;
-    }
-    
-    // Calcular posición final del slider
-    const sliderLeft = offsetX + (SLIDER_IN_IMG.x * scale);
-    const sliderTop = offsetY + (SLIDER_IN_IMG.y * scale);
-    const sliderWidth = SLIDER_IN_IMG.width * scale;
-    const sliderHeight = SLIDER_IN_IMG.height * scale;
-    
-    return {
-      left: sliderLeft,
-      top: sliderTop,
-      width: sliderWidth,
-      height: sliderHeight,
-      scale: scale
-    };
+    const sliderW = Math.min(153, vw * 0.32);
+    const sliderH = 22;
+    swipeZone.style.left = ((vw - sliderW) / 2) + 'px';
+    swipeZone.style.top = (vh - sliderH - Math.max(80, vh * 0.16)) + 'px';
+    swipeZone.style.width = sliderW + 'px';
+    swipeZone.style.height = sliderH + 'px';
+    swipeZone.style.transform = 'none';
+    return { left: parseFloat(swipeZone.style.left), top: parseFloat(swipeZone.style.top), width: sliderW, height: sliderH };
   }
-  
-  function applyPosition() {
-    const pos = calculateSliderPosition();
-    
-    swipeZone.style.left = pos.left + 'px';
-    swipeZone.style.top = pos.top + 'px';
-    swipeZone.style.width = pos.width + 'px';
-    swipeZone.style.height = pos.height + 'px';
-    
-    // El knob mantiene sus dimensiones fijas del CSS (36x37px)
-    // No sobrescribimos width/height/top para respetar el CSS
-    
-    return pos;
+
+  // ===== NOTIFICATION POSITIONING =====
+  const notifContainer = document.getElementById('cover-notif-container');
+
+  function positionNotifications() {
+    if (!notifContainer || !swipeZone) return;
+    const szLeft = parseFloat(swipeZone.style.left) || 0;
+    const szTop = parseFloat(swipeZone.style.top) || 0;
+    const szWidth = parseFloat(swipeZone.style.width) || 0;
+    const szHeight = parseFloat(swipeZone.style.height) || 0;
+    notifContainer.style.left = szLeft + 'px';
+    notifContainer.style.width = szWidth + 'px';
+    // Stack above the slider with a small gap
+    const notifH = notifContainer.offsetHeight || 110;
+    notifContainer.style.top = (szTop - notifH - 8) + 'px';
   }
-  
+
   // Aplicar posición inicial
   let sliderPos = applyPosition();
-  
+  positionNotifications();
+
   // Recalcular en resize
   window.addEventListener('resize', function() {
     sliderPos = applyPosition();
+    positionNotifications();
   });
-  
+
   // También en cambio de orientación en mobile
   window.addEventListener('orientationchange', function() {
     setTimeout(function() {
       sliderPos = applyPosition();
+      positionNotifications();
     }, 100);
   });
+
+  // ===== NOTIFICATION ANIMATION =====
+  // Triggered after user's first interaction (so AudioContext can play sound)
+  (function() {
+    const notif1 = document.getElementById('coverNotif1');
+    const notif2 = document.getElementById('coverNotif2');
+    const phoneEl = document.querySelector('.phone');
+    let notifTriggered = false;
+
+    function playNotifSound() {
+      if (typeof iPhoneSounds === 'undefined' || !iPhoneSounds._getCtx) return;
+      try {
+        const ac = iPhoneSounds._getCtx();
+        const now = ac.currentTime;
+        [1046.5, 1318.5, 1568].forEach(function(freq, i) {
+          const osc = ac.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const g = ac.createGain();
+          const t = now + i * 0.18;
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.15, t + 0.01);
+          g.gain.setValueAtTime(0.15, t + 0.08);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+          osc.connect(g).connect(ac.destination);
+          osc.start(t); osc.stop(t + 0.16);
+        });
+      } catch(e) {}
+    }
+
+    function vibratePhone() {
+      if (phoneEl) {
+        phoneEl.classList.remove('phone-vibrate');
+        void phoneEl.offsetWidth;
+        phoneEl.classList.add('phone-vibrate');
+        phoneEl.addEventListener('animationend', function h() {
+          phoneEl.classList.remove('phone-vibrate');
+          phoneEl.removeEventListener('animationend', h);
+        });
+      }
+    }
+
+    function startNotifSequence() {
+      if (notifTriggered) return;
+      notifTriggered = true;
+      // Init AudioContext on this user gesture
+      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._getCtx) {
+        try { iPhoneSounds._getCtx(); } catch(e) {}
+      }
+      // First notification after 1s
+      setTimeout(function() {
+        playNotifSound(); vibratePhone();
+        if (notif1) notif1.classList.add('visible');
+        setTimeout(positionNotifications, 50);
+      }, 1000);
+      // Second notification after 3s
+      setTimeout(function() {
+        playNotifSound(); vibratePhone();
+        if (notif2) notif2.classList.add('visible');
+        setTimeout(positionNotifications, 50);
+      }, 3000);
+    }
+
+    // Start notification sequence on first user interaction
+    document.addEventListener('click', startNotifSequence, { once: true });
+    document.addEventListener('touchstart', startNotifSequence, { once: true });
+    document.addEventListener('mousemove', startNotifSequence, { once: true });
+  })();
 
   const track = knob.parentElement;
   let startX = 0;
@@ -11495,7 +12410,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fade text as knob moves
-    const txt = track.querySelector('.cover-slider-text');
+    const txt = track.querySelector('.slide-text');
     if (txt) txt.style.opacity = 1 - (pos / maxSlide());
   }
 
@@ -11512,7 +12427,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Snap back
       knobLeft = padding;
       knob.style.left = padding + 'px';
-      const txt = track.querySelector('.cover-slider-text');
+      const txt = track.querySelector('.slide-text');
       if (txt) txt.style.opacity = 1;
     }
   }
@@ -11523,6 +12438,19 @@ document.addEventListener('DOMContentLoaded', function() {
       try { iPhoneSounds.unlock(); } catch(e) {}
     }
 
+    // Celebrate spin on phone
+    const flipper = document.querySelector('.phone-flipper');
+    if (flipper) {
+      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.celebrateSpin) {
+        try { iPhoneSounds.celebrateSpin(); } catch(e) {}
+      }
+      flipper.classList.add('celebrate-spin');
+      flipper.addEventListener('animationend', function handler() {
+        flipper.classList.remove('celebrate-spin');
+        flipper.removeEventListener('animationend', handler);
+      });
+    }
+
     window.siteUnlocked = true;
     document.dispatchEvent(new CustomEvent('coverUnlocked'));
 
@@ -11530,13 +12458,13 @@ document.addEventListener('DOMContentLoaded', function() {
     overlay.classList.add('unlocked');
     document.body.classList.add('bg-swapped');
     document.body.classList.add('cover-removed');
-    
+
     const bgInt = document.getElementById('bgInterior');
     if (bgInt) bgInt.classList.add('visible');
 
     // Remove from DOM after transition
-    setTimeout(function() { 
-      overlay.remove(); 
+    setTimeout(function() {
+      overlay.remove();
     }, 700);
   }
 
@@ -11552,113 +12480,223 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== BACK TO COVER BUTTON =====
 document.getElementById('backToCoverBtn').addEventListener('click', function() {
-  // Rebuild cover overlay
-  const overlay = document.createElement('div');
-  overlay.id = 'cover-overlay';
-  overlay.innerHTML = `
-    <div id="cover-swipe-zone">
-      <div class="cover-slider-track">
-        <div class="cover-slider-knob" id="coverKnob"></div>
-        <div class="cover-slider-text">slide to unlock</div>
-      </div>
-    </div>
-  `;
-  // Start transparent, fade in
-  overlay.style.opacity = '0';
-  document.body.prepend(overlay);
-
-  // Reset body classes
-  document.body.classList.remove('bg-swapped', 'cover-removed');
-  const bgInt = document.getElementById('bgInterior');
-  if (bgInt) bgInt.classList.remove('visible');
-  window.siteUnlocked = false;
-
-  // Fade in
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      overlay.style.transition = 'opacity 0.5s ease';
-      overlay.style.opacity = '1';
+  // 0. Quick double-ping vibration on the phone
+  const pingPhone = document.querySelector('.phone');
+  if (pingPhone) {
+    pingPhone.classList.remove('phone-double-ping');
+    void pingPhone.offsetWidth;
+    pingPhone.classList.add('phone-double-ping');
+    pingPhone.addEventListener('animationend', function h() {
+      pingPhone.classList.remove('phone-double-ping');
+      pingPhone.removeEventListener('animationend', h);
     });
-  });
+  }
 
-  // Re-attach slider logic after DOM is ready
-  setTimeout(function() {
+  // 1. Read exact slideTrack position BEFORE spin starts
+  //    Temporarily show lock screen to get accurate rect, then hide it back (all synchronous, no paint)
+  const ls0 = document.getElementById('lockScreen');
+  const slideTrack0 = document.getElementById('slideTrack');
+  let savedRect = null;
+  if (ls0 && slideTrack0) {
+    const prevTransform = ls0.style.transform;
+    const prevTransition = ls0.style.transition;
+    ls0.style.transition = 'none';
+    ls0.style.transform = 'translateY(0)';
+    savedRect = slideTrack0.getBoundingClientRect();
+    savedRect = { left: savedRect.left, top: savedRect.top, width: savedRect.width, height: savedRect.height };
+    ls0.style.transform = prevTransform;
+    ls0.style.transition = prevTransition;
+  }
+
+  // 2. Start rewind spin — phone shows home screen, clean look
+  const flipper = document.querySelector('.phone-flipper');
+  let spinDone = false;
+  if (flipper) {
+    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.rewindSpin) {
+      try { iPhoneSounds.rewindSpin(); } catch(e) {}
+    }
+    flipper.classList.add('rewind-spin');
+    flipper.addEventListener('animationend', function handler() {
+      flipper.classList.remove('rewind-spin');
+      flipper.removeEventListener('animationend', handler);
+      spinDone = true;
+    });
+  } else {
+    spinDone = true;
+  }
+
+  // 3. Wait for spin to finish, then show cover overlay and reset phone state
+  function onSpinComplete() {
+    if (!spinDone) { requestAnimationFrame(onSpinComplete); return; }
+
+    // Create overlay at FULL OPACITY — covers the phone instantly
+    const overlay = document.createElement('div');
+    overlay.id = 'cover-overlay';
+    overlay.innerHTML = `
+      <div id="cover-notif-container">
+        <div class="cover-notif visible" id="coverNotif1">
+          <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+          <div class="cover-notif-content">
+            <div class="cover-notif-header">
+              <span class="cover-notif-sender">chevy</span>
+              <span class="cover-notif-time">now</span>
+            </div>
+            <div class="cover-notif-body">come outside i'm not going in alone</div>
+          </div>
+        </div>
+        <div class="cover-notif visible" id="coverNotif2">
+          <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+          <div class="cover-notif-content">
+            <div class="cover-notif-header">
+              <span class="cover-notif-sender">archi</span>
+              <span class="cover-notif-time">now</span>
+            </div>
+            <div class="cover-notif-body">hey did you end up going last night or</div>
+          </div>
+        </div>
+      </div>
+      <div id="cover-swipe-zone">
+        <div class="slide-track" id="coverSlideTrack">
+          <div class="slide-knob" id="coverKnob"></div>
+          <div class="slide-text-container"><div class="slide-text">slide to unlock</div></div>
+        </div>
+      </div>
+    `;
+    overlay.style.opacity = '1';
+    document.body.prepend(overlay);
+
+    // NOW reset phone state — safely hidden behind the opaque overlay
+    const ls = document.getElementById('lockScreen');
+    if (ls) {
+      ls.classList.remove('hidden');
+      ls.style.transition = 'none';
+      ls.style.transform = 'translateY(0)';
+      ls.style.opacity = '1';
+    }
+    const hs = document.getElementById('homeScreen');
+    if (hs) hs.classList.remove('visible');
+
+    // Reset body classes
+    document.body.classList.remove('bg-swapped', 'cover-removed');
+    const bgInt = document.getElementById('bgInterior');
+    if (bgInt) bgInt.classList.remove('visible');
+    window.siteUnlocked = false;
+
     const swipeZone = document.getElementById('cover-swipe-zone');
     const knob = document.getElementById('coverKnob');
-    if (!swipeZone || !knob) return;
 
-    const IMG_W = 1920, IMG_H = 1080;
-    const SLIDER_IN_IMG = { x: 760, y: 768, width: 232, height: 38 };
-
-    function calculateSliderPosition() {
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const imgRatio = IMG_W / IMG_H, viewportRatio = vw / vh;
-      let scale, offsetX, offsetY;
-      if (viewportRatio > imgRatio) { scale = vw / IMG_W; offsetX = 0; offsetY = (vh - (IMG_H * scale)) / 2; }
-      else { scale = vh / IMG_H; offsetX = (vw - (IMG_W * scale)) / 2; offsetY = 0; }
-      return { left: offsetX + (SLIDER_IN_IMG.x * scale), top: offsetY + (SLIDER_IN_IMG.y * scale), width: SLIDER_IN_IMG.width * scale, height: SLIDER_IN_IMG.height * scale, scale: scale };
+    // Position using a rect (savedRect or live slideTrack)
+    function positionFromRect(rect) {
+      const vw = window.innerWidth;
+      const downOffset = vw > 1024 ? -(rect.height * 0.2) : vw > 768 ? rect.height * 0.3 : (vw >= 765) ? rect.height * 3.0 : vw > 600 ? rect.height * 2.3 : rect.height * 1.8;
+      const scale = vw <= 600 ? 1.25 : vw <= 768 ? 1.25 : vw <= 1024 ? 0.9 : 1;
+      const scaledW = rect.width * scale;
+      const scaledH = rect.height * scale;
+      const leftAdj = rect.left - (scaledW - rect.width) / 2;
+      swipeZone.style.left = leftAdj + 'px';
+      swipeZone.style.top = (rect.top + downOffset) + 'px';
+      swipeZone.style.width = scaledW + 'px';
+      swipeZone.style.height = scaledH + 'px';
+      swipeZone.style.transform = 'none';
+      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
     }
 
     function applyPosition() {
-      const pos = calculateSliderPosition();
-      swipeZone.style.left = pos.left + 'px';
-      swipeZone.style.top = pos.top + 'px';
-      swipeZone.style.width = pos.width + 'px';
-      swipeZone.style.height = pos.height + 'px';
-      return pos;
+      const phoneSlideTrack = document.getElementById('slideTrack');
+      if (phoneSlideTrack) return positionFromRect(phoneSlideTrack.getBoundingClientRect());
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const sliderW = Math.min(153, vw * 0.32), sliderH = 22;
+      swipeZone.style.left = ((vw - sliderW) / 2) + 'px';
+      swipeZone.style.top = (vh - sliderH - Math.max(80, vh * 0.16)) + 'px';
+      swipeZone.style.width = sliderW + 'px';
+      swipeZone.style.height = sliderH + 'px';
+      swipeZone.style.transform = 'none';
+      return { left: parseFloat(swipeZone.style.left), top: parseFloat(swipeZone.style.top), width: sliderW, height: sliderH };
     }
 
+    // Position notifications above slider
+    const backNotifContainer = document.getElementById('cover-notif-container');
+    function positionBackNotifs() {
+      if (!backNotifContainer || !swipeZone) return;
+      const szLeft = parseFloat(swipeZone.style.left) || 0;
+      const szTop = parseFloat(swipeZone.style.top) || 0;
+      const szWidth = parseFloat(swipeZone.style.width) || 0;
+      backNotifContainer.style.left = szLeft + 'px';
+      backNotifContainer.style.width = szWidth + 'px';
+      const notifH = backNotifContainer.offsetHeight || 110;
+      backNotifContainer.style.top = (szTop - notifH - 8) + 'px';
+    }
+
+    // Spin is done — position using live slideTrack rect (accurate)
     let sliderPos = applyPosition();
-    window.addEventListener('resize', () => { sliderPos = applyPosition(); });
+    positionBackNotifs();
 
-    const track = knob.parentElement;
-    let startX = 0, knobLeft = 2, isDragging = false;
-    const padding = 2;
-    function maxSlide() { return sliderPos.width - knob.offsetWidth - (padding * 2); }
+    window.addEventListener('resize', () => { sliderPos = applyPosition(); positionBackNotifs(); });
 
-    function handleStart(e) {
-      if (e.target !== knob && !knob.contains(e.target) && e.target !== track) return;
-      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.tap) { try { iPhoneSounds.tap(); } catch(ex) {} }
-      isDragging = true; knob.classList.add('dragging');
-      startX = (e.touches ? e.touches[0].clientX : e.clientX) - knobLeft;
-    }
-    function handleMove(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      const cx = e.touches ? e.touches[0].clientX : e.clientX;
-      const pos = Math.max(padding, Math.min(cx - startX, maxSlide()));
-      knobLeft = pos; knob.style.left = pos + 'px';
-      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.slideTick) { try { iPhoneSounds.slideTick(); } catch(ex) {} }
-      const txt = track.querySelector('.cover-slider-text');
-      if (txt) txt.style.opacity = 1 - (pos / maxSlide());
-    }
-    function handleEnd() {
-      if (!isDragging) return;
-      isDragging = false; knob.classList.remove('dragging');
-      if (knobLeft > maxSlide() * 0.65) {
-        knob.style.left = maxSlide() + 'px';
-        // Unlock again
-        if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.unlock) { try { iPhoneSounds.unlock(); } catch(e) {} }
-        window.siteUnlocked = true;
-        document.dispatchEvent(new CustomEvent('coverUnlocked'));
-        overlay.classList.add('unlocked');
-        document.body.classList.add('bg-swapped', 'cover-removed');
-        if (bgInt) bgInt.classList.add('visible');
-        setTimeout(() => overlay.remove(), 700);
-      } else {
-        knobLeft = padding; knob.style.left = padding + 'px';
-        const txt = track.querySelector('.cover-slider-text');
-        if (txt) txt.style.opacity = 1;
+    // Attach slider drag logic
+    if (!swipeZone || !knob) return;
+  if (!swipeZone || !knob) return;
+  const track = knob.parentElement;
+  let startX = 0, knobLeft = 2, isDragging = false;
+  const padding = 2;
+  function maxSlide() { return sliderPos.width - knob.offsetWidth - (padding * 2); }
+
+  function handleStart(e) {
+    if (e.target !== knob && !knob.contains(e.target) && e.target !== track) return;
+    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.tap) { try { iPhoneSounds.tap(); } catch(ex) {} }
+    isDragging = true; knob.classList.add('dragging');
+    startX = (e.touches ? e.touches[0].clientX : e.clientX) - knobLeft;
+  }
+  function handleMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const pos = Math.max(padding, Math.min(cx - startX, maxSlide()));
+    knobLeft = pos; knob.style.left = pos + 'px';
+    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.slideTick) { try { iPhoneSounds.slideTick(); } catch(ex) {} }
+    const txt = track.querySelector('.slide-text');
+    if (txt) txt.style.opacity = 1 - (pos / maxSlide());
+  }
+  function handleEnd() {
+    if (!isDragging) return;
+    isDragging = false; knob.classList.remove('dragging');
+    if (knobLeft > maxSlide() * 0.65) {
+      knob.style.left = maxSlide() + 'px';
+      // Unlock again
+      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.unlock) { try { iPhoneSounds.unlock(); } catch(e) {} }
+      // Celebrate spin on phone
+      const fl = document.querySelector('.phone-flipper');
+      if (fl) {
+        if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.celebrateSpin) {
+          try { iPhoneSounds.celebrateSpin(); } catch(e) {}
+        }
+        fl.classList.add('celebrate-spin');
+        fl.addEventListener('animationend', function handler() {
+          fl.classList.remove('celebrate-spin');
+          fl.removeEventListener('animationend', handler);
+        });
       }
+      window.siteUnlocked = true;
+      document.dispatchEvent(new CustomEvent('coverUnlocked'));
+      overlay.classList.add('unlocked');
+      document.body.classList.add('bg-swapped', 'cover-removed');
+      if (bgInt) bgInt.classList.add('visible');
+      setTimeout(() => overlay.remove(), 700);
+    } else {
+      knobLeft = padding; knob.style.left = padding + 'px';
+      const txt = track.querySelector('.slide-text');
+      if (txt) txt.style.opacity = 1;
     }
+  }
 
-    swipeZone.addEventListener('mousedown', handleStart);
-    document.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseup', handleEnd);
-    swipeZone.addEventListener('touchstart', handleStart, { passive: false });
-    document.addEventListener('touchmove', handleMove, { passive: false });
-    document.addEventListener('touchend', handleEnd);
-  }, 50);
+  swipeZone.addEventListener('mousedown', handleStart);
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('mouseup', handleEnd);
+  swipeZone.addEventListener('touchstart', handleStart, { passive: false });
+  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('touchend', handleEnd);
+  } // end onSpinComplete
+  onSpinComplete();
 });
 </script>
 </body>

@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "mcp__Claude_Preview__preview_start",
-      "Bash(grep -E \"\\\\.\\(html|css|js\\)$\")"
+      "Bash(grep -E \"\\\\.\\(html|css|js\\)$\")",
+      "Bash(find . -maxdepth 1 -name \"*.html\" -exec stat --format=\"%s %n\" {})",
+      "Bash(ffmpeg -version)",
+      "Bash(node -e \"const sharp = require\\(''sharp''\\); console.log\\(''sharp available''\\);\")",
+      "Bash(node -e \"console.log\\(''node available, sharp not installed''\\)\")",
+      "Bash(node -e \":*)"
     ]
   }
 }
