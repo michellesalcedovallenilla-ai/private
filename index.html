@@ -1804,7 +1804,7 @@
   .music-np-artist { font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .music-np-progress { padding: 0 20px 6px; flex-shrink: 0; }
   .music-np-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; position: relative; cursor: pointer; box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); }
-  .music-np-bar-fill { height: 100%; background: linear-gradient(90deg, #6a6aff, #9a9aff, #aaaaff); border-radius: 3px; width: 0%; transition: width 0.3s linear; box-shadow: 0 0 4px rgba(120,120,255,0.3); }
+  .music-np-bar-fill { height: 100%; background: linear-gradient(90deg, #6a6aff, #9a9aff, #aaaaff); border-radius: 3px; width: 100%; transform: scaleX(0); transform-origin: left; transition: transform 0.3s linear; box-shadow: 0 0 4px rgba(120,120,255,0.3); will-change: transform; }
   .music-np-bar-knob {
     position: absolute;
     top: -5px;
@@ -2040,7 +2040,7 @@
   .vm-pb-time { font-size: 36px; font-weight: 200; color: #ccd; letter-spacing: 1px; margin-bottom: 4px; }
   .vm-pb-total { font-size: 12px; color: #667; margin-bottom: 14px; }
   .vm-pb-progress { width: 80%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 20px; cursor: pointer; }
-  .vm-pb-progress-fill { height: 100%; background: #e53935; border-radius: 2px; width: 0%; transition: width 0.15s linear; }
+  .vm-pb-progress-fill { height: 100%; background: #e53935; border-radius: 2px; width: 100%; transform: scaleX(0); transform-origin: left; transition: transform 0.15s linear; will-change: transform; }
   .vm-pb-controls { display: flex; align-items: center; justify-content: center; gap: 30px; }
   .vm-pb-btn { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: #dde; border: 1px solid rgba(255,255,255,0.1); }
   .vm-pb-btn:active { background: rgba(255,255,255,0.15); }
@@ -2392,7 +2392,7 @@
   .vid-scrubber { flex:1; display:flex; align-items:center; gap:6px; }
   .vid-time { color:#999; font-size:10px; min-width:30px; font-variant-numeric:tabular-nums; }
   .vid-track { flex:1; height:4px; background:#444; border-radius:2px; position:relative; cursor:pointer; }
-  .vid-track-fill { height:100%; background:#7aafed; border-radius:2px; width:0%; transition:width 0.3s linear; }
+  .vid-track-fill { height:100%; background:#7aafed; border-radius:2px; width:100%; transform:scaleX(0); transform-origin:left; transition:transform 0.3s linear; will-change:transform; }
   .vid-track-knob { position:absolute; top:50%; right:0; transform:translate(50%,-50%); width:12px; height:12px; background:#fff; border-radius:50%; box-shadow:0 0 3px rgba(0,0,0,0.5); }
   /* ===== END VIDEOS CSS ===== */
 
@@ -2541,7 +2541,7 @@
   .itunes-preview-info h4{color:#1a1a1a;font-size:11px;font-weight:600;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .itunes-preview-info p{color:#8e8e93;font-size:9px;margin:1px 0 0}
   .itunes-preview-prog{height:3px;background:#d0d0d8;border-radius:2px;overflow:hidden;margin-top:3px}
-  .itunes-preview-prog-fill{height:100%;background:linear-gradient(90deg,#3478f6,#5b9bd5);width:0%;transition:width .3s}
+  .itunes-preview-prog-fill{height:100%;background:linear-gradient(90deg,#3478f6,#5b9bd5);width:100%;transform:scaleX(0);transform-origin:left;transition:transform .3s;will-change:transform}
   .itunes-search-input{width:calc(100% - 24px);margin:10px 12px;box-sizing:border-box;padding:7px 10px;border-radius:8px;border:1px solid #c8c8cc;background:#fff;color:#1a1a1a;font-size:13px;outline:none;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
   .itunes-search-input::placeholder{color:#a0a0a8}
   .itunes-search-results{padding:0}
@@ -2587,7 +2587,7 @@
   .imovie-scrubber{height:28px;background:#1a1a1e;display:flex;align-items:center;padding:0 10px;flex-shrink:0;border-top:1px solid #333;border-bottom:1px solid #333}
   .imovie-scrub-time{color:#aaa;font-size:10px;font-family:'Courier New',monospace;min-width:40px}
   .imovie-scrub-bar{flex:1;height:4px;background:#333;border-radius:2px;margin:0 8px;position:relative;cursor:pointer}
-  .imovie-scrub-fill{height:100%;background:linear-gradient(180deg,#6aadff,#3a7ddf);border-radius:2px;width:0%;transition:width .3s linear}
+  .imovie-scrub-fill{height:100%;background:linear-gradient(180deg,#6aadff,#3a7ddf);border-radius:2px;width:100%;transform:scaleX(0);transform-origin:left;transition:transform .3s linear;will-change:transform}
   .imovie-scrub-head{position:absolute;top:50%;right:0;transform:translate(50%,-50%);width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.5);display:none}
   .imovie-timeline-area{flex:1;overflow:hidden;display:flex;flex-direction:column;background:#1a1a1e}
   .imovie-timeline-label{padding:6px 10px 2px;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
@@ -2871,7 +2871,7 @@
   .yt-play-btn-big::after { content: ''; width: 0; height: 0; border-left: 18px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
   .yt-play-btn-big.playing::after { border-left: 6px solid #fff; border-right: 6px solid #fff; border-top: none; border-bottom: none; width: 16px; height: 18px; margin-left: 0; }
   .yt-progress-bar { height: 3px; background: #444; flex-shrink: 0; cursor: pointer; position: relative; }
-  .yt-progress-fill { height: 100%; background: #c00; width: 0%; transition: width 0.3s linear; }
+  .yt-progress-fill { height: 100%; background: #c00; width: 100%; transform: scaleX(0); transform-origin: left; transition: transform 0.3s linear; will-change: transform; }
   .yt-progress-dot { position: absolute; right: -4px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: #c00; }
   .yt-watch-info { flex: 1; overflow-y: auto; background: #fff; -webkit-overflow-scrolling: touch; }
   .yt-watch-info::-webkit-scrollbar { display: none; }
@@ -6380,7 +6380,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     }
     function updateProgressUI() {
-      const pct = (musicProgress / musicTrackDuration) * 100; musicScreen.querySelector('#musicNPFill').style.width = pct + '%'; musicScreen.querySelector('#musicNPKnob').style.left = pct + '%';
+      const pct = (musicProgress / musicTrackDuration) * 100; musicScreen.querySelector('#musicNPFill').style.transform = 'scaleX(' + (pct/100) + ')'; musicScreen.querySelector('#musicNPKnob').style.left = pct + '%';
       const em = Math.floor(musicProgress / 60), es = (musicProgress % 60).toString().padStart(2, '0'); const rem = musicTrackDuration - musicProgress, rm = Math.floor(rem / 60), rs = (rem % 60).toString().padStart(2, '0');
       musicScreen.querySelector('#musicNPElapsed').textContent = em + ':' + es; musicScreen.querySelector('#musicNPRemain').textContent = '-' + rm + ':' + rs;
     }
@@ -7551,7 +7551,7 @@ document.addEventListener('DOMContentLoaded', () => {
       vmScreen.querySelector('#vmPbDate').textContent = memo.date;
       vmScreen.querySelector('#vmPbTime').textContent = '00:00';
       vmScreen.querySelector('#vmPbTotal').textContent = fmtVmTime(memo.dur);
-      vmScreen.querySelector('#vmPbFill').style.width = '0%';
+      vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(0)';
       vmScreen.querySelector('#vmPbPlay').textContent = '▶';
       vmShowView('playback');
     }
@@ -7588,28 +7588,28 @@ document.addEventListener('DOMContentLoaded', () => {
           const ct = vmPlayingAudio.currentTime;
           const dur = vmPlayingAudio.duration || memo.dur;
           vmScreen.querySelector('#vmPbTime').textContent = fmtVmTime(ct);
-          vmScreen.querySelector('#vmPbFill').style.width = (ct / dur * 100) + '%';
+          vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(' + (ct / dur) + ')';
           if (vmPlayingAudio.ended) {
             playBtn.textContent = '▶';
             clearInterval(vmPlayInt); vmPlayInt = null;
-            vmScreen.querySelector('#vmPbFill').style.width = '100%';
+            vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(1)';
           }
         }, 200);
       } else {
         // Preloaded memo (no actual audio) - simulate playback
         playBtn.textContent = '⏸';
         vmSimPlaying = true;
-        let elapsed = parseFloat(vmScreen.querySelector('#vmPbFill').style.width || '0') / 100 * memo.dur;
+        let elapsed = parseFloat((vmScreen.querySelector('#vmPbFill').style.transform || 'scaleX(0)').replace(/[^0-9.]/g,'') || '0') * memo.dur;
         const dur = memo.dur;
         vmPlayInt = setInterval(() => {
           elapsed += 0.2;
           vmScreen.querySelector('#vmPbTime').textContent = fmtVmTime(elapsed);
-          vmScreen.querySelector('#vmPbFill').style.width = (elapsed / dur * 100) + '%';
+          vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(' + (elapsed / dur) + ')';
           if (elapsed >= dur) {
             playBtn.textContent = '▶';
             clearInterval(vmPlayInt); vmPlayInt = null;
             vmSimPlaying = false;
-            vmScreen.querySelector('#vmPbFill').style.width = '100%';
+            vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(1)';
           }
         }, 200);
       }
@@ -7623,7 +7623,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       const dur = memo.dur;
       const seekTime = pct * dur;
-      vmScreen.querySelector('#vmPbFill').style.width = (pct * 100) + '%';
+      vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(' + pct + ')';
       vmScreen.querySelector('#vmPbTime').textContent = fmtVmTime(seekTime);
       if (vmPlayingAudio && memo.blob) {
         vmPlayingAudio.currentTime = seekTime;
@@ -7633,14 +7633,14 @@ document.addEventListener('DOMContentLoaded', () => {
     vmScreen.querySelector('#vmPbBack').addEventListener('click', () => {
       const memo = vmMemos[vmPbIdx];
       if (vmPlayingAudio && memo && memo.blob) vmPlayingAudio.currentTime = 0;
-      vmScreen.querySelector('#vmPbFill').style.width = '0%';
+      vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(0)';
       vmScreen.querySelector('#vmPbTime').textContent = '00:00';
     });
 
     vmScreen.querySelector('#vmPbFwd').addEventListener('click', () => {
       vmStopPlayback();
       vmScreen.querySelector('#vmPbPlay').textContent = '▶';
-      vmScreen.querySelector('#vmPbFill').style.width = '100%';
+      vmScreen.querySelector('#vmPbFill').style.transform = 'scaleX(1)';
       const memo = vmMemos[vmPbIdx];
       if (memo) vmScreen.querySelector('#vmPbTime').textContent = fmtVmTime(memo.dur);
     });
@@ -9221,7 +9221,7 @@ notes toward an avoidable disaster` }
       elapsed.textContent = vidFmtTime(vidCurrentTime);
       remain.textContent = '-' + vidFmtTime(totalSec - vidCurrentTime);
       const pct = totalSec > 0 ? (vidCurrentTime / totalSec) * 100 : 0;
-      fill.style.width = pct + '%';
+      fill.style.transform = 'scaleX(' + (pct/100) + ')';
       fill.style.transition = 'none';
 
       if(v.file && vidEl){
@@ -9233,7 +9233,7 @@ notes toward an avoidable disaster` }
           if(!vidEl.duration) return;
           elapsed.textContent = vidFmtTime(Math.floor(vidEl.currentTime));
           remain.textContent = '-' + vidFmtTime(Math.floor(vidEl.duration - vidEl.currentTime));
-          fill.style.width = (vidEl.currentTime / vidEl.duration * 100) + '%';
+          fill.style.transform = 'scaleX(' + (vidEl.currentTime / vidEl.duration) + ')';
         });
         vidEl.addEventListener('ended', ()=>{
           vidPlaying = false;
@@ -9267,7 +9267,7 @@ notes toward an avoidable disaster` }
           elapsed.textContent = vidFmtTime(vidCurrentTime);
           remain.textContent = '-' + vidFmtTime(totalSec - vidCurrentTime);
           fill.style.transition = 'none';
-          fill.style.width = (ratio * 100) + '%';
+          fill.style.transform = 'scaleX(' + ratio + ')';
           const canvas = viewport.querySelector('canvas');
           if(canvas) vidDrawPlayer(canvas, v, ratio);
         };
@@ -9288,9 +9288,9 @@ notes toward an avoidable disaster` }
         }
         elapsed.textContent = vidFmtTime(vidCurrentTime);
         remain.textContent = '-' + vidFmtTime(totalSec - vidCurrentTime);
-        const pct = totalSec > 0 ? (vidCurrentTime / totalSec) * 100 : 0;
-        fill.style.width = pct + '%';
-        vidDrawPlayer(canvas, v, pct / 100);
+        const pct = totalSec > 0 ? (vidCurrentTime / totalSec) : 0;
+        fill.style.transform = 'scaleX(' + pct + ')';
+        vidDrawPlayer(canvas, v, pct);
       }, 1000);
     }
 
@@ -10659,12 +10659,12 @@ notes toward an avoidable disaster` }
         previewPlaying = true;
         playBtn.textContent = '❚❚';
         const fill = previewBar.querySelector('.itunes-preview-prog-fill');
-        fill.style.width = '0%';
+        fill.style.transform = 'scaleX(0)';
         let prog = 0;
         previewTimer = setInterval(()=>{
           prog += 0.33;
-          fill.style.width = Math.min(prog,100)+'%';
-          if(prog>=100){stopPreview();fill.style.width='100%';}
+          fill.style.transform = 'scaleX(' + (Math.min(prog,100)/100) + ')';
+          if(prog>=100){stopPreview();fill.style.transform='scaleX(1)';}
         },100);
       }
 
@@ -10916,7 +10916,7 @@ notes toward an avoidable disaster` }
             videoEl.currentTime = pct * videoEl.duration;
           } else {
             playProgress = pct * 100;
-            scrubFill.style.width = playProgress + '%';
+            scrubFill.style.transform = 'scaleX(' + (playProgress/100) + ')';
             if(prevCanvas) updatePreviewFrame(prevCanvas, proj, playProgress);
             const totalSec = parseDur(proj.dur);
             const curSec = Math.floor(totalSec * pct);
@@ -11022,7 +11022,7 @@ notes toward an avoidable disaster` }
                   playBtn.innerHTML = playSvg;
                   playBtn.classList.remove('playing');
                 }
-                scrubFill.style.width = playProgress + '%';
+                scrubFill.style.transform = 'scaleX(' + (playProgress/100) + ')';
                 updatePreviewFrame(prevCanvas, proj, playProgress);
                 const curSec = Math.floor(totalSec * playProgress / 100);
                 timeL.textContent = fmtTime(curSec);
@@ -11046,8 +11046,8 @@ notes toward an avoidable disaster` }
         if(videoEl){
           videoEl.addEventListener('timeupdate', ()=>{
             if(!videoEl.duration) return;
-            const pct = (videoEl.currentTime / videoEl.duration) * 100;
-            scrubFill.style.width = pct + '%';
+            const pct = videoEl.currentTime / videoEl.duration;
+            scrubFill.style.transform = 'scaleX(' + pct + ')';
             timeL.textContent = fmtTime(Math.floor(videoEl.currentTime));
           });
           videoEl.addEventListener('loadedmetadata', ()=>{
@@ -11770,25 +11770,67 @@ notes toward an avoidable disaster` }
     if (t.classList.contains('notes-kb-key')) { iPhoneSounds.tock(); return; }
     // Phone dialer keys
     if (t.classList.contains('phone-key') || t.closest('.phone-key')) { iPhoneSounds.tock(); return; }
-    // Back buttons
-    if (t.id && t.id.includes('BackBtn')) { iPhoneSounds.tap(); return; }
-    if (t.id && t.id.includes('backBtn')) { iPhoneSounds.tap(); return; }
+    // Back buttons (all apps)
+    if (t.id && (t.id.includes('BackBtn') || t.id.includes('backBtn'))) { iPhoneSounds.tap(); return; }
+    if (t.dataset && t.dataset.close) { iPhoneSounds.tap(); return; }
+    if (t.closest('[data-close]')) { iPhoneSounds.tap(); return; }
+    if (t.closest('.app-header-back')) { iPhoneSounds.tap(); return; }
     // List item taps (notes, mail, messages, etc.)
-    if (t.closest('.notes-list-item') || t.closest('.mail-item') || t.closest('.msg-thread-item')) { iPhoneSounds.tap(); return; }
+    if (t.closest('.notes-list-item') || t.closest('.mail-list-item') || t.closest('.msg-thread-item')) { iPhoneSounds.tap(); return; }
     // Instagram actions
     if (t.closest('.ig-action-btn')) { iPhoneSounds.tap(); return; }
     // Music playlist & track items
     if (t.closest('.music-pl-item') || t.closest('.music-track-item')) { iPhoneSounds.tap(); return; }
-    // Map pins
-    if (t.closest('.map-pin')) { iPhoneSounds.tap(); return; }
-    // Weather city select
-    if (t.closest('.w-city-item')) { iPhoneSounds.tap(); return; }
+    // Map pins & callouts
+    if (t.closest('.map-pin') || t.closest('.map-callout')) { iPhoneSounds.tap(); return; }
+    // Weather city select & buttons
+    if (t.closest('.w-city-item') || t.closest('.w-city-btn') || t.closest('.w-done-btn')) { iPhoneSounds.tap(); return; }
     // App store items
-    if (t.closest('.as-row')) { iPhoneSounds.tap(); return; }
-    // YouTube video items
-    if (t.closest('.yt-vid-row')) { iPhoneSounds.tap(); return; }
+    if (t.closest('.as-row') || t.closest('.as-install-btn') || t.closest('.as-cat-row') || t.closest('.as-tab')) { iPhoneSounds.tap(); return; }
+    // YouTube video items & tabs
+    if (t.closest('.yt-vid-row') || t.closest('.yt-tab-btn') || t.closest('.yt-search-btn')) { iPhoneSounds.tap(); return; }
     // Cards
     if (t.closest('.cards-card-item')) { iPhoneSounds.tap(); return; }
+    // Videos app rows
+    if (t.closest('.vid-row')) { iPhoneSounds.tap(); return; }
+    // Photos app cells, albums, nav
+    if (t.closest('.photos-grid-cell') || t.closest('.photos-album-row') || t.closest('.photos-nav-btn')) { iPhoneSounds.tap(); return; }
+    // iMovie project rows & controls
+    if (t.closest('.imovie-project-row') || t.closest('.imovie-play-btn') || t.closest('.imovie-tool-btn') || t.closest('.imovie-clip')) { iPhoneSounds.tap(); return; }
+    // Pages doc rows & buttons
+    if (t.closest('.pg-doc-row') || t.closest('.pg-edit-btn') || t.closest('.pg-save-btn') || t.closest('.pg-cancel-btn')) { iPhoneSounds.tap(); return; }
+    // Numbers sheet rows
+    if (t.closest('.num-sheet-row')) { iPhoneSounds.tap(); return; }
+    // Keynote deck rows & controls
+    if (t.closest('.key-deck-row') || t.closest('.key-slide-row') || t.closest('.key-play-btn')) { iPhoneSounds.tap(); return; }
+    // iTunes tabs & rows
+    if (t.closest('.itunes-tab') || t.closest('.itunes-row') || t.closest('.itunes-play-btn')) { iPhoneSounds.tap(); return; }
+    // Clock tabs & buttons
+    if (t.closest('.clock-tab') || t.closest('.sw-btn') || t.closest('.timer-btn') || t.closest('.alarm-toggle')) { iPhoneSounds.tap(); return; }
+    // FaceTime rows & buttons
+    if (t.closest('.ft-row') || t.closest('.ft-call-btn') || t.closest('.ft-end-btn') || t.closest('.ft-mute-btn') || t.closest('.ft-cam-btn')) { iPhoneSounds.tap(); return; }
+    // Game Center rows & tabs
+    if (t.closest('.gc-row') || t.closest('.gc-tab') || t.closest('.gc-friend-row') || t.closest('.gc-lb-row')) { iPhoneSounds.tap(); return; }
+    // Settings toggles & rows
+    if (t.closest('.settings-row') || t.closest('.settings-toggle')) { iPhoneSounds.tap(); return; }
+    // Newstand & News items
+    if (t.closest('.ns-pub') || t.closest('.news-row') || t.closest('.news-article-row')) { iPhoneSounds.tap(); return; }
+    // Voice memo rows & buttons
+    if (t.closest('.vm-row') || t.closest('.vm-rec-btn') || t.closest('.vm-tab') || t.closest('.vm-play-btn')) { iPhoneSounds.tap(); return; }
+    // Calculator buttons
+    if (t.closest('.calc-btn')) { iPhoneSounds.tock(); return; }
+    // Camera buttons
+    if (t.closest('.cam-filter-btn') || t.closest('.cam-action-btn') || t.closest('#camFlip') || t.closest('#camThumb')) { iPhoneSounds.tap(); return; }
+    // Photobooth buttons
+    if (t.closest('.pb-filter-btn') || t.closest('.pb-mode-btn') || t.closest('.pb-action-btn')) { iPhoneSounds.tap(); return; }
+    // Phone call button
+    if (t.closest('.phone-call-btn')) { iPhoneSounds.tap(); return; }
+    // iOS alerts
+    if (t.closest('.ios3-alert-btn') || t.closest('.ios4-alert-btn')) { iPhoneSounds.tap(); return; }
+    // Generic buttons inside apps
+    if (t.closest('.app-screen') && (t.tagName === 'BUTTON' || t.closest('button'))) { iPhoneSounds.tap(); return; }
+    // Play/pause control buttons
+    if (t.closest('.vid-ctrl-btn') || t.closest('.yt-play-btn-big')) { iPhoneSounds.tap(); return; }
   });
 
   // ===== OLD iOS STORAGE ALERT =====
