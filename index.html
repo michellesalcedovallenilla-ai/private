@@ -11961,14 +11961,15 @@ notes toward an avoidable disaster` }
     currentApp = null; phoneState = 'home';
   }
 
-  document.querySelectorAll('.icon-cell[data-app], .dock-icon-cell[data-app]').forEach(cell => {
-    cell.addEventListener('click', (e) => {
-      if (jiggleMode || swipeMoved) return;
-      // Auto-fix state if home screen is visible
-      if (phoneState === 'locked' && homeScreen.classList.contains('visible')) phoneState = 'home';
-      if (phoneState !== 'home') return;
-      e.stopPropagation(); openApp(cell.dataset.app);
-    });
+  // Use event delegation so dynamically-created page 2 icons also get click handlers
+  phoneEl.addEventListener('click', (e) => {
+    const cell = e.target.closest('.icon-cell[data-app], .dock-icon-cell[data-app]');
+    if (!cell) return;
+    if (jiggleMode || swipeMoved) return;
+    // Auto-fix state if home screen is visible
+    if (phoneState === 'locked' && homeScreen.classList.contains('visible')) phoneState = 'home';
+    if (phoneState !== 'home') return;
+    e.stopPropagation(); openApp(cell.dataset.app);
   });
 
   // ===== SLIDE TO UNLOCK =====
@@ -12111,10 +12112,10 @@ notes toward an avoidable disaster` }
 
   // ===== JIGGLE MODE =====
   let longPressTimer = null;
-  document.querySelectorAll('.icon-cell[data-app], .dock-icon-cell[data-app]').forEach(cell => {
-    cell.addEventListener('mousedown', startLP); cell.addEventListener('touchstart', startLP, {passive: true});
-    cell.addEventListener('mouseup', cancelLP); cell.addEventListener('touchend', cancelLP); cell.addEventListener('mouseleave', cancelLP);
-  });
+  // Use delegation for jiggle mode long-press (covers dynamically-created page 2 icons)
+  phoneEl.addEventListener('mousedown', (e) => { if (e.target.closest('.icon-cell[data-app], .dock-icon-cell[data-app]')) startLP(); });
+  phoneEl.addEventListener('touchstart', (e) => { if (e.target.closest('.icon-cell[data-app], .dock-icon-cell[data-app]')) startLP(); }, {passive: true});
+  phoneEl.addEventListener('mouseup', cancelLP); phoneEl.addEventListener('touchend', cancelLP);
   function startLP() { longPressTimer = setTimeout(() => { jiggleMode = true; document.querySelectorAll('.icon-grid, .icon-grid-sparse, .dock-bg').forEach(g => g.classList.add('jiggle-mode')); }, 600); }
   function cancelLP() { clearTimeout(longPressTimer); }
 
