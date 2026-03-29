@@ -16,7 +16,7 @@
 <style>
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { background: #1a1510; }
+  html { background: #1a1510; overflow: hidden; height: 100%; }
 
   :root {
     --screen-w: 320;
@@ -2972,8 +2972,7 @@
   /* OPAQUE WALL — nothing shows through. Image preloaded via JS to prevent flash. */
   #cover-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh; height: 100dvh;
+    inset: 0;
     z-index: 99999;
     background-color: #1a1510;
     background-image: url('real-exterior/background-1.png');
