@@ -68,7 +68,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: url('real exterior/exteriorrr.png') no-repeat 38% 48%;
+    background: url('real-exterior/exteriorrr.png') no-repeat 38% 48%;
     background-size: cover;
     z-index: -3;
     transition: opacity 1.6s ease 0.2s;
@@ -80,7 +80,7 @@
   .bg-interior {
     position: fixed;
     inset: 0;
-    background: url('real exterior/interiorrr.png') no-repeat 35% 45%;
+    background: url('real-exterior/interiorrr.png') no-repeat 35% 45%;
     background-size: cover;
     z-index: -4;
     opacity: 0;
@@ -2988,7 +2988,7 @@
     width: 100vw; height: 100vh;
     z-index: 99999;
     background-color: #1a1510;
-    background-image: url('real exterior/exteriorrr.png');
+    background-image: url('real-exterior/exteriorrr.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3190,7 +3190,7 @@
 <div id="cover-overlay">
   <div id="cover-notif-container">
     <div class="cover-notif" id="coverNotif1">
-      <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+      <div class="cover-notif-icon"><img src="iphone-icons/optimized/message.png" alt="Messages"></div>
       <div class="cover-notif-content">
         <div class="cover-notif-header">
           <span class="cover-notif-sender">chevy</span>
@@ -3200,7 +3200,7 @@
       </div>
     </div>
     <div class="cover-notif" id="coverNotif2">
-      <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+      <div class="cover-notif-icon"><img src="iphone-icons/optimized/message.png" alt="Messages"></div>
       <div class="cover-notif-content">
         <div class="cover-notif-header">
           <span class="cover-notif-sender">archi</span>
@@ -3926,20 +3926,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return g;
     }
 
-    // ── IMAGE ICON LOOKUP — load from iphone icons/ folder ──
+    // ── IMAGE ICON LOOKUP — load from iphone-icons/ folder ──
     const _iconFiles = {
       'messages':'message.png','camera':'camera.png','map':'maps.png','music':'music.png',
       'photobooth':'photobooth.png','youtube':'youtube.png','weather':'weather.png',
-      'voicememo':'voice memo.png','pages':'pages.png','notes':'notes.png',
+      'voicememo':'voice-memo.png','pages':'pages.png','notes':'notes.png',
       'newstand':'newstand.png','appstore':'appstore.png','calculator':'calculator.png',
       'compass':'compass.png','cards':'cards.png','clock':'clock.png',
       'phone':'phone.png','safari':'safari.png','mail':'email.png','settings':'setting.png',
       'videos':'videos.png','photos':'sunflower.png','numbers':'numbers.png',
       'keynote':'keynote.png','itunes':'itunes.png','imovie':'imovie.png',
       'instagram':'instagram.png','garageband':'garageband.png',
-      'gamecenter':'game center.png','facetime':'facetime.png','airport':'wifi.png'
+      'gamecenter':'game-center.png','facetime':'facetime.png','airport':'wifi.png'
     };
-    const _iconBase = 'iphone icons/optimized/';
+    const _iconBase = 'iphone-icons/optimized/';
     if (_iconFiles[id]) {
       const _img = new Image();
       _img.onload = function() {
@@ -3965,7 +3965,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.restore();
           gloss();
         };
-        msgImg.src = 'iphone icons/message.png';
+        msgImg.src = 'iphone-icons/message.png';
         break;
       }
 
@@ -3979,7 +3979,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.restore();
           gloss();
         };
-        camImg.src = 'iphone icons/camera.png';
+        camImg.src = 'iphone-icons/camera.png';
         break;
       }
 
@@ -3993,7 +3993,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.restore();
           gloss();
         };
-        mapImg.src = 'iphone icons/maps.png';
+        mapImg.src = 'iphone-icons/maps.png';
         break;
       }
 
@@ -4007,7 +4007,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.restore();
           gloss();
         };
-        musImg.src = 'iphone icons/music.png';
+        musImg.src = 'iphone-icons/music.png';
         break;
       }
 
@@ -5012,7 +5012,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.restore();
           gloss();
         };
-        photosImg.src = 'iphone icons/sunflower.png';
+        photosImg.src = 'iphone-icons/sunflower.png';
         break;
       }
 
@@ -6075,8 +6075,8 @@ document.addEventListener('DOMContentLoaded', () => {
     appContainer.appendChild(igScreen);
     const igFeed = igScreen.querySelector('#igFeed');
     const igPosts = [
-      { type:'image', src:'ig videos/epic Bone Patrol show (1).jpg', likes:14, caption:'epic Bone Patrol show' },
-      { type:'video', src:'ig videos/Video Project 2 2.mp4', likes:8, caption:'' }
+      { type:'image', src:'ig-videos/epic-bone-patrol-show.jpg', likes:14, caption:'epic Bone Patrol show' },
+      { type:'video', src:'ig-videos/video-project-2.mp4', likes:8, caption:'' }
     ];
     igPosts.forEach((p, i) => {
       const post = document.createElement('div'); post.className = 'ig-post';
@@ -6084,7 +6084,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `<div class="ig-post-image"><video src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;" playsinline muted loop preload="none"></video></div>`
         : `<div class="ig-post-image"><img src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
       const captionHTML = p.caption ? `<div class="ig-caption"><strong>bonepatrolband</strong> ${p.caption}</div>` : '';
-      const igAvatarSrc = 'ig bone patrol icon/On set in Montreal for @clevack upcoming film @mileendkicksmovie Coming Out April 17, 2026What a.jpg';
+      const igAvatarSrc = 'ig-bone-patrol-icon/avatar.jpg';
       post.innerHTML = `<div class="ig-post-header"><div class="ig-avatar"><img src="${igAvatarSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div><div class="ig-username">bonepatrolband</div></div>
         ${mediaHTML}
         <div class="ig-post-actions"><div class="ig-action-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="ig-action-label">Like</span></div>
@@ -6279,12 +6279,12 @@ document.addEventListener('DOMContentLoaded', () => {
       {title:'Novacane', artist:'Frank Ocean', dur:'5:01', secs:301, hue:250, src:'music/do not text him/Frank Ocean - Novacane.mp3'}
     ];
     const playlists = [
-      {name:'jagged little pill spiral', cover:'playlists covers/1.jpg', color:'#a04070', tracks:[0,1,2,3,4]},
-      {name:'bone patrol fixation', cover:'playlists covers/2.jpg', color:'#cc6030', tracks:[5,6,7]},
-      {name:'montreal 2011', cover:'playlists covers/3.jpg', color:'#4080a0', tracks:[8,9,10,11,12,13]},
-      {name:'self-mythology', cover:'playlists covers/4.jpg', color:'#8060b0', tracks:[14,15,16,17,18,19]},
-      {name:'songs for walking home', cover:'playlists covers/5.jpg', color:'#3060a0', tracks:[20,21,22,23,24,25,26]},
-      {name:'do not text him', cover:'playlists covers/6.jpg', color:'#cc3030', tracks:[27,28,29,30,31], recent:true}
+      {name:'jagged little pill spiral', cover:'playlists-covers/1.jpg', color:'#a04070', tracks:[0,1,2,3,4]},
+      {name:'bone patrol fixation', cover:'playlists-covers/2.jpg', color:'#cc6030', tracks:[5,6,7]},
+      {name:'montreal 2011', cover:'playlists-covers/3.jpg', color:'#4080a0', tracks:[8,9,10,11,12,13]},
+      {name:'self-mythology', cover:'playlists-covers/4.jpg', color:'#8060b0', tracks:[14,15,16,17,18,19]},
+      {name:'songs for walking home', cover:'playlists-covers/5.jpg', color:'#3060a0', tracks:[20,21,22,23,24,25,26]},
+      {name:'do not text him', cover:'playlists-covers/6.jpg', color:'#cc3030', tracks:[27,28,29,30,31], recent:true}
     ];
     const musicScreen = document.createElement('div'); musicScreen.className = 'app-screen music-app'; musicScreen.id = 'app-music';
     musicScreen.innerHTML = `
@@ -9065,8 +9065,8 @@ notes toward an avoidable disaster` }
     vidScreen.id = 'app-videos';
 
     const vidVideos = [
-      { id:'v1', title:'archi is so cute (and annoying)', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/archie is so cute (and annoying).mp4', partial:0, section:'camera roll' },
-      { id:'v2', title:'he called me out', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/he called me out.mp4', partial:0, section:'camera roll' },
+      { id:'v1', title:'archi is so cute (and annoying)', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/archi-is-so-cute.mp4', partial:0, section:'camera roll' },
+      { id:'v2', title:'he called me out', meta:'Camera Roll', dur:'0:00', badge:'camera roll', file:'videos/he-called-me-out.mp4', partial:0, section:'camera roll' },
       { id:'v3', title:'oh', meta:'Camera Roll', dur:'0:00', badge:'', file:'videos/oh.mp4', partial:0, section:'camera roll' },
     ];
 
@@ -10756,7 +10756,7 @@ notes toward an avoidable disaster` }
     (function(){
       const projects = [
         {id:'bp-rehearsal',title:'bone patrol band rehearsal',dur:'01:47',edited:'edited yesterday',badge:'draft',
-         video:'imovie/bone patrol band rehearsal.mp4',
+         video:'imovie/bone-patrol-band-rehearsal.mp4',
          clips:[{l:'full rehearsal',c:['#1a0a2a','#3a1a5a','#6a2aaa'],d:107}],
          mood:['#1a0a2a','#3a1a5a','#5a2a8a']}
       ];
@@ -12535,7 +12535,7 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
     overlay.innerHTML = `
       <div id="cover-notif-container">
         <div class="cover-notif visible" id="coverNotif1">
-          <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+          <div class="cover-notif-icon"><img src="iphone-icons/optimized/message.png" alt="Messages"></div>
           <div class="cover-notif-content">
             <div class="cover-notif-header">
               <span class="cover-notif-sender">chevy</span>
@@ -12545,7 +12545,7 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
           </div>
         </div>
         <div class="cover-notif visible" id="coverNotif2">
-          <div class="cover-notif-icon"><img src="iphone icons/optimized/message.png" alt="Messages"></div>
+          <div class="cover-notif-icon"><img src="iphone-icons/optimized/message.png" alt="Messages"></div>
           <div class="cover-notif-content">
             <div class="cover-notif-header">
               <span class="cover-notif-sender">archi</span>

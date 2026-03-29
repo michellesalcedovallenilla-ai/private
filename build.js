@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DIST = path.join(__dirname, 'dist');
-const SKIP = new Set(['node_modules', '.git', '.claude', 'private', 'dist', 'image']);
+const SKIP = new Set(['node_modules', '.git', '.claude', 'private', 'dist', 'image', 'real exterior', 'iphone icons', 'playlists covers', 'ig videos', 'ig bone patrol icon']);
 
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
