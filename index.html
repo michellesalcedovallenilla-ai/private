@@ -117,19 +117,15 @@
       radial-gradient(ellipse 70% 65% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
   }
 
-  /* 8mm film grain overlay — applied via body pseudo-element to avoid touch blocking */
+  /* 8mm film grain — uses canvas-generated noise image for zero GPU cost */
   .grain-overlay {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none !important;
-    touch-action: none;
-    opacity: 0.55;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='discrete' tableValues='0 0.1 0.25 0.5 0.7 0.9 1'/%3E%3CfeFuncG type='discrete' tableValues='0 0.1 0.25 0.5 0.7 0.9 1'/%3E%3CfeFuncB type='discrete' tableValues='0 0.1 0.25 0.5 0.7 0.9 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    background-size: 256px 256px;
+    opacity: 0.45;
     mix-blend-mode: overlay;
-    -webkit-user-select: none;
-    user-select: none;
+    will-change: auto;
   }
 
 
@@ -3232,7 +3228,25 @@
 
 <!-- Interior background — revealed after cover unlock -->
 <div class="bg-interior" id="bgInterior"></div>
-<div class="grain-overlay"></div>
+<div class="grain-overlay" id="grainOverlay"></div>
+<script>
+// Generate static grain texture once via canvas — no GPU-heavy SVG filters
+(function() {
+  var c = document.createElement('canvas'), s = 128;
+  c.width = s; c.height = s;
+  var ctx = c.getContext('2d');
+  var img = ctx.createImageData(s, s);
+  var d = img.data;
+  for (var i = 0; i < d.length; i += 4) {
+    var v = Math.random() * 255 | 0;
+    d[i] = d[i+1] = d[i+2] = v;
+    d[i+3] = 60;
+  }
+  ctx.putImageData(img, 0, 0);
+  var el = document.getElementById('grainOverlay');
+  if (el) el.style.backgroundImage = 'url(' + c.toDataURL('image/png') + ')';
+})();
+</script>
 
 <!-- Exterior decorative elements -->
 
