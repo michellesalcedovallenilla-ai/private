@@ -75,6 +75,11 @@
     z-index: -3;
     transition: opacity 1.6s ease 0.2s;
     will-change: opacity;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.12) saturate(1.1) brightness(1.02);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   body.bg-swapped::before { opacity: 0; }
 
@@ -2979,6 +2984,11 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.12) saturate(1.1) brightness(1.02);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     opacity: 1;
     overflow: hidden;
     transition: opacity 0.6s ease;
