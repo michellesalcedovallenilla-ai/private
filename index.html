@@ -6842,6 +6842,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init callback
     pbScreen._initPb = () => { setTimeout(startPbCamera, 100); };
+    // Cleanup callback — used by closeApp outside this scope
+    pbScreen._cleanupPb = () => {
+      stopPbAnimation();
+      if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; }
+    };
 
     apps.photobooth = pbScreen;
 
@@ -9707,7 +9712,7 @@ notes toward an avoidable disaster` }
     function openPhotosAtLastCapture() {
       // Close current app (camera or photobooth)
       if (currentApp === 'camera' && cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
-      if (currentApp === 'photobooth') { stopPbAnimation(); if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; } }
+      if (currentApp === 'photobooth' && allApps.photobooth._cleanupPb) { try { allApps.photobooth._cleanupPb(); } catch(e) {} }
       const curScreen = allApps[currentApp];
       if (curScreen) curScreen.classList.remove('app-visible');
       // Open Photos app
@@ -11937,9 +11942,8 @@ notes toward an avoidable disaster` }
     const screen = allApps[currentApp];
     if (screen) screen.classList.remove('app-visible');
     if (currentApp === 'camera' && cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; const video = screen.querySelector('#camVideo'); if (video) video.srcObject = null; }
-    if (currentApp === 'photobooth') {
-      stopPbAnimation();
-      if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; }
+    if (currentApp === 'photobooth' && screen._cleanupPb) {
+      try { screen._cleanupPb(); } catch(e) {}
     }
     if (currentApp === 'youtube' && screen._ytCleanup) { screen._ytCleanup(); }
     if (currentApp === 'voicememo' && screen._cleanupVm) { screen._cleanupVm(); }
