@@ -16,6 +16,7 @@
 <style>
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: #1a1510; }
 
   :root {
     --screen-w: 320;
@@ -34,10 +35,8 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     /* Film border — dark frame around entire viewport */
-    border: 3px solid #1a1520;
-    box-sizing: border-box;
-    outline: 1px solid #2a2535;
-    outline-offset: -5px;
+    border: none;
+    outline: none;
   }
 
   /*
@@ -71,7 +70,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: url('real-exterior/exteriorrr.jpg') no-repeat 38% 48%;
+    background: url('real-exterior/background-1.png') no-repeat 38% 48%;
     background-size: cover;
     z-index: -3;
     transition: opacity 1.6s ease 0.2s;
@@ -83,10 +82,11 @@
   .bg-interior {
     position: fixed;
     inset: 0;
-    background: url('real-exterior/interiorrr.jpg') no-repeat 35% 45%;
+    background: url('real-exterior/background-2.png') no-repeat 35% 45%;
     background-size: cover;
-    z-index: -4;
+    z-index: 0;
     opacity: 0;
+    pointer-events: none;
     /* Start slightly zoomed — eases to 1.0 during reveal for cinematic pull-back */
     transform: scale(1.04);
     transition: opacity 1.6s ease 0.2s,
@@ -2976,7 +2976,7 @@
     width: 100vw; height: 100vh; height: 100dvh;
     z-index: 99999;
     background-color: #1a1510;
-    background-image: url('real-exterior/exteriorrr.jpg');
+    background-image: url('real-exterior/background-1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12396,28 +12396,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function startNotifSequence() {
       if (notifTriggered) return;
       notifTriggered = true;
-      // Pre-warm AudioContext on this user gesture so sounds are instant
+      // Try to play sound (works on desktop; mobile may need first gesture)
       if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) {
         try { iPhoneSounds._warmUp(); } catch(e) {}
       }
-      // First notification after 1s
+      // First notification after 0.8s
       setTimeout(function() {
         playNotifSound(); vibratePhone();
         if (notif1) notif1.classList.add('visible');
         setTimeout(positionNotifications, 50);
-      }, 1000);
-      // Second notification after 3s
+      }, 800);
+      // Second notification after 2.5s
       setTimeout(function() {
         playNotifSound(); vibratePhone();
         if (notif2) notif2.classList.add('visible');
         setTimeout(positionNotifications, 50);
-      }, 3000);
+      }, 2500);
     }
 
-    // Start notification sequence on first user interaction
-    document.addEventListener('click', startNotifSequence, { once: true });
-    document.addEventListener('touchstart', startNotifSequence, { once: true });
-    document.addEventListener('mousemove', startNotifSequence, { once: true });
+    // Start notification sequence immediately on load
+    startNotifSequence();
   })();
 
   // ===== AUDIO PRE-WARM: instant sounds on mobile =====
@@ -12443,8 +12441,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function handleStart(e) {
-    // Only start if clicking the knob or track
-    if (e.target !== knob && !knob.contains(e.target) && e.target !== track) return;
+    // Accept any touch/click within the swipe zone (knob, track, or text)
     // Pre-warm audio context on first slide interaction
     if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) {
       try { iPhoneSounds._warmUp(); } catch(ex) {}
@@ -12452,6 +12449,7 @@ document.addEventListener('DOMContentLoaded', function() {
     isDragging = true;
     knob.classList.add('dragging');
     startX = (e.touches ? e.touches[0].clientX : e.clientX) - knobLeft;
+    e.preventDefault();
   }
 
   function handleMove(e) {
@@ -12696,10 +12694,11 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
   function maxSlide() { return sliderPos.width - knob.offsetWidth - (padding * 2); }
 
   function handleStart(e) {
-    if (e.target !== knob && !knob.contains(e.target) && e.target !== track) return;
-    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.tap) { try { iPhoneSounds.tap(); } catch(ex) {} }
+    // Accept any touch/click within the swipe zone
+    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) { try { iPhoneSounds._warmUp(); } catch(ex) {} }
     isDragging = true; knob.classList.add('dragging');
     startX = (e.touches ? e.touches[0].clientX : e.clientX) - knobLeft;
+    e.preventDefault();
   }
   function handleMove(e) {
     if (!isDragging) return;
