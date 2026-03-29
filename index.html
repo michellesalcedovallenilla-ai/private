@@ -10,8 +10,10 @@
 <meta http-equiv="Permissions-Policy" content="camera=(self), microphone=(), geolocation=(), payment=(), accelerometer=(self https://www.youtube.com), gyroscope=(self https://www.youtube.com), picture-in-picture=(self https://www.youtube.com)">
 <title>Mile End Kicks</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>@</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -68,7 +70,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: url('real-exterior/exteriorrr.png') no-repeat 38% 48%;
+    background: url('real-exterior/exteriorrr.jpg') no-repeat 38% 48%;
     background-size: cover;
     z-index: -3;
     transition: opacity 1.6s ease 0.2s;
@@ -80,7 +82,7 @@
   .bg-interior {
     position: fixed;
     inset: 0;
-    background: url('real-exterior/interiorrr.png') no-repeat 35% 45%;
+    background: url('real-exterior/interiorrr.jpg') no-repeat 35% 45%;
     background-size: cover;
     z-index: -4;
     opacity: 0;
@@ -109,30 +111,6 @@
       radial-gradient(ellipse 70% 65% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
   }
 
-  /* Decorative elements — star sparkle + text */
-  .exterior-decor-star {
-    position: fixed;
-    bottom: 18px;
-    right: 22px;
-    color: rgba(255,255,255,0.35);
-    font-size: 14px;
-    z-index: 100;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: 6px;
-  }
-  .exterior-decor-code {
-    position: fixed;
-    bottom: 8px;
-    right: 18px;
-    color: rgba(255,255,255,0.18);
-    font-family: 'Courier New', monospace;
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    z-index: 100;
-    pointer-events: none;
-    user-select: none;
-  }
 
   .flip-hint {
     margin-top: 18px;
@@ -143,7 +121,7 @@
     color: rgba(255,255,255,0.75);
     text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     user-select: none;
-    animation: hintPulse 2.5s ease-in-out infinite;
+    animation: hintPulse 2.5s ease-in-out 3;
     transition: opacity 0.5s ease;
   }
   .flip-hint.hidden { opacity: 0; pointer-events: none; }
@@ -981,6 +959,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     animation: shimmer 2.5s ease-in-out infinite;
+    will-change: background-position;
   }
 
   @keyframes shimmer {
@@ -1280,6 +1259,8 @@
     pointer-events: none;
     transform: scale(0.2);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    contain: layout style paint;
+    will-change: opacity, transform;
   }
 
   .app-screen.app-visible {
@@ -2977,6 +2958,14 @@
   @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
     :root { --phone-scale: 1.0; }
   }
+
+  /* Reduced motion — kill heavy animations for performance */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* GPU hints for smooth compositing */
+  .phone-screen, .lock-screen, #homeScreen { contain: layout style paint; }
 </style>
 
 <!-- ========== COVER OVERLAY STYLES (independent) ========== -->
@@ -2988,7 +2977,7 @@
     width: 100vw; height: 100vh;
     z-index: 99999;
     background-color: #1a1510;
-    background-image: url('real-exterior/exteriorrr.png');
+    background-image: url('real-exterior/exteriorrr.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3222,8 +3211,6 @@
 <div class="bg-interior" id="bgInterior"></div>
 
 <!-- Exterior decorative elements -->
-<div class="exterior-decor-star">&#10022;</div>
-<div class="exterior-decor-code">S13 CRB</div>
 
 <button class="back-to-cover-btn" id="backToCoverBtn" title="Back to cover">&#8249;</button>
 <div class="phone-scene">
@@ -5504,7 +5491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const refl = document.createElement('div'); refl.className = 'dock-reflection';
       const effectFile = {phone:'phone.png',safari:'safari.png',mail:'email.png',settings:'setting.png'}[icon.id];
       if (effectFile) {
-        const ri = document.createElement('img'); ri.src = 'effect/optimized/' + effectFile; refl.appendChild(ri);
+        const ri = document.createElement('img'); ri.loading = 'lazy'; ri.src = 'effect/optimized/' + effectFile; refl.appendChild(ri);
       }
       cell.appendChild(refl);
     }
@@ -5512,8 +5499,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   page1Icons.forEach(i => iconGrid.appendChild(createIconCell(i, false)));
-  page2Icons.forEach(i => iconGrid2.appendChild(createIconCell(i, false)));
   dockIcons.forEach(i => dockBar.appendChild(createIconCell(i, true)));
+  // Defer page 2 icon drawing — not visible on initial load
+  requestAnimationFrame(() => { page2Icons.forEach(i => iconGrid2.appendChild(createIconCell(i, false))); });
 
   // ===== APP SCREENS =====
   function buildAppScreens() {
@@ -6082,7 +6070,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const post = document.createElement('div'); post.className = 'ig-post';
       const mediaHTML = p.type === 'video'
         ? `<div class="ig-post-image"><video src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;" playsinline webkit-playsinline muted loop preload="none"></video></div>`
-        : `<div class="ig-post-image"><img src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
+        : `<div class="ig-post-image"><img src="${p.src}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
       const captionHTML = p.caption ? `<div class="ig-caption"><strong>bonepatrolband</strong> ${p.caption}</div>` : '';
       const igAvatarSrc = 'ig-bone-patrol-icon/avatar.jpg';
       post.innerHTML = `<div class="ig-post-header"><div class="ig-avatar"><img src="${igAvatarSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div><div class="ig-username">bonepatrolband</div></div>
@@ -6312,7 +6300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicNP = musicScreen.querySelector('#musicNP');
     playlists.forEach((pl, i) => {
       const item = document.createElement('div'); item.className = 'music-pl-item';
-      item.innerHTML = `<div class="music-pl-icon" style="border-radius:4px;overflow:hidden"><img src="${pl.cover}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      item.innerHTML = `<div class="music-pl-icon" style="border-radius:4px;overflow:hidden"><img src="${pl.cover}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
         <div class="music-pl-info"><div class="music-pl-name">${pl.name}</div><div class="music-pl-count">${pl.tracks.length} songs</div></div>
         ${pl.recent?'<span style="font-size:8px;color:#aaa;font-style:italic;margin-right:4px">recently played</span>':''}
         <div class="music-pl-arrow">›</div>`;
@@ -6895,7 +6883,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = document.createElement('div');
       row.className = 'yt-video-row';
       row.innerHTML = `
-        <div class="yt-thumb"><img src="${video.thumbUrl}" alt=""><div class="yt-thumb-dur">${video.dur}</div>${video.fav?'<div class="yt-fav-star">⭐</div>':''}</div>
+        <div class="yt-thumb"><img src="${video.thumbUrl}" alt="" loading="lazy"><div class="yt-thumb-dur">${video.dur}</div>${video.fav?'<div class="yt-fav-star">⭐</div>':''}</div>
         <div class="yt-video-info"><div class="yt-video-title">${video.title}</div><div class="yt-video-meta">${video.uploader} · ${video.views} views · ${video.date}</div></div>`;
       row.addEventListener('click', () => openYtWatch(video));
       return row;
@@ -9133,7 +9121,7 @@ notes toward an avoidable disaster` }
         }
         html += '<div class="vid-row" data-vidx="' + i + '">';
         if(v.file){
-          html += '<div class="vid-thumb"><video src="' + v.file + '" preload="metadata" muted playsinline webkit-playsinline data-vi="' + i + '" style="width:100%;height:100%;object-fit:cover;display:block"></video><div class="vid-thumb-play"></div></div>';
+          html += '<div class="vid-thumb"><video src="' + v.file + '" preload="none" muted playsinline webkit-playsinline data-vi="' + i + '" style="width:100%;height:100%;object-fit:cover;display:block"></video><div class="vid-thumb-play"></div></div>';
         } else {
           html += '<div class="vid-thumb"><canvas class="vid-thumb-cv" data-vi="' + i + '"></canvas><div class="vid-thumb-play"></div></div>';
         }
@@ -9575,7 +9563,7 @@ notes toward an avoidable disaster` }
       let html = '';
       photos.forEach((p, i) => {
         if (p.src) {
-          html += `<div class="photos-grid-cell" data-phi="${i}"><img src="${p.src}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
+          html += `<div class="photos-grid-cell" data-phi="${i}"><img src="${p.src}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
         } else if (p.dataUrl) {
           html += `<div class="photos-grid-cell" data-phi="${i}"><img src="${p.dataUrl}" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`;
         } else {
@@ -10825,7 +10813,7 @@ notes toward an avoidable disaster` }
           if(p.video){
             row.innerHTML = `
               <div class="imovie-project-thumb">
-                <video src="${p.video}" preload="metadata" muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
+                <video src="${p.video}" preload="none" muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
                 <div class="imov-filmstrip"></div>
               </div>
               <div class="imovie-project-info">
