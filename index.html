@@ -5538,8 +5538,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   page1Icons.forEach(i => iconGrid.appendChild(createIconCell(i, false)));
   dockIcons.forEach(i => dockBar.appendChild(createIconCell(i, true)));
-  // Defer page 2 icon drawing — not visible on initial load
-  requestAnimationFrame(() => { page2Icons.forEach(i => iconGrid2.appendChild(createIconCell(i, false))); });
+  page2Icons.forEach(i => iconGrid2.appendChild(createIconCell(i, false)));
 
   // ===== APP SCREENS =====
   function buildAppScreens() {
