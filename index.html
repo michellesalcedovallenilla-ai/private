@@ -3408,8 +3408,26 @@ document.addEventListener('DOMContentLoaded', () => {
       return buf;
     };
 
+    let _warmedUp = false;
+
     return {
       _getCtx: getCtx,
+      // Pre-warm AudioContext: create, resume, and play silent buffer to prime mobile audio pipeline
+      _warmUp() {
+        if (_warmedUp) return;
+        _warmedUp = true;
+        try {
+          const ac = getCtx();
+          if (ac.state === 'suspended') ac.resume();
+          // Play a silent oscillator to force the audio pipeline open on mobile
+          const osc = ac.createOscillator();
+          const g = ac.createGain();
+          g.gain.value = 0; // completely silent
+          osc.connect(g).connect(ac.destination);
+          osc.start();
+          osc.stop(ac.currentTime + 0.001);
+        } catch(e) {}
+      },
       // Unlock — metallic spring click
       unlock() {
         const ac = getCtx();
@@ -12382,9 +12400,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function startNotifSequence() {
       if (notifTriggered) return;
       notifTriggered = true;
-      // Init AudioContext on this user gesture
-      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._getCtx) {
-        try { iPhoneSounds._getCtx(); } catch(e) {}
+      // Pre-warm AudioContext on this user gesture so sounds are instant
+      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) {
+        try { iPhoneSounds._warmUp(); } catch(e) {}
       }
       // First notification after 1s
       setTimeout(function() {
@@ -12406,6 +12424,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mousemove', startNotifSequence, { once: true });
   })();
 
+  // ===== AUDIO PRE-WARM: instant sounds on mobile =====
+  // Prime AudioContext on very first touch so no delay on any subsequent sound
+  (function() {
+    function earlyWarmUp() {
+      if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) {
+        try { iPhoneSounds._warmUp(); } catch(e) {}
+      }
+    }
+    document.addEventListener('touchstart', earlyWarmUp, { once: true, passive: true });
+    document.addEventListener('mousedown', earlyWarmUp, { once: true, passive: true });
+  })();
+
   const track = knob.parentElement;
   let startX = 0;
   let knobLeft = 2;
@@ -12419,9 +12449,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function handleStart(e) {
     // Only start if clicking the knob or track
     if (e.target !== knob && !knob.contains(e.target) && e.target !== track) return;
-    // Init audio context on first interaction
-    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds.tap) {
-      try { iPhoneSounds.tap(); } catch(ex) {}
+    // Pre-warm audio context on first slide interaction
+    if (typeof iPhoneSounds !== 'undefined' && iPhoneSounds._warmUp) {
+      try { iPhoneSounds._warmUp(); } catch(ex) {}
     }
     isDragging = true;
     knob.classList.add('dragging');
