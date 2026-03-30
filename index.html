@@ -6274,8 +6274,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mapsWrap = mapsScreen.querySelector('#mapsWrap');
     mapsWrap.addEventListener('mousedown', onMapDragStart); mapsWrap.addEventListener('touchstart', onMapDragStart, {passive: false});
     function onMapDragStart(e) { if (e.target.closest('.maps-pin') || e.target.closest('.maps-callout') || e.target.closest('.maps-zoom-btn') || e.target.closest('.maps-locate-btn')) return; mapDragging = true; const pt = e.touches ? e.touches[0] : e; mapDragStartX = pt.clientX; mapDragStartY = pt.clientY; mapDragOffX = mapOffX; mapDragOffY = mapOffY; if (activeCallout !== null) { mapsScreen.querySelector('#mapsPinLayer').querySelectorAll('.maps-callout').forEach(c => c.remove()); activeCallout = null; } }
-    document.addEventListener('mousemove', onMapDragMove); document.addEventListener('touchmove', onMapDragMove, {passive: false});
-    function onMapDragMove(e) { if (!mapDragging) return; e.preventDefault(); const pt = e.touches ? e.touches[0] : e; mapOffX = mapDragOffX + (pt.clientX - mapDragStartX); mapOffY = mapDragOffY + (pt.clientY - mapDragStartY); drawMap(); }
+    document.addEventListener('mousemove', onMapDragMove); document.addEventListener('touchmove', onMapDragMove, {passive: true});
+    function onMapDragMove(e) { if (!mapDragging) return; const pt = e.touches ? e.touches[0] : e; mapOffX = mapDragOffX + (pt.clientX - mapDragStartX); mapOffY = mapDragOffY + (pt.clientY - mapDragStartY); drawMap(); }
     document.addEventListener('mouseup', onMapDragEnd); document.addEventListener('touchend', onMapDragEnd);
     function onMapDragEnd() { mapDragging = false; }
     mapsScreen.querySelector('#mapsZoomIn').addEventListener('click', () => { iPhoneSounds.tap(); mapZoom = Math.min(2.5, mapZoom * 1.3); drawMap(); });
@@ -12010,7 +12010,7 @@ notes toward an avoidable disaster` }
   }
   function onSlideMove(e) {
     if (!sliding) return;
-    e.preventDefault();
+    // touch-action:none on .slide-knob handles scroll prevention
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     let pos = cx - slideStartX;
     pos = Math.max(3, Math.min(pos, maxSlide));
@@ -12034,7 +12034,7 @@ notes toward an avoidable disaster` }
   slideKnob.addEventListener('mousedown', onSlideStart);
   slideKnob.addEventListener('touchstart', onSlideStart, {passive: false});
   document.addEventListener('mousemove', onSlideMove);
-  document.addEventListener('touchmove', onSlideMove, {passive: false});
+  document.addEventListener('touchmove', onSlideMove, {passive: true});
   document.addEventListener('mouseup', onSlideEnd);
   document.addEventListener('touchend', onSlideEnd);
 
@@ -12055,7 +12055,7 @@ notes toward an avoidable disaster` }
   pagesViewport.addEventListener('touchstart', onSwipeStart, {passive: true});
   pagesViewport.addEventListener('mousedown', onSwipeStart);
   function onSwipeStart(e) { if (jiggleMode) return; swiping = true; swipeMoved = false; swipeStartX = e.touches ? e.touches[0].clientX : e.clientX; swipeOffset = 0; pagesSlider.classList.add('no-transition'); }
-  document.addEventListener('touchmove', onSwipeMove, {passive: false});
+  document.addEventListener('touchmove', onSwipeMove, {passive: true});
   document.addEventListener('mousemove', onSwipeMove);
   function onSwipeMove(e) {
     if (!swiping) return;
@@ -12579,14 +12579,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 700);
   }
 
-  // Event listeners
+  // Event listeners — store references so we can remove them after unlock
   swipeZone.addEventListener('mousedown', handleStart);
   document.addEventListener('mousemove', handleMove);
   document.addEventListener('mouseup', handleEnd);
-  
+
   swipeZone.addEventListener('touchstart', handleStart, { passive: false });
   document.addEventListener('touchmove', handleMove, { passive: false });
   document.addEventListener('touchend', handleEnd);
+
+  // Clean up document-level listeners after cover unlock to stop Safari jank
+  document.addEventListener('coverUnlocked', function _removeCoverListeners() {
+    document.removeEventListener('touchmove', handleMove);
+    document.removeEventListener('touchend', handleEnd);
+    document.removeEventListener('mousemove', handleMove);
+    document.removeEventListener('mouseup', handleEnd);
+    document.removeEventListener('coverUnlocked', _removeCoverListeners);
+  });
 });
 
 // ===== BACK TO COVER BUTTON =====
@@ -12802,6 +12811,15 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
   swipeZone.addEventListener('touchstart', handleStart, { passive: false });
   document.addEventListener('touchmove', handleMove, { passive: false });
   document.addEventListener('touchend', handleEnd);
+
+  // Clean up after this cover is unlocked too
+  document.addEventListener('coverUnlocked', function _removeBackCoverListeners() {
+    document.removeEventListener('touchmove', handleMove);
+    document.removeEventListener('touchend', handleEnd);
+    document.removeEventListener('mousemove', handleMove);
+    document.removeEventListener('mouseup', handleEnd);
+    document.removeEventListener('coverUnlocked', _removeBackCoverListeners);
+  });
   } // end onSpinComplete
   onSpinComplete();
 });
