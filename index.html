@@ -89,7 +89,7 @@
     inset: 0;
     background: url('real-exterior/background-2.png') no-repeat 35% 45%;
     background-size: cover;
-    z-index: 0;
+    z-index: -2;
     opacity: 0;
     pointer-events: none;
     /* Start slightly zoomed — eases to 1.0 during reveal for cinematic pull-back */
@@ -121,11 +121,13 @@
   .grain-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: -1;
     pointer-events: none !important;
     opacity: 0.45;
     mix-blend-mode: overlay;
-    will-change: auto;
+    isolation: isolate;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
 
@@ -148,9 +150,12 @@
   }
 
   .phone-scene {
+    position: relative;
+    z-index: 10;
     perspective: 1200px;
     perspective-origin: 50% 50%;
-    touch-action: pan-y;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
     transform: scale(var(--phone-scale, 1.50)) translateY(0);
     /* Phone is always visible — hidden behind cover overlay via z-index */
   }
@@ -1051,6 +1056,8 @@
     cursor: pointer;
     position: relative;
     width: 62px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .icon-cell.empty-cell {
