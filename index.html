@@ -1006,6 +1006,7 @@
     z-index: 2;
     flex: 1;
     overflow: hidden;
+    touch-action: pan-y;
   }
 
   .pages-slider {
@@ -12508,7 +12509,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function handleMove(e) {
     if (!isDragging) return;
-    e.preventDefault();
+    // touch-action:none on #cover-swipe-zone handles scroll prevention
 
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const pos = Math.max(padding, Math.min(cx - startX, maxSlide()));
@@ -12556,7 +12557,9 @@ document.addEventListener('DOMContentLoaded', function() {
         try { iPhoneSounds.celebrateSpin(); } catch(e) {}
       }
       flipper.classList.add('celebrate-spin');
+      var _spinTimeout1 = setTimeout(function() { flipper.classList.remove('celebrate-spin'); }, 1000);
       flipper.addEventListener('animationend', function handler() {
+        clearTimeout(_spinTimeout1);
         flipper.classList.remove('celebrate-spin');
         flipper.removeEventListener('animationend', handler);
       });
@@ -12585,7 +12588,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('mouseup', handleEnd);
 
   swipeZone.addEventListener('touchstart', handleStart, { passive: false });
-  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('touchmove', handleMove, { passive: true });
   document.addEventListener('touchend', handleEnd);
 
   // Clean up document-level listeners after cover unlock to stop Safari jank
@@ -12636,7 +12639,9 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
       try { iPhoneSounds.rewindSpin(); } catch(e) {}
     }
     flipper.classList.add('rewind-spin');
+    var _rewindTimeout = setTimeout(function() { flipper.classList.remove('rewind-spin'); spinDone = true; }, 2000);
     flipper.addEventListener('animationend', function handler() {
+      clearTimeout(_rewindTimeout);
       flipper.classList.remove('rewind-spin');
       flipper.removeEventListener('animationend', handler);
       spinDone = true;
@@ -12765,7 +12770,7 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
   }
   function handleMove(e) {
     if (!isDragging) return;
-    e.preventDefault();
+    // touch-action:none on #cover-swipe-zone handles scroll prevention
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const pos = Math.max(padding, Math.min(cx - startX, maxSlide()));
     knobLeft = pos; knob.style.left = pos + 'px';
@@ -12787,7 +12792,9 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
           try { iPhoneSounds.celebrateSpin(); } catch(e) {}
         }
         fl.classList.add('celebrate-spin');
+        var _spinTimeout2 = setTimeout(function() { fl.classList.remove('celebrate-spin'); }, 1000);
         fl.addEventListener('animationend', function handler() {
+          clearTimeout(_spinTimeout2);
           fl.classList.remove('celebrate-spin');
           fl.removeEventListener('animationend', handler);
         });
@@ -12809,7 +12816,7 @@ document.getElementById('backToCoverBtn').addEventListener('click', function() {
   document.addEventListener('mousemove', handleMove);
   document.addEventListener('mouseup', handleEnd);
   swipeZone.addEventListener('touchstart', handleStart, { passive: false });
-  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('touchmove', handleMove, { passive: true });
   document.addEventListener('touchend', handleEnd);
 
   // Clean up after this cover is unlocked too
